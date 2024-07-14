@@ -10,3 +10,12 @@ spring:
     url: ${DATASOURCE_URL}
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
+
+springdoc:
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    tags-sorter: alpha # 태그 정렬 기준
+    operations-sorter: method # alpha(알파벳 오름차순), method(HTTP메소드순)
+    path: 'swagger-ui.html'
+    disable-swagger-default-url: true
