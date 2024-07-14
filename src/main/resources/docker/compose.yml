@@ -3,8 +3,6 @@ version: '3.9'
 services:
   inatools-db:
     image: mysql:latest
-    volumes:
-      - inatools-db-data:/var/lib/mysql
     environment:
       MYSQL_DATABASE: ${MYSQL_URL}
       MYSQL_USER: ${MYSQL_USERNAME}
