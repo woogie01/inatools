@@ -9,14 +9,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Entity
 @Getter
 @Table(name = "self_check")
-public class SelfCheck {
+public class StrokeCheck {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
