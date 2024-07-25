@@ -57,11 +57,11 @@ public class Member {
     public static Member createMember(SignUpRequest signUpRequest) {
 
         PasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encoded = encoder.encode(signUpRequest.password());
+        String encodedPassword = encoder.encode(signUpRequest.password());
 
         return new Member(
                 signUpRequest.name(),
-                encoded,
+                encodedPassword,
                 signUpRequest.gender(),
                 signUpRequest.age(),
                 signUpRequest.phone(),
