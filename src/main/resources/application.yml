@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -13,7 +13,6 @@ spring:
 
 springdoc:
   default-consumes-media-type: application/json
-  default-produces-media-type: application/json
   swagger-ui:
     tags-sorter: alpha # 태그 정렬 기준
     operations-sorter: method # alpha(알파벳 오름차순), method(HTTP메소드순)

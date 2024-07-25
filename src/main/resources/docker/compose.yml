@@ -4,21 +4,21 @@ services:
   inatools-db:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: ${MYSQL_URL}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USERNAME}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       TZ: Asia/Seoul
     ports:
-      - "${MYSQL_LOCAL_PORT}"
+      - "${MYSQL_LOCAL_PORT}:3306"
 
   inatools-test-db:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: ${MYSQL_TEST_URL}
+      MYSQL_DATABASE: ${MYSQL_TEST_DATABASE}
       MYSQL_USER: ${MYSQL_USERNAME}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       TZ: Asia/Seoul
     ports:
-      - "${MYSQL_TEST_PORT}"
+      - "${MYSQL_TEST_PORT}:3306"
