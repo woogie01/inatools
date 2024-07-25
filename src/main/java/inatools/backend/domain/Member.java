@@ -2,6 +2,7 @@ package inatools.backend.domain;
 
 
 import inatools.backend.dto.SignUpRequest;
+import inatools.backend.dto.UpdateMemberRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,10 +24,13 @@ public class Member {
     private Long id;
 
     private String name;
+    private String userId;
     private String password;
+    private String email;
+    private String phone;
+
     private long gender;
     private long age;
-    private String phone;
     private String underlyingDisease; // 기저질환
     private boolean familyHistory; // 가족력
     private boolean isSmoker; // 흡연
@@ -36,15 +40,25 @@ public class Member {
     public Member() {
     }
 
-    // 모든 필드를 받는 생성자
-    public Member(String name, String password, Long gender, Long age, String phone,
-            String underlyingDisease, boolean familyHistory, boolean isSmoker, boolean isDrinker,
-            String medication) {
+    // 회원 가입시 받는 필드값
+    public Member(String name, String userId, String password, String email, String phone) {
         this.name = name;
+        this.userId = userId;
         this.password = password;
+        this.email = email;
+        this.phone = phone;
+    }
+
+    // 모든 필드를 받는 생성자
+    public Member(String name, String userId, String password, String email, String phone, Long gender, Long age,
+            String underlyingDisease, boolean familyHistory, boolean isSmoker, boolean isDrinker, String medication) {
+        this.name = name;
+        this.userId = userId;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
         this.gender = gender;
         this.age = age;
-        this.phone = phone;
         this.underlyingDisease = underlyingDisease;
         this.familyHistory = familyHistory;
         this.isSmoker = isSmoker;
@@ -53,7 +67,7 @@ public class Member {
     }
 
 
-    // 정적 생성 메서드
+    // 회원 생성 메서드
     public static Member createMember(SignUpRequest signUpRequest) {
 
         PasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -61,16 +75,23 @@ public class Member {
 
         return new Member(
                 signUpRequest.name(),
+                signUpRequest.userId(),
                 encodedPassword,
-                signUpRequest.gender(),
-                signUpRequest.age(),
-                signUpRequest.phone(),
-                signUpRequest.underlyingDisease(),
-                signUpRequest.familyHistory(),
-                signUpRequest.isSmoker(),
-                signUpRequest.isDrinker(),
-                signUpRequest.medication()
+                signUpRequest.email(),
+                signUpRequest.phone()
         );
+    }
+
+    // 인스턴스 메서드: 회원 정보 업데이트
+    public void updateMemberInfo(UpdateMemberRequest updateRequest) {
+
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodedPassword = encoder.encode(updateRequest.password());
+
+        this.name = updateRequest.name();
+        this.userId = updateRequest.userId();
+        this.password = encodedPassword;
+        this.phone = updateRequest.phone();
     }
 
 }
