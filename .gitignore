@@ -93,3 +93,4 @@ lombok.config
 
 # 기타
 *.DS_Store
+application.yml
