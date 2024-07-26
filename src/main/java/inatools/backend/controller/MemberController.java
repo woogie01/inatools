@@ -1,6 +1,7 @@
 package inatools.backend.controller;
 
 import inatools.backend.domain.Member;
+import inatools.backend.dto.member.MemberInfoResponse;
 import inatools.backend.dto.member.SignUpRequest;
 import inatools.backend.dto.member.SignUpResponse;
 import inatools.backend.dto.member.UpdateMemberRequest;
@@ -60,12 +61,13 @@ public class MemberController {
     /**
      * 회원 정보 조회 API
      */
-    @Operation(summary = "회원 조회", description = "회원 정보를 조회하기 위한 API입니다.")
+    @Operation(summary = "회원 정보 조회", description = "회원 정보를 조회하기 위한 API입니다.")
     @GetMapping("/{id}")
-    public ResponseEntity<Member> getMemberInfo(
+    public ResponseEntity<MemberInfoResponse> getMemberInfo(
             @PathVariable("id") Long id) {
-        Member member = memberService.getMemberInfo(id);
-        return ResponseEntity.ok(member);
+        Member member = memberService.getMember(id);
+        MemberInfoResponse response = MemberInfoResponse.fromMember(member);
+        return ResponseEntity.ok(response);
     }
 
 

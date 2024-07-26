@@ -1,7 +1,6 @@
 package inatools.backend.service;
 
 import inatools.backend.domain.Member;
-import inatools.backend.dto.member.SelfCheckRequest;
 import inatools.backend.dto.member.SignUpRequest;
 import inatools.backend.dto.member.UpdateMemberRequest;
 import inatools.backend.repository.MemberRepository;
@@ -34,10 +33,17 @@ public class MemberService {
         return member;
     }
 
-    public Member updateSelfCheck(Long id, SelfCheckRequest selfCheckRequest) {
-        Member member = memberRepository.findById(id)
+    public Member getMember(Long id) {
+        return memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        member.updateSelfCheck(selfCheckRequest);
-        return member;
     }
+
+//    @Transactional
+//    public Member updateSelfCheck(Long id, SelfCheckRequest selfCheckRequest) {
+//        Member member = memberRepository.findById(id)
+//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+//        member.updateSelfCheck(selfCheckRequest);
+//        return member;
+//    }
+
 }
