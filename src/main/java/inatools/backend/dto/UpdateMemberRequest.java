@@ -10,7 +10,7 @@ import lombok.Builder;
 @Builder
 public record UpdateMemberRequest(
         @NotNull Long id,
-        @NotEmpty String name,
+        @NotEmpty String username,
         @NotEmpty String userId,
         @NotEmpty String password,
         @NotEmpty String phone

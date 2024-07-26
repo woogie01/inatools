@@ -3,12 +3,7 @@ package inatools.backend.domain;
 
 import inatools.backend.dto.SignUpRequest;
 import inatools.backend.dto.UpdateMemberRequest;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,11 +18,14 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    private String name;
+    private String username;
     private String userId;
     private String password;
     private String email;
     private String phone;
+
+    @Enumerated(EnumType.STRING)
+    private Authority authority; // 권한 정보
 
     private long gender;
     private long age;
@@ -41,18 +39,19 @@ public class Member {
     }
 
     // 회원 가입시 받는 필드값
-    public Member(String name, String userId, String password, String email, String phone) {
-        this.name = name;
+    public Member(String username, String userId, String password, String email, String phone, Authority authority) {
+        this.username = username;
         this.userId = userId;
         this.password = password;
         this.email = email;
         this.phone = phone;
+        this.authority = authority;
     }
 
     // 모든 필드를 받는 생성자
-    public Member(String name, String userId, String password, String email, String phone, Long gender, Long age,
+    public Member(String username, String userId, String password, String email, String phone, Long gender, Long age,
             String underlyingDisease, boolean familyHistory, boolean isSmoker, boolean isDrinker, String medication) {
-        this.name = name;
+        this.username = username;
         this.userId = userId;
         this.password = password;
         this.email = email;
@@ -74,11 +73,12 @@ public class Member {
         String encodedPassword = encoder.encode(signUpRequest.password());
 
         return new Member(
-                signUpRequest.name(),
+                signUpRequest.username(),
                 signUpRequest.userId(),
                 encodedPassword,
                 signUpRequest.email(),
-                signUpRequest.phone()
+                signUpRequest.phone(),
+                Authority.USER // 권한 정보 : 사용자 OR 관리자 지정
         );
     }
 
@@ -88,7 +88,7 @@ public class Member {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(updateRequest.password());
 
-        this.name = updateRequest.name();
+        this.username = updateRequest.username();
         this.userId = updateRequest.userId();
         this.password = encodedPassword;
         this.phone = updateRequest.phone();

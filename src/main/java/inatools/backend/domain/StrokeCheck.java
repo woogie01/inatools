@@ -22,7 +22,7 @@ public class StrokeCheck {
     @Column(name = "self_check_id")
     private Long id;
 
-    private String name;
+    private String username;
     private LocalDateTime recordDate;
     private Long faceTestResult;
     private Long pronounTestResult;

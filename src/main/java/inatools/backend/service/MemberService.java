@@ -17,9 +17,13 @@ public class MemberService {
 
     @Transactional
     public Member registerMember(SignUpRequest signUpRequest) {
-        if (memberRepository.findByName(signUpRequest.name()).isPresent()) {
+
+        // 중복 회원 검사
+        if (memberRepository.existsByUsername(signUpRequest.username())) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
+
+        // 엔티티 변환
         Member member = Member.createMember(signUpRequest);
         return memberRepository.save(member);
     }

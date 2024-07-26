@@ -4,7 +4,7 @@ import inatools.backend.domain.Member;
 
 public record SignUpResponse(
         Long id,
-        String name,
+        String username,
         String userId,
         String password,
         String email,
@@ -13,7 +13,7 @@ public record SignUpResponse(
     public static SignUpResponse fromMember(Member member) {
         return new SignUpResponse(
                 member.getId(),
-                member.getName(),
+                member.getUsername(),
                 member.getUserId(),
                 member.getPassword(),
                 member.getEmail(),
