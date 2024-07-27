@@ -49,8 +49,7 @@ public class MedicationInfoController {
     @GetMapping("/members/{memberId}")
     public ResponseEntity<MedicationInfoListResponse> getMedicationInfoList(
             @PathVariable Long memberId) {
-        MedicationInfoListResponse response = medicationInfoService.getMedicationInfoListByMemberId(
-                memberId);
+        MedicationInfoListResponse response = medicationInfoService.getMedicationInfoListByMemberId(memberId);
         return ResponseEntity.ok(response);
     }
 
