@@ -36,7 +36,7 @@ public class Member {
     private SmokingStatus smokingStatus; // 흡연
     private DrinkingStatus drinkingStatus; // 음주
 
-    public Member() {
+    protected Member() {
     }
 
     // 회원 가입시 받는 필드값

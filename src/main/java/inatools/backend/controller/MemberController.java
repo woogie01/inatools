@@ -2,6 +2,8 @@ package inatools.backend.controller;
 
 import inatools.backend.domain.Member;
 import inatools.backend.dto.member.MemberInfoResponse;
+import inatools.backend.dto.member.SelfCheckRequest;
+import inatools.backend.dto.member.SelfCheckResponse;
 import inatools.backend.dto.member.SignUpRequest;
 import inatools.backend.dto.member.SignUpResponse;
 import inatools.backend.dto.member.UpdateMemberRequest;
@@ -69,7 +71,6 @@ public class MemberController {
         MemberInfoResponse response = MemberInfoResponse.fromMember(member);
         return ResponseEntity.ok(response);
     }
-
 
     /**
      * 자가점검 정보 수정 API

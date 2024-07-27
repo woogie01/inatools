@@ -22,6 +22,7 @@ public class MedicationRecord {
     @Column(name = "medication_record_id")
     private Long id;
 
+    private boolean isTaken;
     private LocalDateTime recordDate; // 기록 날짜
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
