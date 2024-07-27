@@ -1,15 +1,21 @@
 package inatools.backend.controller;
 
 import inatools.backend.domain.MedicationInfo;
+import inatools.backend.domain.Member;
+import inatools.backend.dto.medication.MedicationInfoListResponse;
 import inatools.backend.dto.medication.MedicationInfoResponse;
 import inatools.backend.dto.medication.MedicationInfoRequest;
+import inatools.backend.dto.member.MemberInfoResponse;
 import inatools.backend.service.MedicationInfoService;
+import inatools.backend.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,14 +34,24 @@ public class MedicationInfoController {
      * 복용약 정보 생성 API
      */
     @Operation(summary = "복용약 정보 추가", description = "복용약 정보를 생성하기 위한 API입니다.")
-    @PostMapping("/{id}")
+    @PostMapping
     public ResponseEntity<MedicationInfoResponse> create(
-            @PathVariable("id") Long id,
             @RequestBody @Valid MedicationInfoRequest medicationInfoRequest) {
-
-        MedicationInfo makeMedicationInfo = medicationInfoService.createMedicationInfo(id,
-                medicationInfoRequest);
+        MedicationInfo makeMedicationInfo = medicationInfoService.createMedicationInfo(
+                medicationInfoRequest.memberId(), medicationInfoRequest);
         return ResponseEntity.ok(MedicationInfoResponse.fromMedicationInfo(makeMedicationInfo));
+    }
+
+    /**
+     * 복용약 정보 리스트 조회 API
+     */
+    @Operation(summary = "복용약 정보 리스트 조회", description = "복용약 정보 리스트를 조회하기 위한 API입니다.")
+    @GetMapping("/members/{memberId}")
+    public ResponseEntity<MedicationInfoListResponse> getMedicationInfoList(
+            @PathVariable Long memberId) {
+        MedicationInfoListResponse response = medicationInfoService.getMedicationInfoListByMemberId(
+                memberId);
+        return ResponseEntity.ok(response);
     }
 
     /**
