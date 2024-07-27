@@ -24,8 +24,7 @@ public class Member {
     private String email;
     private String phone;
 
-    @Enumerated(EnumType.STRING)
-    private Authority authority; // 권한 정보
+    private String role; // 권한 정보
 
     private long gender;
     private long age;
@@ -39,13 +38,20 @@ public class Member {
     }
 
     // 회원 가입시 받는 필드값
-    public Member(String username, String userId, String password, String email, String phone, Authority authority) {
+    public Member(String username, String userId, String password, String email, String phone, String role) {
         this.username = username;
         this.userId = userId;
         this.password = password;
         this.email = email;
         this.phone = phone;
-        this.authority = authority;
+        this.role = role;
+    }
+
+    // JWT 인증 시 사용하는 생성자
+    public Member(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     // 모든 필드를 받는 생성자
@@ -65,11 +71,9 @@ public class Member {
         this.medication = medication;
     }
 
-
     // 회원 생성 메서드
-    public static Member createMember(SignUpRequest signUpRequest) {
+    public static Member createMember(SignUpRequest signUpRequest, BCryptPasswordEncoder encoder) {
 
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(signUpRequest.password());
 
         return new Member(
@@ -78,7 +82,7 @@ public class Member {
                 encodedPassword,
                 signUpRequest.email(),
                 signUpRequest.phone(),
-                Authority.USER // 권한 정보 : 사용자 OR 관리자 지정
+                "ROLE_ADMIN" // 권한 정보 : 사용자 OR 관리자 지정
         );
     }
 

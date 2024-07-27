@@ -5,6 +5,7 @@ import inatools.backend.dto.SignUpRequest;
 import inatools.backend.dto.UpdateMemberRequest;
 import inatools.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
     public Member registerMember(SignUpRequest signUpRequest) {
@@ -24,7 +26,7 @@ public class MemberService {
         }
 
         // 엔티티 변환
-        Member member = Member.createMember(signUpRequest);
+        Member member = Member.createMember(signUpRequest, bCryptPasswordEncoder);
         return memberRepository.save(member);
     }
 
