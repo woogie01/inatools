@@ -1,21 +1,19 @@
-package inatools.backend.dto;
+package inatools.backend.dto.member;
 
 import inatools.backend.domain.Member;
 
-public record SignUpResponse(
+public record MemberInfoResponse(
         Long id,
-        String username,
+        String name,
         String userId,
-        String password,
         String email,
         String phone
 ) {
-    public static SignUpResponse fromMember(Member member) {
-        return new SignUpResponse(
+    public static MemberInfoResponse fromMember(Member member) {
+        return new MemberInfoResponse(
                 member.getId(),
-                member.getUsername(),
+                member.getName(),
                 member.getUserId(),
-                member.getPassword(),
                 member.getEmail(),
                 member.getPhone()
         );

@@ -4,7 +4,7 @@ import inatools.backend.domain.Member;
 
 public record UpdateMemberResponse(
         Long id,
-        String username,
+        String name,
         String userId,
         String password,
         String phone
@@ -12,7 +12,7 @@ public record UpdateMemberResponse(
     public static UpdateMemberResponse fromMember(Member member) {
         return new UpdateMemberResponse(
                 member.getId(),
-                member.getUsername(),
+                member.getName(),
                 member.getUserId(),
                 member.getPassword(),
                 member.getPhone()

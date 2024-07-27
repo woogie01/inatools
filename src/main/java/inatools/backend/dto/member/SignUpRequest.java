@@ -1,8 +1,6 @@
-package inatools.backend.dto;
+package inatools.backend.dto.member;
 
 import inatools.backend.domain.Member;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 

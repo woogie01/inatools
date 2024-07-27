@@ -3,7 +3,12 @@ package inatools.backend.domain;
 
 import inatools.backend.dto.SignUpRequest;
 import inatools.backend.dto.UpdateMemberRequest;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,13 +23,11 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    private String username;
+    private String name;
     private String userId;
     private String password;
     private String email;
     private String phone;
-
-    private String role; // 권한 정보
 
     private long gender;
     private long age;
@@ -38,26 +41,18 @@ public class Member {
     }
 
     // 회원 가입시 받는 필드값
-    public Member(String username, String userId, String password, String email, String phone, String role) {
-        this.username = username;
+    public Member(String name, String userId, String password, String email, String phone) {
+        this.name = name;
         this.userId = userId;
         this.password = password;
         this.email = email;
         this.phone = phone;
-        this.role = role;
-    }
-
-    // JWT 인증 시 사용하는 생성자
-    public Member(String username, String password, String role) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
     }
 
     // 모든 필드를 받는 생성자
-    public Member(String username, String userId, String password, String email, String phone, Long gender, Long age,
+    public Member(String name, String userId, String password, String email, String phone, Long gender, Long age,
             String underlyingDisease, boolean familyHistory, boolean isSmoker, boolean isDrinker, String medication) {
-        this.username = username;
+        this.name = name;
         this.userId = userId;
         this.password = password;
         this.email = email;
@@ -71,18 +66,19 @@ public class Member {
         this.medication = medication;
     }
 
-    // 회원 생성 메서드
-    public static Member createMember(SignUpRequest signUpRequest, BCryptPasswordEncoder encoder) {
 
+    // 회원 생성 메서드
+    public static Member createMember(SignUpRequest signUpRequest) {
+
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(signUpRequest.password());
 
         return new Member(
-                signUpRequest.username(),
+                signUpRequest.name(),
                 signUpRequest.userId(),
                 encodedPassword,
                 signUpRequest.email(),
-                signUpRequest.phone(),
-                "ROLE_ADMIN" // 권한 정보 : 사용자 OR 관리자 지정
+                signUpRequest.phone()
         );
     }
 
@@ -92,7 +88,7 @@ public class Member {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(updateRequest.password());
 
-        this.username = updateRequest.username();
+        this.name = updateRequest.name();
         this.userId = updateRequest.userId();
         this.password = encodedPassword;
         this.phone = updateRequest.phone();

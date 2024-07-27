@@ -1,5 +1,6 @@
 package inatools.backend.domain;
 
+import inatools.backend.dto.medication.MedicationInfoRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,19 +14,34 @@ import lombok.Getter;
 
 @Entity
 @Getter
-@Table(name = "medication_record")
+@Table(name = "medication_info")
 public class MedicationInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "medication_record_id")
+    @Column(name = "medication_info_id")
     private Long id;
 
-    private String medicationName;
-    private Long medicationNumber;
-    private boolean isTaken;
+    private String medicationName; // 약 이름
+    private Long dosage; // 복용량
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Member member;
 
+    protected MedicationInfo() {
+    }
+
+    public MedicationInfo(String medicationName, Long dosage, Member member) {
+        this.medicationName = medicationName;
+        this.dosage = dosage;
+        this.member = member;
+    }
+
+    public static MedicationInfo createMedicationInfo(MedicationInfoRequest medicationInfoRequest, Member member) {
+        return new MedicationInfo(
+                medicationInfoRequest.medicationName(),
+                medicationInfoRequest.dosage(),
+                member
+        );
+    }
 }
