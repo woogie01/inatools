@@ -73,7 +73,6 @@ public class Member {
         this.role = role;
     }
 
-
     // 회원 생성 메서드
     public static Member createMember(SignUpRequest signUpRequest, PasswordEncoder passwordEncoder) {
 
@@ -88,14 +87,11 @@ public class Member {
     }
 
     // 인스턴스 메서드: 회원 정보 업데이트
-    public void updateMemberInfo(UpdateMemberRequest updateRequest) {
-
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encodedPassword = encoder.encode(updateRequest.password());
+    public void updateMemberInfo(UpdateMemberRequest updateRequest, PasswordEncoder passwordEncoder) {
 
         this.username = updateRequest.name();
         this.userId = updateRequest.userId();
-        this.password = encodedPassword;
+        this.password = passwordEncoder.encode(updateRequest.password());
         this.phone = updateRequest.phone();
     }
 

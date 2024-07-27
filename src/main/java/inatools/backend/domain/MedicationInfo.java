@@ -26,7 +26,7 @@ public class MedicationInfo {
     private String medicationName; // 약 이름
     private Long dosage; // 복용량
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
