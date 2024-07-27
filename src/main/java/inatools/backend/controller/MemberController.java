@@ -34,7 +34,7 @@ public class MemberController {
      * 회원가입 API
      */
     @Operation(summary = "회원가입", description = "회원가입을 위한 API입니다.")
-    @PostMapping("/signup")
+    @PostMapping
     public ResponseEntity<SignUpResponse> signup(@RequestBody @Valid SignUpRequest signUpRequest) {
 
         try {
