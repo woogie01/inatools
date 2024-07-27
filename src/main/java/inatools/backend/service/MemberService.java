@@ -1,8 +1,8 @@
 package inatools.backend.service;
 
 import inatools.backend.domain.Member;
-import inatools.backend.dto.SignUpRequest;
-import inatools.backend.dto.UpdateMemberRequest;
+import inatools.backend.dto.member.SignUpRequest;
+import inatools.backend.dto.member.UpdateMemberRequest;
 import inatools.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,12 +25,25 @@ public class MemberService {
     }
 
     @Transactional
-    public Member updateMember(UpdateMemberRequest updateRequest) {
-        Member member = memberRepository.findById(updateRequest.id())
+    public Member updateMember(Long id, UpdateMemberRequest updateRequest) {
+        Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
         member.updateMemberInfo(updateRequest);
 //        memberRepository.save(member);
         return member;
     }
+
+    public Member getMember(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+    }
+
+//    @Transactional
+//    public Member updateSelfCheck(Long id, SelfCheckRequest selfCheckRequest) {
+//        Member member = memberRepository.findById(id)
+//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+//        member.updateSelfCheck(selfCheckRequest);
+//        return member;
+//    }
 
 }

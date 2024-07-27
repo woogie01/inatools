@@ -1,8 +1,8 @@
 package inatools.backend.domain;
 
 
-import inatools.backend.dto.SignUpRequest;
-import inatools.backend.dto.UpdateMemberRequest;
+import inatools.backend.dto.member.SignUpRequest;
+import inatools.backend.dto.member.UpdateMemberRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,9 +33,8 @@ public class Member {
     private long age;
     private String underlyingDisease; // 기저질환
     private boolean familyHistory; // 가족력
-    private boolean isSmoker; // 흡연
-    private boolean isDrinker; // 음주
-    private String medication; // 복용약
+    private SmokingStatus smokingStatus; // 흡연
+    private DrinkingStatus drinkingStatus; // 음주
 
     public Member() {
     }
@@ -50,8 +49,8 @@ public class Member {
     }
 
     // 모든 필드를 받는 생성자
-    public Member(String name, String userId, String password, String email, String phone, Long gender, Long age,
-            String underlyingDisease, boolean familyHistory, boolean isSmoker, boolean isDrinker, String medication) {
+    public Member(String name, String userId, String password, String email, String phone,
+            Long gender, Long age, String underlyingDisease, boolean familyHistory, SmokingStatus smokingStatus, DrinkingStatus drinkingStatus) {
         this.name = name;
         this.userId = userId;
         this.password = password;
@@ -61,9 +60,8 @@ public class Member {
         this.age = age;
         this.underlyingDisease = underlyingDisease;
         this.familyHistory = familyHistory;
-        this.isSmoker = isSmoker;
-        this.isDrinker = isDrinker;
-        this.medication = medication;
+        this.smokingStatus = smokingStatus;
+        this.drinkingStatus = drinkingStatus;
     }
 
 
@@ -94,4 +92,15 @@ public class Member {
         this.phone = updateRequest.phone();
     }
 
+    // 인스턴스 메서드: 자가진단 정보 업데이트
+//    public void updateSelfCheck(SelfCheckRequest selfCheckRequest) {
+//
+//        this.gender = selfCheckRequest.gender();
+//        this.age = selfCheckRequest.age();
+//        this.underlyingDisease = selfCheckRequest.underlyingDisease();
+//        this.familyHistory = selfCheckRequest.familyHistory();
+//        this.smokingStatus = selfCheckRequest.smokingStatus();
+//        this.drinkingStatus = selfCheckRequest.drinkingStatus();
+//        this.medication = selfCheckRequest.medication();
+//    }
 }
