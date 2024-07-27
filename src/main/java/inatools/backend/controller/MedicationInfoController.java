@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,14 +27,25 @@ public class MedicationInfoController {
     /**
      * 복용약 정보 생성 API
      */
-    @Operation(summary = "복용약", description = "복용약 정보를 생성하기 위한 API입니다.")
+    @Operation(summary = "복용약 정보 추가", description = "복용약 정보를 생성하기 위한 API입니다.")
     @PostMapping("/{id}")
     public ResponseEntity<MedicationInfoResponse> create(
             @PathVariable("id") Long id,
             @RequestBody @Valid MedicationInfoRequest medicationInfoRequest) {
 
-        MedicationInfo makeMedicationInfo = medicationInfoService.createMedicationInfo(id, medicationInfoRequest);
+        MedicationInfo makeMedicationInfo = medicationInfoService.createMedicationInfo(id,
+                medicationInfoRequest);
         return ResponseEntity.ok(MedicationInfoResponse.fromMedicationInfo(makeMedicationInfo));
+    }
+
+    /**
+     * 복용약 정보 삭제 API
+     */
+    @Operation(summary = "복용약 정보 삭제", description = "복용약 정보를 삭제하기 위한 API입니다.")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+        medicationInfoService.deleteMedicationInfo(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
