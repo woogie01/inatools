@@ -12,7 +12,7 @@ public record MemberInfoResponse(
     public static MemberInfoResponse fromMember(Member member) {
         return new MemberInfoResponse(
                 member.getId(),
-                member.getName(),
+                member.getUsername(),
                 member.getUserId(),
                 member.getEmail(),
                 member.getPhone()

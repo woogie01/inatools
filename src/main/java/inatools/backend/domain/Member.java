@@ -1,8 +1,8 @@
 package inatools.backend.domain;
 
 
-import inatools.backend.dto.SignUpRequest;
-import inatools.backend.dto.UpdateMemberRequest;
+import inatools.backend.dto.member.SignUpRequest;
+import inatools.backend.dto.member.UpdateMemberRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +23,7 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    private String name;
+    private String username;
     private String userId;
     private String password;
     private String email;
@@ -33,26 +33,28 @@ public class Member {
     private long age;
     private String underlyingDisease; // 기저질환
     private boolean familyHistory; // 가족력
-    private boolean isSmoker; // 흡연
-    private boolean isDrinker; // 음주
-    private String medication; // 복용약
+    private SmokingStatus smokingStatus; // 흡연
+    private DrinkingStatus drinkingStatus; // 음주
+
+    private String role;
 
     public Member() {
     }
 
     // 회원 가입시 받는 필드값
-    public Member(String name, String userId, String password, String email, String phone) {
-        this.name = name;
+    public Member(String username, String userId, String password, String email, String phone, String role) {
+        this.username = username;
         this.userId = userId;
         this.password = password;
         this.email = email;
         this.phone = phone;
+        this.role = role;
     }
 
     // 모든 필드를 받는 생성자
-    public Member(String name, String userId, String password, String email, String phone, Long gender, Long age,
-            String underlyingDisease, boolean familyHistory, boolean isSmoker, boolean isDrinker, String medication) {
-        this.name = name;
+    public Member(String username, String userId, String password, String email, String phone, Long gender, Long age,
+            String underlyingDisease, boolean familyHistory, SmokingStatus smokingStatus, DrinkingStatus drinkingStatus, String medication) {
+        this.username = username;
         this.userId = userId;
         this.password = password;
         this.email = email;
@@ -61,24 +63,27 @@ public class Member {
         this.age = age;
         this.underlyingDisease = underlyingDisease;
         this.familyHistory = familyHistory;
-        this.isSmoker = isSmoker;
-        this.isDrinker = isDrinker;
-        this.medication = medication;
+        this.smokingStatus = smokingStatus;
+        this.drinkingStatus = drinkingStatus;
+    }
+
+    public Member(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
 
     // 회원 생성 메서드
-    public static Member createMember(SignUpRequest signUpRequest) {
-
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encodedPassword = encoder.encode(signUpRequest.password());
+    public static Member createMember(SignUpRequest signUpRequest, PasswordEncoder passwordEncoder) {
 
         return new Member(
-                signUpRequest.name(),
+                signUpRequest.username(),
                 signUpRequest.userId(),
-                encodedPassword,
+                passwordEncoder.encode(signUpRequest.password()),
                 signUpRequest.email(),
-                signUpRequest.phone()
+                signUpRequest.phone(),
+                "ROLE_ADMIN"
         );
     }
 
@@ -88,7 +93,7 @@ public class Member {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(updateRequest.password());
 
-        this.name = updateRequest.name();
+        this.username = updateRequest.name();
         this.userId = updateRequest.userId();
         this.password = encodedPassword;
         this.phone = updateRequest.phone();

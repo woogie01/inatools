@@ -21,7 +21,7 @@ public class MemberService {
     public Member registerMember(SignUpRequest signUpRequest) {
 
         // 중복 회원 검사
-        if (memberRepository.existsByUsername(signUpRequest.username())) {
+        if (memberRepository.existsByUserId(signUpRequest.userId())) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
 
