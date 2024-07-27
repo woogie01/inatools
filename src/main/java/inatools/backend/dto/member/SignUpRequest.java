@@ -6,7 +6,7 @@ import lombok.Builder;
 
 @Builder
 public record SignUpRequest (
-        @NotEmpty String name,
+        @NotEmpty String username,
         @NotEmpty String userId,
         @NotEmpty String password,
         @NotEmpty String email,
@@ -15,7 +15,7 @@ public record SignUpRequest (
 
     public static SignUpRequest fromMember(Member member) {
         return new SignUpRequest (
-                member.getName(),
+                member.getUsername(),
                 member.getUserId(),
                 member.getPassword(),
                 member.getEmail(),

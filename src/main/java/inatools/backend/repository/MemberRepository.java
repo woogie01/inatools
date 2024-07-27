@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    Optional<Member> findByName(String name);
+    // 회원 조회
+    Optional<Member> findByUsername(String username);
 
+    // 종복 회원 검사
+    Boolean existsByUsername(String username);
 }

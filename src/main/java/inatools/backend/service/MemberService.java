@@ -5,6 +5,7 @@ import inatools.backend.dto.member.SignUpRequest;
 import inatools.backend.dto.member.UpdateMemberRequest;
 import inatools.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,13 +15,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
     public Member registerMember(SignUpRequest signUpRequest) {
-        if (memberRepository.findByName(signUpRequest.name()).isPresent()) {
+
+        // 중복 회원 검사
+        if (memberRepository.existsByUsername(signUpRequest.username())) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
-        Member member = Member.createMember(signUpRequest);
+
+        // 엔티티 변환
+        Member member = Member.createMember(signUpRequest, passwordEncoder);
         return memberRepository.save(member);
     }
 
