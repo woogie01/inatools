@@ -31,15 +31,17 @@ public class MedicationInfo {
     protected MedicationInfo() {
     }
 
-    public MedicationInfo(String medicationName, Long dosage) {
+    public MedicationInfo(String medicationName, Long dosage, Member member) {
         this.medicationName = medicationName;
         this.dosage = dosage;
+        this.member = member;
     }
 
-    public static MedicationInfo createMedicationInfo(MedicationInfoRequest medicationInfoRequest) {
+    public static MedicationInfo createMedicationInfo(MedicationInfoRequest medicationInfoRequest, Member member) {
         return new MedicationInfo(
                 medicationInfoRequest.medicationName(),
-                medicationInfoRequest.dosage()
+                medicationInfoRequest.dosage(),
+                member
         );
     }
 }
