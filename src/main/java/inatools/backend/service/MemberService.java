@@ -34,7 +34,7 @@ public class MemberService {
     public Member updateMember(Long id, UpdateMemberRequest updateRequest) {
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        member.updateMemberInfo(updateRequest);
+        member.updateMemberInfo(updateRequest, passwordEncoder);
 //        memberRepository.save(member);
         return member;
     }
