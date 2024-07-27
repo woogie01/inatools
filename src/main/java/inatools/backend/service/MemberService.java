@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
     public Member registerMember(SignUpRequest signUpRequest) {
@@ -26,7 +26,7 @@ public class MemberService {
         }
 
         // 엔티티 변환
-        Member member = Member.createMember(signUpRequest, bCryptPasswordEncoder);
+        Member member = Member.createMember(signUpRequest, passwordEncoder);
         return memberRepository.save(member);
     }
 
