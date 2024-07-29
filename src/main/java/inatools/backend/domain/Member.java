@@ -1,22 +1,20 @@
 package inatools.backend.domain;
 
 
+import inatools.backend.common.BaseTimeEntity;
 import inatools.backend.dto.member.SignUpRequest;
 import inatools.backend.dto.member.UpdateMemberRequest;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import static inatools.backend.domain.Password.*;
 
 @Entity
 @Getter
 @Table(name = "member")
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +22,14 @@ public class Member {
     private Long id;
 
     private String username;
+
     private String userId;
-    private String password;
+
+    @Embedded
+    private Password password;
+
     private String email;
+
     private String phone;
 
     private long gender;
@@ -36,23 +39,23 @@ public class Member {
     private SmokingStatus smokingStatus; // 흡연
     private DrinkingStatus drinkingStatus; // 음주
 
-    private String role;
+    private Role role;
 
     public Member() {
     }
 
     // 회원 가입시 받는 필드값
-    public Member(String username, String userId, String password, String email, String phone, String role) {
+    public Member(String username, String userId, Password password, String email, String phone) {
         this.username = username;
         this.userId = userId;
         this.password = password;
         this.email = email;
         this.phone = phone;
-        this.role = role;
+        this.role = Role.USER;
     }
 
     // 모든 필드를 받는 생성자
-    public Member(String username, String userId, String password, String email, String phone, Long gender, Long age,
+    public Member(String username, String userId, Password password, String email, String phone, Long gender, Long age,
             String underlyingDisease, boolean familyHistory, SmokingStatus smokingStatus, DrinkingStatus drinkingStatus, String medication) {
         this.username = username;
         this.userId = userId;
@@ -67,22 +70,15 @@ public class Member {
         this.drinkingStatus = drinkingStatus;
     }
 
-    public Member(String username, String password, String role) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
-
     // 회원 생성 메서드
     public static Member createMember(SignUpRequest signUpRequest, PasswordEncoder passwordEncoder) {
 
         return new Member(
                 signUpRequest.username(),
                 signUpRequest.userId(),
-                passwordEncoder.encode(signUpRequest.password()),
+                Password.encrypt(signUpRequest.password(), passwordEncoder),
                 signUpRequest.email(),
-                signUpRequest.phone(),
-                "ROLE_ADMIN"
+                signUpRequest.phone()
         );
     }
 
@@ -91,8 +87,7 @@ public class Member {
 
         this.username = updateRequest.name();
         this.userId = updateRequest.userId();
-        this.password = passwordEncoder.encode(updateRequest.password());
+        this.password = Password.encrypt(updateRequest.password(), passwordEncoder);
         this.phone = updateRequest.phone();
     }
-
 }
