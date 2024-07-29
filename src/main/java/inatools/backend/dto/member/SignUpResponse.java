@@ -15,7 +15,7 @@ public record SignUpResponse(
                 member.getId(),
                 member.getUsername(),
                 member.getUserId(),
-                member.getPassword(),
+                member.getPassword().getValue(),
                 member.getEmail(),
                 member.getPhone()
         );
