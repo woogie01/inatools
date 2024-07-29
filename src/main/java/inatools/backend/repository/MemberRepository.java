@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 회원 조회
-    Optional<Member> findByUsername(String username);
+    Optional<Member> findByUserId(String userId);
 
     // 종복 회원 검사
     Boolean existsByUserId(String userId);
