@@ -14,7 +14,7 @@ public record UpdateMemberResponse(
                 member.getId(),
                 member.getUsername(),
                 member.getUserId(),
-                member.getPassword(),
+                member.getPassword().getValue(),
                 member.getPhone()
         );
     }
