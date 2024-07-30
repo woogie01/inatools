@@ -1,13 +1,8 @@
 package inatools.backend.controller;
 
+import inatools.backend.common.BaseResponse;
 import inatools.backend.domain.Member;
-import inatools.backend.dto.member.MemberInfoResponse;
-import inatools.backend.dto.member.SelfCheckRequest;
-import inatools.backend.dto.member.SelfCheckResponse;
-import inatools.backend.dto.member.SignUpRequest;
-import inatools.backend.dto.member.SignUpResponse;
-import inatools.backend.dto.member.UpdateMemberRequest;
-import inatools.backend.dto.member.UpdateMemberResponse;
+import inatools.backend.dto.member.*;
 import inatools.backend.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,13 +33,22 @@ public class MemberController {
     public ResponseEntity<SignUpResponse> signup(@RequestBody @Valid SignUpRequest signUpRequest) {
 
         try {
-            Member member = memberService.registerMember(signUpRequest);
+            Member member = memberService.signUp(signUpRequest);
             SignUpResponse response = SignUpResponse.fromMember(member);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
 
+    }
+
+    /**
+     * 회원 정보 수정 API
+     */
+    @Operation(summary = "로그인", description = "사용자가 로그인을 진행합니다.")
+    @PostMapping("/login")
+    public BaseResponse<LoginResponse> login(@RequestBody @Valid LoginRequest request) {
+        return new BaseResponse<>(memberService.login(request.userId(), request.password()));
     }
 
     /**

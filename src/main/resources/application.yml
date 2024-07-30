@@ -9,19 +9,25 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
     show-sql: true # SQL 쿼리를 콘솔에 출력할지 여부
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${DATASOURCE_URL}
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
+
   jwt:
     secret: ${JWT_SECRET}
+    access-token-expiration-time: 2592000
+    refresh-token-expiration-time: 2592000
 
 springdoc:
   default-consumes-media-type: application/json
+
   swagger-ui:
     tags-sorter: alpha # 태그 정렬 기준
     operations-sorter: method # alpha(알파벳 오름차순), method(HTTP메소드순)
     path: 'swagger-ui.html'
     disable-swagger-default-url: true
+
   show-login-endpoint: true
