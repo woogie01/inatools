@@ -16,6 +16,10 @@ public class TokenReissueService {
     private final TokenPersistenceAdapter tokenPersistenceAdapter;
     private final JwtTokenProvider jwtTokenProvider;
 
+    /**
+     * Refresh Token을 사용하여 새로운 Access Token과 Refresh Token을 발급
+     *
+     */
     @Transactional
     public TokenResponse reissueTokens(Long memId, String refreshToken) {
 

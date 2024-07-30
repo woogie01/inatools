@@ -17,6 +17,12 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    /**
+     * JWT 토큰 추출 및 페이로드 접근 허용
+     * 1. 컨트롤러 메서드에서 직접 JWT 토큰이나 그 페이로드를 추출하고 사용
+     * 2. 토큰과 페이로드를 메서드 매개변수로 받도록 허용
+     *
+     */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new ExtractTokenArgumentResolver(jwtTokenProvider));

@@ -21,6 +21,10 @@ public class JwtTokenProvider {
     private final long accessTokenValidityInMilliseconds;
     private final long refreshTokenValidityInMilliseconds;
 
+    /**
+     * JWT 토큰을 생성하고 검증
+     *
+     */
     public JwtTokenProvider(@Value("${spring.jwt.secret}") final String secretKey,
                             @Value("${spring.jwt.access-token-expiration-time}") final long accessTokenValidityInMilliseconds,
                             @Value("${spring.jwt.refresh-token-expiration-time}") final long refreshTokenValidityInMilliseconds) {

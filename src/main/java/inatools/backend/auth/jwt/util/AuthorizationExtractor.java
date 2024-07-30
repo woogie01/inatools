@@ -14,6 +14,10 @@ public class AuthorizationExtractor {
 
     private static final String BEARER_TYPE = "Bearer";
 
+    /**
+     * HTTP 요청의 Authorization 헤더에서 JWT 토큰을 추출
+     *
+     */
     public static Optional<String> extractToken(HttpServletRequest request) {
         String header = request.getHeader(AUTHORIZATION);
         if (isAuthorizationHeaderEmpty(header)) {

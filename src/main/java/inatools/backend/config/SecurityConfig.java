@@ -77,6 +77,12 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     *  CORS 설정 정의 : 웹 애플리케이션의 리소스가 다른 도메인에서 안전하게 접근 허용
+     *  1. 모든 출처, 헤더, 메서드를 허용
+     *  2. 자격 증명 허용 (예: 쿠키, 인증 헤더 등)
+     *
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
