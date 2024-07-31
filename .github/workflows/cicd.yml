@@ -37,12 +37,6 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-  deploy:
-    needs: build
-    environment: main
-    runs-on: ubuntu-latest
-
-    steps:
       # 프로젝트 zip파일로 압축
       - name: Make Zip File
         run: zip -qq -r ./$GITHUB_SHA.zip .
