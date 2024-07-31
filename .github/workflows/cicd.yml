@@ -11,6 +11,8 @@ on:
     branches:
       - "main"
 
+  workflow_dispatch:
+
 env:
   PROJECT_NAME: nostroke
   BUCKET_NAME: nostroke-dev-bucket
