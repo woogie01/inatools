@@ -4,14 +4,14 @@ name: CI/CD Pipeline
 # feature/{feature-name} : 새로운 기능이나 버그 수정 작업 브랜치
 on:
   push:
-    branches:
-      - main
-      - 'feat/**'
+    branches: [
+      "main"
+      "feat/**"
+    ]
   pull_request:
-    branches:
-      - main
-
-  workflow_dispatch:
+    branches: [
+      "main"
+    ]
 
 env:
   PROJECT_NAME: nostroke
