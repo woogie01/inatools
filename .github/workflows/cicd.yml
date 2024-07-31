@@ -11,8 +11,6 @@ on:
     branches:
       - "main"
 
-  workflow_dispatch:
-
 env:
   PROJECT_NAME: nostroke
   BUCKET_NAME: nostroke-dev-bucket
@@ -24,12 +22,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - name: JDK 21 설치
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
-          distribution: 'openjdk'
+          distribution: 'temurin'
 
       # gradlew 파일 실행권한 설정
       - name: Grant execute permission for gradlew
