@@ -1,7 +1,7 @@
 name: CI/CD Pipeline
 
 # main 브랜치에 push 또는 pull request가 발생할 때 실행
-# feature/{feature-name} : 새로운 기능이나 버그 수저 작업 브랜치
+# feature/{feature-name} : 새로운 기능이나 버그 수정 작업 브랜치
 on:
   push:
     branches:
@@ -43,7 +43,8 @@ jobs:
     needs: build
     environment: main
     runs-on: ubuntu-latest
-      - 
+
+    steps:
       # 프로젝트 zip파일로 압축
       - name: Make Zip File
         run: zip -qq -r ./$GITHUB_SHA.zip .
@@ -57,13 +58,13 @@ jobs:
           aws-region: ap-northeast-2
 
       # s3에 압축한 zip파일 업로드
-      - name: upload to S3
+      - name: Upload to S3
         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
 
       # s3에 업로드한 파일 code Deploy에서 배포 요청
-      - name: deploy with AWS codeDeploy
-        run: aws deploy create-deployment
-          --application-name $CODE_DEPLOY_APP_NAME
-          --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name $DEPLOYMENT_GROUP_NAME
+      - name: Deploy with AWS CodeDeploy
+        run: aws deploy create-deployment \
+          --application-name $CODE_DEPLOY_APP_NAME \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --deployment-group-name $DEPLOYMENT_GROUP_NAME \
           --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
