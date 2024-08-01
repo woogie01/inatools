@@ -9,7 +9,6 @@ import lombok.Getter;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static inatools.backend.domain.Password.*;
 
 @Entity
 @Getter
