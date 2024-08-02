@@ -5,6 +5,8 @@ files:
     destination: /home/ubuntu/nostroke
     overwrite: yes
 
+file_exist_behavior: OVERWRITE
+
 permissions:
   - object: /
     pattern: "**"
