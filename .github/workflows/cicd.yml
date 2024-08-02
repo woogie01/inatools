@@ -33,9 +33,7 @@ jobs:
 
       - name: create applications.yml
         shell: bash
-        run: |
-          touch ./src/main/resources/application.yml
-          echo "${{ secrets.APPLICATION_DEV }}" > ./src/main/resources/application.yml
+        run: echo ${{ secrets.APPLICATION_DEV }} > ./src/main/resources/application.yml
 
       # gradlew 파일 실행권한 설정
       - name: Grant execute permission for gradlew
