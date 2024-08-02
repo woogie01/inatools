@@ -17,19 +17,29 @@ public class ExtractTokenArgumentResolver implements HandlerMethodArgumentResolv
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    /**
+     *  스프링 MVC의 HandlerMethodArgumentResolver를 구현하여 매개변수 주입 로직을 정의
+     */
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
+
+        // 매개변수가 @ExtractToken 애노테이션을 가지고 있는지 확인
         return parameter.hasParameterAnnotation(ExtractToken.class);
     }
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+
+        // 1. NativeWebRequest에서 HttpServletRequest를 추출
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
+        // 2. HTTP 요청 헤더에서 JWT 토큰을 추출
         String token = AuthorizationExtractor.extractToken(request)
                 .orElseThrow(() -> BaseException.type(GlobalErrorCode.INVALID_PERMISSION));
 
+        // 3. 추출된 토큰의 유효성을 검증하고 반환
         validateTokenIntegrity(token);
 
         return token;
