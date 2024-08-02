@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - main
-      - feat/**
   pull_request:
     branches:
       - main
@@ -20,6 +19,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
 
     steps:
       - name: Checkout code
@@ -46,10 +47,12 @@ jobs:
 
       # 프로젝트 zip파일로 압축
       - name: Make Zip File
+        if: github.event_name == 'push'
         run: zip -qq -r ./$GITHUB_SHA.zip .
 
       # aws 접근 id, key
       - name: Configure AWS credentials
+        if: github.event_name == 'push'
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -58,11 +61,13 @@ jobs:
 
       # s3에 압축한 zip파일 업로드
       - name: Upload to S3
+        if: github.event_name == 'push'
         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
 
       # s3에 업로드한 파일 code Deploy에서 배포 요청
       # Deploy with AWS CodeDeploy
       - name: Deploy with AWS CodeDeploy
+        if: github.event_name == 'push'
         run: |
           aws deploy create-deployment \
             --application-name $CODE_DEPLOY_APP_NAME \
