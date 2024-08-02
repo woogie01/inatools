@@ -23,7 +23,7 @@ import java.util.Map;
 @Tag(name = "토큰 관련 로직", description = "토근 발급 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/token")
+@RequestMapping("/api/token")
 public class TokenApiController {
 
     private final TokenReissueService tokenReissueService;
