@@ -15,7 +15,7 @@ env:
   PROJECT_NAME: nostroke
   BUCKET_NAME: nostroke-dev-bucket
   CODE_DEPLOY_APP_NAME: NoStrokeCodeDeployApplication
-  DEPLOYMENT_GROUP_NAME: nostroke-deploy-group
+  DEPLOYMENT_GROUP_NAME: NoStroke-DeployGroup
 
 jobs:
   build:
@@ -39,6 +39,14 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
+  deploy:
+    needs: build
+    environment: main
+    runs-on: ubuntu-latest
+
+#    if: github.event.pull_request.merged == true
+
+    steps:
       # 프로젝트 zip파일로 압축
       - name: Make Zip File
         run: zip -qq -r ./$GITHUB_SHA.zip .
