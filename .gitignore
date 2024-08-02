@@ -91,5 +91,3 @@ lombok.config
 
 # 기타
 *.DS_Store
-
-# AWS RDS yml 파일
