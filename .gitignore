@@ -1,6 +1,7 @@
 # 기본적인 OS 관련 파일
 .DS_Store
 Thumbs.db
+src/main/resources/application-dev.yml
 
 # 로그 파일
 *.log
@@ -27,6 +28,7 @@ out/
 *.orig
 *.rej
 *~
+
 # Comment Reason for ignoring below
 .classpath
 .project
@@ -85,3 +87,5 @@ lombok.config
 
 # 기타
 *.DS_Store
+
+# AWS RDS yml 파일
