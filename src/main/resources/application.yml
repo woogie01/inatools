@@ -27,7 +27,7 @@ springdoc:
   swagger-ui:
     tags-sorter: alpha # 태그 정렬 기준
     operations-sorter: method # alpha(알파벳 오름차순), method(HTTP메소드순)
-    path: /swagger.html
+    path: 'swagger-ui'
     disable-swagger-default-url: true
 
   show-login-endpoint: true
