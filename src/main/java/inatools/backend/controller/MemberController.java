@@ -56,9 +56,9 @@ public class MemberController {
     }
 
     /**
-     * 자가점검 결과 등록 API
+     * 자가점검 결과(복용약 정보 제외) 저장 API
      */
-    @Operation(summary = "자가점검 등록", description = "자가점검을 등록하기 위한 API입니다.")
+    @Operation(summary = "자가점검 결과 저장", description = "자가점검 결과(복용약 정보 제외)를 저장하기 위한 API입니다.")
     @PutMapping("/{id}/self-check")
     public ResponseEntity<SelfCheckResponse> registerSelfCheck(@PathVariable("id") Long memberId,
             @RequestBody @Valid SelfCheckRequest request) {
