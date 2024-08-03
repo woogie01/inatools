@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record LoginRequest(
+
         @Size(min = 5, max = 50)
         @NotBlank(message = "아이디를 입력해주세요.")
         @Schema(description = "아이디", example = "pil0602")
