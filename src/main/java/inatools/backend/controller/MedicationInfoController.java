@@ -34,7 +34,7 @@ public class MedicationInfoController {
     /**
      * 복용약 정보 생성 API
      */
-    @Operation(summary = "복용약 정보 추가", description = "복용약 정보를 생성하기 위한 API입니다.")
+    @Operation(summary = "복용약 정보 추가(리스트 형태로)", description = "복용약 정보를 추가하기 위한 API입니다.")
     @PostMapping
     public ResponseEntity<MedicationInfoListResponse> create(
             @RequestBody @Valid MedicationInfoRequest medicationInfoRequest, Principal principal) {
