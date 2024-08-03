@@ -24,7 +24,8 @@ public class MedicationInfo {
     private Long id;
 
     private String medicationName; // 약 이름
-    private Long dosage; // 복용량
+    private Long dosage; // 복용 횟수
+    // ToDO: 복용 종료일이나 현재 복용 중인지를 저장하는 필드 추가
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -46,4 +47,10 @@ public class MedicationInfo {
                 member
         );
     }
+
+    public void updateMedicationInfo(MedicationInfoRequest medicationInfoRequest) {
+        this.medicationName = medicationInfoRequest.medicationName();
+        this.dosage = medicationInfoRequest.dosage();
+    }
+
 }

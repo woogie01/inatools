@@ -7,6 +7,7 @@ import inatools.backend.common.exception.error.UserErrorCode;
 import inatools.backend.domain.Member;
 import inatools.backend.domain.Password;
 import inatools.backend.dto.member.LoginResponse;
+import inatools.backend.dto.member.SelfCheckRequest;
 import inatools.backend.dto.member.SignUpRequest;
 import inatools.backend.dto.member.UpdateMemberRequest;
 import inatools.backend.repository.MemberRepository;
@@ -84,12 +85,17 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
     }
 
-//    @Transactional
-//    public Member updateSelfCheck(Long id, SelfCheckRequest selfCheckRequest) {
-//        Member member = memberRepository.findById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-//        member.updateSelfCheck(selfCheckRequest);
-//        return member;
-//    }
+
+    /**
+     * 자가점검 결과 저장
+     */
+    @Transactional
+    public Member createSelfCheck(Long memberId, SelfCheckRequest request) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+        member.updateBasicSelfCheck(request);
+        return member;
+    }
 
 }

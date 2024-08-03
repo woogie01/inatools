@@ -31,6 +31,9 @@ public class MedicationInfoService {
         return medicationInfoRepository.save(medicationInfo);
     }
 
+    /**
+     * 회원 식별자로 복용약 정보 리스트 조회
+     */
     public MedicationInfoListResponse getMedicationInfoListByMemberId(Long memberId) {
         List<MedicationInfo> medicationInfoList = medicationInfoRepository.findAllByMemberId(memberId);
         List<MedicationInfoResponse> medicationInfoResponseList = medicationInfoList.stream()
@@ -40,6 +43,24 @@ public class MedicationInfoService {
         return new MedicationInfoListResponse(medicationInfoResponseList);
     }
 
+
+    /**
+     * 추가하려는 복용약 정보가 이미 존재하는지 복용약 이름으로 확인하고,
+     * 존재한다면 업데이트하고, 존재하지 않는다면 새로 생성
+     */
+//    private MedicationInfo updateOrCreateMedication(MedicationInfoRequest request, List<MedicationInfo> existingMedications, Member member) {
+//        MedicationInfo existingMedication = existingMedications.stream()
+//                .filter(med -> med.getMedicationName().equals(request.medicationName()))
+//                .findFirst()
+//                .orElse(null);
+//
+//        if (existingMedication == null) {
+//            return MedicationInfo.createMedicationInfo(request, member);
+//        } else {
+//            existingMedication.updateMedicationInfo(request);
+//            return existingMedication;
+//        }
+//    }
 
     @Transactional
     public void deleteMedicationInfo(Long id, String loginId) {
