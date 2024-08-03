@@ -11,6 +11,7 @@ import inatools.backend.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -58,8 +59,9 @@ public class MedicationInfoController {
      */
     @Operation(summary = "복용약 정보 삭제", description = "복용약 정보를 삭제하기 위한 API입니다.")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        medicationInfoService.deleteMedicationInfo(id);
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id, Principal principal) {
+        String loginId = principal.getName();
+        medicationInfoService.deleteMedicationInfo(id, loginId);
         return ResponseEntity.noContent().build();
     }
 
