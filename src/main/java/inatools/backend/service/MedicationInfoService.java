@@ -2,13 +2,13 @@ package inatools.backend.service;
 
 import inatools.backend.domain.MedicationInfo;
 import inatools.backend.domain.Member;
+import inatools.backend.dto.medication.MedicationDetailRequest;
 import inatools.backend.dto.medication.MedicationInfoListResponse;
 import inatools.backend.dto.medication.MedicationInfoRequest;
 import inatools.backend.dto.medication.MedicationInfoResponse;
 import inatools.backend.repository.MedicationInfoRepository;
 import inatools.backend.repository.MemberRepository;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,13 +22,46 @@ public class MedicationInfoService {
     private final MemberRepository memberRepository;
     private final MedicationInfoRepository medicationInfoRepository;
 
+    /**
+     * 복용약 정보 생성
+     */
     @Transactional
-    public MedicationInfo createMedicationInfo(Long memberId,
+    public MedicationInfoListResponse createMedicationInfo(String loginId, Long memberId,
             MedicationInfoRequest medicationInfoRequest) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        MedicationInfo medicationInfo = MedicationInfo.createMedicationInfo(medicationInfoRequest, member);
-        return medicationInfoRepository.save(medicationInfo);
+        checkMember(loginId, member);
+
+        List<MedicationInfo> existingMedications = medicationInfoRepository.findAllByMemberId(memberId);
+
+        List<MedicationInfo> medicationInfoList = medicationInfoRequest.medications().stream()
+                .map(detailRequest -> createOrUpdateMedication(detailRequest, existingMedications, member))
+                .collect(Collectors.toList());
+
+        List<MedicationInfo> savedMedications = medicationInfoRepository.saveAll(medicationInfoList);
+        List<MedicationInfoResponse> medicationInfoResponseList = savedMedications.stream()
+                .map(MedicationInfoResponse::fromMedicationInfo)
+                .collect(Collectors.toList());
+
+        return new MedicationInfoListResponse(medicationInfoResponseList);
+    }
+
+    /**
+     * 추가하려는 복용약 정보가 이미 존재하는지 복용약 이름으로 확인하고,
+     * 존재한다면 업데이트하고, 존재하지 않는다면 새로 생성
+     */
+    private MedicationInfo createOrUpdateMedication(MedicationDetailRequest request, List<MedicationInfo> existingMedications, Member member) {
+        MedicationInfo existingMedication = existingMedications.stream()
+                .filter(med -> med.getMedicationName().equals(request.medicationName()))
+                .findFirst()
+                .orElse(null);
+
+        if (existingMedication == null) {
+            return MedicationInfo.createMedicationInfo(request, member);
+        } else {
+            existingMedication.updateMedicationInfo(request);
+            return existingMedication;
+        }
     }
 
     /**
@@ -44,35 +77,24 @@ public class MedicationInfoService {
     }
 
 
-    /**
-     * 추가하려는 복용약 정보가 이미 존재하는지 복용약 이름으로 확인하고,
-     * 존재한다면 업데이트하고, 존재하지 않는다면 새로 생성
-     */
-//    private MedicationInfo updateOrCreateMedication(MedicationInfoRequest request, List<MedicationInfo> existingMedications, Member member) {
-//        MedicationInfo existingMedication = existingMedications.stream()
-//                .filter(med -> med.getMedicationName().equals(request.medicationName()))
-//                .findFirst()
-//                .orElse(null);
-//
-//        if (existingMedication == null) {
-//            return MedicationInfo.createMedicationInfo(request, member);
-//        } else {
-//            existingMedication.updateMedicationInfo(request);
-//            return existingMedication;
-//        }
-//    }
-
     @Transactional
     public void deleteMedicationInfo(Long id, String loginId) {
 
         Member member = memberRepository.findByUserId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
 
-        if (loginId.equals(member.getUserId())) {
-            throw new IllegalArgumentException("요청 회원과 일치하지 않습니다.");
-        }
+        checkMember(loginId, member);
 
         medicationInfoRepository.deleteById(id);
+    }
+
+    /*
+     * 로그인한 회원인지 체크
+     */
+    private static void checkMember(String loginId, Member member) {
+        if (!loginId.equals(member.getUserId())) {
+            throw new IllegalArgumentException("요청 회원과 일치하지 않습니다.");
+        }
     }
 }
 
