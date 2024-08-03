@@ -42,8 +42,15 @@ public class MedicationInfoService {
 
 
     @Transactional
-    public void deleteMedicationInfo(Long id) {
-        // TODO: 인증 인가 로직 추가되면 해당 회원이 본인이 맞는지 확인하는 로직 추가
+    public void deleteMedicationInfo(Long id, String loginId) {
+
+        Member member = memberRepository.findByUserId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+
+        if (loginId.equals(member.getUserId())) {
+            throw new IllegalArgumentException("요청 회원과 일치하지 않습니다.");
+        }
+
         medicationInfoRepository.deleteById(id);
     }
 }
