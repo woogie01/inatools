@@ -6,11 +6,12 @@ import inatools.backend.domain.MedicationRecord;
 import inatools.backend.domain.SmokingStatus;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import java.time.LocalDate;
 import java.util.List;
 
 public record SelfCheckRequest(
         @Min(0) @Max(1) long gender,
-        @Min(0) long age,
+        LocalDate birthDate,
         String underlyingDisease, // 기저질환
         boolean familyHistory, // 가족력
         SmokingStatus smokingStatus, // 흡연

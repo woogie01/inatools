@@ -4,11 +4,12 @@ import inatools.backend.domain.DrinkingStatus;
 import inatools.backend.domain.MedicationInfo;
 import inatools.backend.domain.Member;
 import inatools.backend.domain.SmokingStatus;
+import java.time.LocalDate;
 import java.util.List;
 
 public record SelfCheckResponse(
         long gender,
-        long age,
+        LocalDate birthDate,
         String underlyingDisease, // 기저질환
         boolean familyHistory, // 가족력
         SmokingStatus smokingStatus, // 흡연
@@ -19,7 +20,7 @@ public record SelfCheckResponse(
     public static SelfCheckResponse fromMember(Member member, List<MedicationInfo> medicationInfoList) {
         return new SelfCheckResponse(
                 member.getGender(),
-                member.getAge(),
+                member.getBirthDate(),
                 member.getUnderlyingDisease(),
                 member.isFamilyHistory(),
                 member.getSmokingStatus(),

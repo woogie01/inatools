@@ -84,12 +84,4 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
     }
 
-//    @Transactional
-//    public Member updateSelfCheck(Long id, SelfCheckRequest selfCheckRequest) {
-//        Member member = memberRepository.findById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-//        member.updateSelfCheck(selfCheckRequest);
-//        return member;
-//    }
-
 }
