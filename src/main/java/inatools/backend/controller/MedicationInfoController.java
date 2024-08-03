@@ -41,7 +41,7 @@ public class MedicationInfoController {
     /**
      * 복용약 정보 리스트 조회 API
      */
-    @Operation(summary = "복용약 정보 리스트 조회", description = "복용약 정보 리스트를 조회하기 위한 API입니다.")
+    @Operation(summary = "복용약 정보 리스트 조회", description = "활성화된 복용약 정보들을 조회하기 위한 API입니다.")
     @GetMapping("/members/{memberId}")
     public ResponseEntity<MedicationInfoListResponse> getMedicationInfoList(
             @PathVariable Long memberId) {
@@ -52,7 +52,7 @@ public class MedicationInfoController {
     /**
      * 복용약 정보 삭제 API
      */
-    @Operation(summary = "복용약 정보 삭제", description = "복용약 정보를 삭제하기 위한 API입니다.")
+    @Operation(summary = "복용약 정보 삭제", description = "복용약 정보를 비활성화하기 위한 API입니다.")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id, Principal principal) {
         String loginId = principal.getName();
