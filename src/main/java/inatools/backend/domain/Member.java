@@ -2,6 +2,7 @@ package inatools.backend.domain;
 
 
 import inatools.backend.common.BaseTimeEntity;
+import inatools.backend.dto.medication.MedicationInfoRequest;
 import inatools.backend.dto.member.SelfCheckRequest;
 import inatools.backend.dto.member.SignUpRequest;
 import inatools.backend.dto.member.UpdateMemberRequest;
@@ -27,7 +28,6 @@ public class Member extends BaseTimeEntity {
     private Password password;
     private String email;
     private String phone;
-
 
     /**
      * 자가 점검 데이터
@@ -56,8 +56,7 @@ public class Member extends BaseTimeEntity {
 
     // 모든 필드를 받는 생성자
     public Member(String username, String userId, Password password, String email, String phone, Long gender, LocalDate birthDate,
-            String underlyingDisease, boolean familyHistory, SmokingStatus smokingStatus, DrinkingStatus drinkingStatus,
-            String medication) {
+            String underlyingDisease, boolean familyHistory, SmokingStatus smokingStatus, DrinkingStatus drinkingStatus) {
         this.username = username;
         this.userId = userId;
         this.password = password;
@@ -92,15 +91,14 @@ public class Member extends BaseTimeEntity {
         this.phone = updateRequest.phone();
     }
 
-    public void updateSelfCheck(SelfCheckRequest request) {
-
+    // 기본 자가점검 정보 업데이트
+    public void updateBasicSelfCheck(SelfCheckRequest request) {
         this.gender = request.gender();
         this.birthDate = request.birthDate();
         this.underlyingDisease = request.underlyingDisease();
         this.familyHistory = request.familyHistory();
         this.smokingStatus = request.smokingStatus();
         this.drinkingStatus = request.drinkingStatus();
-        
-
     }
+
 }

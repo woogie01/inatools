@@ -4,8 +4,11 @@ import inatools.backend.domain.DrinkingStatus;
 import inatools.backend.domain.MedicationInfo;
 import inatools.backend.domain.Member;
 import inatools.backend.domain.SmokingStatus;
+import inatools.backend.dto.medication.MedicationInfoRequest;
+import inatools.backend.dto.medication.MedicationInfoResponse;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public record SelfCheckResponse(
         long gender,
@@ -13,19 +16,17 @@ public record SelfCheckResponse(
         String underlyingDisease, // 기저질환
         boolean familyHistory, // 가족력
         SmokingStatus smokingStatus, // 흡연
-        DrinkingStatus drinkingStatus, // 음주
-        List<MedicationInfo> medicationInfoList // 복용약
+        DrinkingStatus drinkingStatus // 음주
 ) {
 
-    public static SelfCheckResponse fromMember(Member member, List<MedicationInfo> medicationInfoList) {
+    public static SelfCheckResponse fromMember(Member member) {
         return new SelfCheckResponse(
                 member.getGender(),
                 member.getBirthDate(),
                 member.getUnderlyingDisease(),
                 member.isFamilyHistory(),
                 member.getSmokingStatus(),
-                member.getDrinkingStatus(),
-                medicationInfoList
-                );
+                member.getDrinkingStatus()
+        );
     }
 }
