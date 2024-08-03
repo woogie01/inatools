@@ -1,18 +1,12 @@
 package inatools.backend.controller;
 
-import inatools.backend.domain.MedicationInfo;
-import inatools.backend.domain.Member;
 import inatools.backend.dto.medication.MedicationInfoListResponse;
-import inatools.backend.dto.medication.MedicationInfoResponse;
 import inatools.backend.dto.medication.MedicationInfoRequest;
-import inatools.backend.dto.member.MemberInfoResponse;
 import inatools.backend.service.MedicationInfoService;
-import inatools.backend.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.security.Principal;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,12 +28,12 @@ public class MedicationInfoController {
     /**
      * 복용약 정보 생성 API
      */
-    @Operation(summary = "복용약 정보 추가(리스트 형태로)", description = "복용약 정보를 추가하기 위한 API입니다.")
+    @Operation(summary = "복용약 정보(단일, 복수) 추가", description = "복용약 정보를 추가하기 위한 API입니다.")
     @PostMapping
     public ResponseEntity<MedicationInfoListResponse> create(
             @RequestBody @Valid MedicationInfoRequest medicationInfoRequest, Principal principal) {
         String loginId = principal.getName();
-        MedicationInfoListResponse response = medicationInfoService.createMedicationInfo(loginId,
+        MedicationInfoListResponse response = medicationInfoService.createMedicationInfoList(loginId,
                 medicationInfoRequest.memberId(), medicationInfoRequest);
         return ResponseEntity.ok(response);
     }
