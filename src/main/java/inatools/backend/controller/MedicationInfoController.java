@@ -36,11 +36,12 @@ public class MedicationInfoController {
      */
     @Operation(summary = "복용약 정보 추가", description = "복용약 정보를 생성하기 위한 API입니다.")
     @PostMapping
-    public ResponseEntity<MedicationInfoResponse> create(
-            @RequestBody @Valid MedicationInfoRequest medicationInfoRequest) {
-        MedicationInfo makeMedicationInfo = medicationInfoService.createMedicationInfo(
+    public ResponseEntity<MedicationInfoListResponse> create(
+            @RequestBody @Valid MedicationInfoRequest medicationInfoRequest, Principal principal) {
+        String loginId = principal.getName();
+        MedicationInfoListResponse response = medicationInfoService.createMedicationInfo(loginId,
                 medicationInfoRequest.memberId(), medicationInfoRequest);
-        return ResponseEntity.ok(MedicationInfoResponse.fromMedicationInfo(makeMedicationInfo));
+        return ResponseEntity.ok(response);
     }
 
     /**

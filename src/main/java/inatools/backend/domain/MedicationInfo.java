@@ -1,5 +1,6 @@
 package inatools.backend.domain;
 
+import inatools.backend.dto.medication.MedicationDetailRequest;
 import inatools.backend.dto.medication.MedicationInfoRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Getter;
 
 @Entity
@@ -40,17 +43,17 @@ public class MedicationInfo {
         this.member = member;
     }
 
-    public static MedicationInfo createMedicationInfo(MedicationInfoRequest medicationInfoRequest, Member member) {
+    public static MedicationInfo createMedicationInfo(MedicationDetailRequest medicationDetailRequest, Member member) {
         return new MedicationInfo(
-                medicationInfoRequest.medicationName(),
-                medicationInfoRequest.dosage(),
+                medicationDetailRequest.medicationName(),
+                medicationDetailRequest.dosage(),
                 member
         );
     }
 
-    public void updateMedicationInfo(MedicationInfoRequest medicationInfoRequest) {
-        this.medicationName = medicationInfoRequest.medicationName();
-        this.dosage = medicationInfoRequest.dosage();
+    public void updateMedicationInfo(MedicationDetailRequest medicationDetailRequest) {
+        this.medicationName = medicationDetailRequest.medicationName();
+        this.dosage = medicationDetailRequest.dosage();
     }
 
 }
