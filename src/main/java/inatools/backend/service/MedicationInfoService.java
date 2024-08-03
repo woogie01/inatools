@@ -65,7 +65,7 @@ public class MedicationInfoService {
      * 회원 식별자로 복용약 정보 리스트 조회
      */
     public MedicationInfoListResponse getMedicationInfoListByMemberId(Long memberId) {
-        List<MedicationInfo> medicationInfoList = medicationInfoRepository.findAllByMemberId(memberId);
+        List<MedicationInfo> medicationInfoList = medicationInfoRepository.findAllByMemberIdAndIsActive(memberId, true);
         List<MedicationInfoResponse> medicationInfoResponseList = medicationInfoList.stream()
                 .map(MedicationInfoResponse::fromMedicationInfo)
                 .collect(Collectors.toList());
