@@ -1,5 +1,7 @@
 package inatools.backend.controller;
 
+import inatools.backend.auth.jwt.persistence.TokenPersistenceAdapter;
+import inatools.backend.auth.jwt.util.JwtTokenProvider;
 import inatools.backend.common.BaseResponse;
 import inatools.backend.domain.Member;
 import inatools.backend.dto.member.*;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final TokenPersistenceAdapter tokenPersistenceAdapter;
 
     /**
      * 회원가입 API
@@ -34,7 +38,13 @@ public class MemberController {
 
         try {
             Member member = memberService.signUp(signUpRequest);
-            SignUpResponse response = SignUpResponse.fromMember(member);
+
+            // 토큰 발급
+            String accessToken = jwtTokenProvider.generateAccessToken(member.getId());
+            String refreshToken = jwtTokenProvider.generateRefreshToken(member.getId());
+            tokenPersistenceAdapter.synchronizeRefreshToken(member.getId(), refreshToken);
+
+            SignUpResponse response = SignUpResponse.fromMember(member, accessToken, refreshToken);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
