@@ -9,6 +9,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // 회원 조회
     Optional<Member> findByUserId(String userId);
 
-    // 종복 회원 검사
-    Boolean existsByUserId(String userId);
+    // 중복 아이디 검사
+    boolean existsByUserId(String userId);
+
+    // 중복 휴대폰 번호 검사
+    boolean existsByPhone(String phone);
 }
