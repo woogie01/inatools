@@ -101,4 +101,13 @@ public class Member extends BaseTimeEntity {
         this.drinkingStatus = request.drinkingStatus();
     }
 
+    /*
+     * 로그인한 회원인지 체크
+     */
+    public static void checkMember(String loginId, Member member) {
+        if (!loginId.equals(member.getUserId())) {
+            throw new IllegalArgumentException("요청 회원과 일치하지 않습니다.");
+        }
+    }
+
 }
