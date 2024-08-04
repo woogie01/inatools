@@ -66,4 +66,8 @@ public class AuthService {
             throw BaseException.type(UserErrorCode.PASSWORD_MISMATCH);
         }
     }
+
+    public boolean isUsernameTaken(String username) {
+        return memberRepository.existsByUserId(username);
+    }
 }

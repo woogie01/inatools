@@ -50,6 +50,16 @@ public class AuthController {
     }
 
     /**
+     * 아이디 중복 확인 API
+     */
+    @Operation(summary = "아이디 중복 확인", description = "회원가입 시 아이디 중복을 확인하기 위한 API입니다.")
+    @GetMapping("/check-username")
+    public ResponseEntity<BaseResponse> checkUsername(@RequestParam String username) {
+        boolean isUsernameTaken = authService.isUsernameTaken(username);
+        return ResponseEntity.ok(new BaseResponse(isUsernameTaken));
+    }
+
+    /**
      * 로그인 API
      */
     @Operation(summary = "로그인", description = "회원이 로그인을 진행합니다.")
