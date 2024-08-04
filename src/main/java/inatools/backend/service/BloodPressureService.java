@@ -18,6 +18,7 @@ public class BloodPressureService {
     private final MemberRepository memberRepository;
     private final BloodPressureRepository bloodPressureRepository;
 
+    @Transactional
     public BloodPressure createBloodPressure(String loginId, Long memberId,
             BloodPressureRequest bloodPressureRequest) {
         Member member = memberRepository.findById(memberId)

@@ -33,8 +33,8 @@ public class BloodPressureController {
       */
      @Operation(summary = "혈압 측정 기록 추가", description = "혈압 측정 기록을 추가하기 위한 API입니다.")
      @PostMapping
-     public ResponseEntity<BloodPressureResponse> create(@RequestBody @Valid BloodPressureRequest bloodPressureRequest,
-             Principal principal) {
+     public ResponseEntity<BloodPressureResponse> create(
+             @RequestBody @Valid BloodPressureRequest bloodPressureRequest, Principal principal) {
          String loginId = principal.getName();
          BloodPressure bloodPressure = bloodPressureService.createBloodPressure(loginId,
                  bloodPressureRequest.memberId(), bloodPressureRequest);
