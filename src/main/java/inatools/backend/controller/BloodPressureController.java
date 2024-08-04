@@ -1,6 +1,7 @@
 package inatools.backend.controller;
 
 import inatools.backend.common.BaseResponse;
+import inatools.backend.domain.BloodPressure;
 import inatools.backend.dto.bloodpressure.BloodPressureRequest;
 import inatools.backend.dto.bloodpressure.BloodPressureResponse;
 import inatools.backend.service.BloodPressureService;
@@ -35,8 +36,9 @@ public class BloodPressureController {
      public ResponseEntity<BloodPressureResponse> create(@RequestBody @Valid BloodPressureRequest bloodPressureRequest,
              Principal principal) {
          String loginId = principal.getName();
-         BloodPressureResponse response = bloodPressureService.createBloodPressure(loginId,
+         BloodPressure bloodPressure = bloodPressureService.createBloodPressure(loginId,
                  bloodPressureRequest.memberId(), bloodPressureRequest);
+            BloodPressureResponse response = BloodPressureResponse.fromBloodPressure(bloodPressure);
          return ResponseEntity.ok(response);
      }
 

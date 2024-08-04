@@ -18,22 +18,13 @@ public class BloodPressureService {
     private final MemberRepository memberRepository;
     private final BloodPressureRepository bloodPressureRepository;
 
-    public BloodPressureResponse createBloodPressure(String loginId, Long aLong,
+    public BloodPressure createBloodPressure(String loginId, Long memberId,
             BloodPressureRequest bloodPressureRequest) {
-        Member member = memberRepository.findById(aLong)
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        checkMember(loginId, member);
+        Member.checkMember(loginId, member);
 
         BloodPressure bloodPressure = BloodPressure.createBloodPressure(bloodPressureRequest, member);
-        return BloodPressureResponse.of(bloodPressureRepository.save(bloodPressure));
-    }
-
-    /*
-     * 로그인한 회원인지 체크
-     */
-    private static void checkMember(String loginId, Member member) {
-        if (!loginId.equals(member.getUserId())) {
-            throw new IllegalArgumentException("요청 회원과 일치하지 않습니다.");
-        }
+        return bloodPressureRepository.save(bloodPressure);
     }
 }

@@ -29,7 +29,7 @@ public class MedicationInfoService {
             MedicationInfoRequest medicationInfoRequest) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        checkMember(loginId, member);
+        Member.checkMember(loginId, member);
 
         List<MedicationInfo> medicationInfoList = medicationInfoRequest.medications().stream()
                 .map(detailRequest -> MedicationInfo.createMedicationInfo(detailRequest, member))
@@ -78,19 +78,11 @@ public class MedicationInfoService {
     public void deleteMedicationInfo(Long id, String loginId) {
         Member member = memberRepository.findByUserId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        checkMember(loginId, member);
+        Member.checkMember(loginId, member);
         MedicationInfo medicationInfo = medicationInfoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 복용약 정보가 존재하지 않습니다."));
         medicationInfo.delete();
     }
 
-    /*
-     * 로그인한 회원인지 체크
-     */
-    private static void checkMember(String loginId, Member member) {
-        if (!loginId.equals(member.getUserId())) {
-            throw new IllegalArgumentException("요청 회원과 일치하지 않습니다.");
-        }
-    }
 }
 
