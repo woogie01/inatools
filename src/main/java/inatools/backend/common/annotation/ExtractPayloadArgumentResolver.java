@@ -31,7 +31,7 @@ public class ExtractPayloadArgumentResolver implements HandlerMethodArgumentReso
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
         // 2. HTTP 요청 헤더에서 JWT 토큰을 추출
-        String token = AuthorizationExtractor.extractToken(request)
+        String token = AuthorizationExtractor.extractAccessToken(request)
                 .orElseThrow(() -> BaseException.type(GlobalErrorCode.INVALID_PERMISSION));
 
         if (token.isBlank() || token.isEmpty())

@@ -35,8 +35,8 @@ public class ExtractTokenArgumentResolver implements HandlerMethodArgumentResolv
         // 1. NativeWebRequest에서 HttpServletRequest를 추출
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
-        // 2. HTTP 요청 헤더에서 JWT 토큰을 추출
-        String token = AuthorizationExtractor.extractToken(request)
+        // 2. HTTP 요청 헤더에서 Refresh-Token을 추출
+        String token = AuthorizationExtractor.extractRefreshToken(request)
                 .orElseThrow(() -> BaseException.type(GlobalErrorCode.INVALID_PERMISSION));
 
         // 3. 추출된 토큰의 유효성을 검증하고 반환
