@@ -76,13 +76,12 @@ public class MedicationInfoService {
 
     @Transactional
     public void deleteMedicationInfo(Long id, String loginId) {
-
         Member member = memberRepository.findByUserId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-
         checkMember(loginId, member);
-
-        medicationInfoRepository.deleteById(id);
+        MedicationInfo medicationInfo = medicationInfoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 복용약 정보가 존재하지 않습니다."));
+        medicationInfo.delete();
     }
 
     /*

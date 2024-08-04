@@ -28,6 +28,7 @@ public class MedicationInfo {
 
     private String medicationName; // 약 이름
     private Long dosage; // 복용 횟수
+    private boolean isActive; // 현재 복용 중인지 여부
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -39,6 +40,7 @@ public class MedicationInfo {
     public MedicationInfo(String medicationName, Long dosage, Member member) {
         this.medicationName = medicationName;
         this.dosage = dosage;
+        this.isActive = true;
         this.member = member;
     }
 
@@ -48,6 +50,10 @@ public class MedicationInfo {
                 medicationDetailRequest.dosage(),
                 member
         );
+    }
+
+    public void delete() {
+        this.isActive = false;
     }
 
 //    public void updateMedicationInfo(MedicationDetailRequest medicationDetailRequest) {
