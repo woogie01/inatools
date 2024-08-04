@@ -44,4 +44,13 @@ public class BloodPressureService {
 
         return new BloodPressureListResponse(bloodPressureResponseList);
     }
+
+    public void deleteBloodPressure(Long bloodPressureId, String loginId) {
+        Member member = memberRepository.findByUserId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+        Member.checkMember(loginId, member);
+        BloodPressure bloodPressure = bloodPressureRepository.findById(bloodPressureId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 혈압 측정 기록이 존재하지 않습니다."));
+        bloodPressureRepository.delete(bloodPressure);
+    }
 }

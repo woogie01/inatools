@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,16 +57,18 @@ public class BloodPressureController {
         return ResponseEntity.ok(response);
     }
 
-//
-//     /**
-//      * 혈압 측정 기록 삭제 API
-//      */
-//     @Operation(summary = "혈압 측정 기록 삭제", description = "혈압 측정 기록을 삭제하기 위한 API입니다.")
-//     @DeleteMapping("/{bloodPressureId}")
-//     public ResponseEntity<BaseResponse> deleteBloodPressure(@PathVariable Long bloodPressureId) {
-//         bloodPressureService.deleteBloodPressure(bloodPressureId);
-//         return ResponseEntity.ok(BaseResponse.success());
-//     }
+
+     /**
+      * 혈압 측정 기록 삭제 API
+      */
+     @Operation(summary = "혈압 측정 기록 삭제", description = "혈압 측정 기록을 삭제하기 위한 API입니다.")
+     @DeleteMapping("/{bloodPressureId}")
+     public ResponseEntity<Void> deleteBloodPressure(
+             @PathVariable("bloodPressureId") Long bloodPressureId, Principal principal) {
+         String loginId = principal.getName();
+         bloodPressureService.deleteBloodPressure(bloodPressureId, loginId);
+         return ResponseEntity.noContent().build();
+     }
 //
 //     /**
 //      * 혈압 측정 기록 수정 API
