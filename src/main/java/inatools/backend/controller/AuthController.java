@@ -5,6 +5,7 @@ import inatools.backend.auth.jwt.util.JwtTokenProvider;
 import inatools.backend.common.BaseResponse;
 import inatools.backend.domain.Member;
 import inatools.backend.dto.member.*;
+import inatools.backend.service.AuthService;
 import inatools.backend.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class AuthController {
 
-    private final MemberService memberService;
+    private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
     private final TokenPersistenceAdapter tokenPersistenceAdapter;
 
@@ -33,7 +34,7 @@ public class AuthController {
     public ResponseEntity<SignUpResponse> signup(@RequestBody @Valid SignUpRequest signUpRequest) {
 
         try {
-            Member member = memberService.signUp(signUpRequest);
+            Member member = authService.signUp(signUpRequest);
 
             // 토큰 발급
             String accessToken = jwtTokenProvider.generateAccessToken(member.getId());
@@ -54,6 +55,6 @@ public class AuthController {
     @Operation(summary = "로그인", description = "회원이 로그인을 진행합니다.")
     @PostMapping("/login")
     public BaseResponse<LoginResponse> login(@RequestBody @Valid LoginRequest request) {
-        return new BaseResponse<>(memberService.login(request.userId(), request.password()));
+        return new BaseResponse<>(authService.login(request.userId(), request.password()));
     }
 }
