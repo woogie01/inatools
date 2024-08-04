@@ -46,6 +46,7 @@ public class BloodPressureService {
         return new BloodPressureListResponse(bloodPressureResponseList);
     }
 
+    @Transactional
     public void deleteBloodPressure(Long bloodPressureId, String loginId) {
         Member member = memberRepository.findByUserId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));

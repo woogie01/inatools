@@ -56,6 +56,9 @@ public class AuthController {
     @GetMapping("/check-username")
     public ResponseEntity<BaseResponse> checkUsername(@RequestParam String username) {
         boolean isUsernameTaken = authService.isUsernameTaken(username);
+        if (isUsernameTaken) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(new BaseResponse(isUsernameTaken));
     }
 
