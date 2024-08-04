@@ -46,14 +46,28 @@ public class TokenApiController {
 
     /**
      *  요청의 헤더에서 인증 부분 체크
-     * - 헤더에서 Authorization 부분만 가져온다.
+     * -> 헤더에서 Access-Token 부분만 가져온다.
      *
      */
-    @Operation(summary = "요청 헤더에서 JWT 토큰 추출", description = "Access Token을 추출합니다.")
-    @GetMapping("/header")
-    public ResponseEntity<Object> authHeaderCheck(HttpServletRequest request) {
+    @Operation(summary = "요청 헤더에서 Access-Token 추출", description = "Access Token을 추출합니다.")
+    @GetMapping("/header/access")
+    public ResponseEntity<Object> headerAccessCheck(HttpServletRequest request) {
         Map<String, String> response = new HashMap<>() {{
             put("Authorization", request.getHeader("Authorization"));
+        }};
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     *  요청의 헤더에서 인증 부분 체크
+     * -> 헤더에서 Refresh-Token 부분만 가져온다.
+     *
+     */
+    @Operation(summary = "요청 헤더에서 Refresh-Token 추출", description = "Refresh Token을 추출합니다.")
+    @GetMapping("/header/refresh")
+    public ResponseEntity<Object> headerRefreshCheck(HttpServletRequest request) {
+        Map<String, String> response = new HashMap<>() {{
+            put("Refresh-Token", request.getHeader("Refresh-Token"));
         }};
         return ResponseEntity.ok(response);
     }
