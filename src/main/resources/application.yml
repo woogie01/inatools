@@ -19,8 +19,8 @@ spring:
 
   jwt:
     secret: ${JWT_SECRET}
-    access-token-expiration-time: 2592000
-    refresh-token-expiration-time: 2592000
+    access-token-expiration-time: 3600 # 1시간 (초 단위)
+    refresh-token-expiration-time: 1209600 # 14일 (초 단위)
 
 springdoc:
   default-consumes-media-type: application/json
