@@ -37,7 +37,8 @@ public class BloodPressureService {
     public BloodPressureListResponse getBloodPressureListByMemberIdAndDate(Long memberId, LocalDate date) {
         LocalDateTime startOfDay = date.atStartOfDay();
         LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
-        List<BloodPressure> bloodPressureList = bloodPressureRepository.findAllByMemberId(memberId, startOfDay, endOfDay);
+        List<BloodPressure> bloodPressureList =
+                bloodPressureRepository.findAllByMemberIdAndRecordAtBetween(memberId, startOfDay, endOfDay);
         List<BloodPressureResponse> bloodPressureResponseList = bloodPressureList.stream()
                 .map(BloodPressureResponse::fromBloodPressure)
                 .toList();
