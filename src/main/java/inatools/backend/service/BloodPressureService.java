@@ -7,6 +7,9 @@ import inatools.backend.dto.bloodpressure.BloodPressureRequest;
 import inatools.backend.dto.bloodpressure.BloodPressureResponse;
 import inatools.backend.repository.BloodPressureRepository;
 import inatools.backend.repository.MemberRepository;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,8 +34,10 @@ public class BloodPressureService {
         return bloodPressureRepository.save(bloodPressure);
     }
 
-    public BloodPressureListResponse getBloodPressureListByMemberId(Long memberId) {
-        List<BloodPressure> bloodPressureList = bloodPressureRepository.findAllByMemberId(memberId);
+    public BloodPressureListResponse getBloodPressureListByMemberIdAndDate(Long memberId, LocalDate date) {
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
+        List<BloodPressure> bloodPressureList = bloodPressureRepository.findAllByMemberId(memberId, startOfDay, endOfDay);
         List<BloodPressureResponse> bloodPressureResponseList = bloodPressureList.stream()
                 .map(BloodPressureResponse::fromBloodPressure)
                 .toList();

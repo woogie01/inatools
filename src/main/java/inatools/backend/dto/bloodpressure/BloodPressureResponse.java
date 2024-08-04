@@ -15,8 +15,8 @@ public record BloodPressureResponse(
     public static BloodPressureResponse fromBloodPressure(BloodPressure bloodPressure) {
         return new BloodPressureResponse(
                 bloodPressure.getId(),
-                bloodPressure.getMeasureDateTime(),
-                bloodPressure.getMeasurementNumber(),
+                bloodPressure.getRecordAt(),
+                bloodPressure.getRecordNumber(),
                 bloodPressure.getSystolicPressure(),
                 bloodPressure.getDiastolicPressure(),
                 bloodPressure.getMember().getId()

@@ -23,8 +23,8 @@ public class BloodPressure {
     @Column(name = "blood_pressure_id")
     private Long id;
 
-    private LocalDateTime measureDateTime; // 기록 날짜
-    private Long measurementNumber; // 측정 회차
+    private LocalDateTime recordAt; // 기록 날짜
+    private Long recordNumber; // 측정 회차
     private Long systolicPressure; // 수축기 혈압 값
     private Long diastolicPressure; // 이완기 혈압 값
 
@@ -34,9 +34,9 @@ public class BloodPressure {
     protected  BloodPressure() {
     }
 
-    public BloodPressure(LocalDateTime measureDateTime, Long measurementNumber, Long systolicPressure, Long diastolicPressure, Member member) {
-        this.measureDateTime = measureDateTime;
-        this.measurementNumber = measurementNumber;
+    public BloodPressure(LocalDateTime recordAt, Long recordNumber, Long systolicPressure, Long diastolicPressure, Member member) {
+        this.recordAt = recordAt;
+        this.recordNumber = recordNumber;
         this.systolicPressure = systolicPressure;
         this.diastolicPressure = diastolicPressure;
         this.member = member;
