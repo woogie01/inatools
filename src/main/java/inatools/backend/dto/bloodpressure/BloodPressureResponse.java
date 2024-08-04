@@ -12,7 +12,7 @@ public record BloodPressureResponse(
         Long memberId
 ) {
 
-    public static BloodPressureResponse of(BloodPressure bloodPressure) {
+    public static BloodPressureResponse fromBloodPressure(BloodPressure bloodPressure) {
         return new BloodPressureResponse(
                 bloodPressure.getId(),
                 bloodPressure.getMeasureDateTime(),
