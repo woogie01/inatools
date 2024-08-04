@@ -28,6 +28,11 @@ public class AuthService {
     @Transactional
     public Member signUp(SignUpRequest signUpRequest) {
 
+        // 아이디 중복 검사
+        if (memberRepository.existsByUserId(signUpRequest.userId())) {
+            throw new IllegalStateException("이미 존재하는 아이디입니다.");
+        }
+
         // 휴대폰 번호로 중복 회원 검사
         if (memberRepository.existsByPhone(signUpRequest.phone())) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
