@@ -2,6 +2,7 @@ package inatools.backend.controller;
 
 import inatools.backend.common.BaseResponse;
 import inatools.backend.domain.BloodPressure;
+import inatools.backend.dto.bloodpressure.BloodPressureListResponse;
 import inatools.backend.dto.bloodpressure.BloodPressureRequest;
 import inatools.backend.dto.bloodpressure.BloodPressureResponse;
 import inatools.backend.service.BloodPressureService;
@@ -42,15 +43,15 @@ public class BloodPressureController {
          return ResponseEntity.ok(response);
      }
 
-//     /**
-//      * 혈압 측정 기록 리스트 조회 API
-//      */
-//     @Operation(summary = "혈압 측정 기록 리스트 조회", description = "혈압 측정 기록 리스트를 조회하기 위한 API입니다.")
-//     @GetMapping("/members/{memberId}")
-//     public ResponseEntity<BloodPressureListResponse> getBloodPressureList(@PathVariable Long memberId) {
-//         BloodPressureListResponse response = bloodPressureService.getBloodPressureListByMemberId(memberId);
-//         return ResponseEntity.ok(response);
-//     }
+     /**
+      * 혈압 측정 기록 리스트 조회 API
+      */
+     @Operation(summary = "혈압 측정 기록 리스트 조회", description = "혈압 측정 기록들를 조회하기 위한 API입니다.")
+     @GetMapping("/members/{memberId}")
+     public ResponseEntity<BloodPressureListResponse> getBloodPressureList(@PathVariable Long memberId) {
+         BloodPressureListResponse response = bloodPressureService.getBloodPressureListByMemberId(memberId);
+         return ResponseEntity.ok(response);
+     }
 //
 //     /**
 //      * 혈압 측정 기록 삭제 API

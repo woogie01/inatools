@@ -2,10 +2,12 @@ package inatools.backend.service;
 
 import inatools.backend.domain.BloodPressure;
 import inatools.backend.domain.Member;
+import inatools.backend.dto.bloodpressure.BloodPressureListResponse;
 import inatools.backend.dto.bloodpressure.BloodPressureRequest;
 import inatools.backend.dto.bloodpressure.BloodPressureResponse;
 import inatools.backend.repository.BloodPressureRepository;
 import inatools.backend.repository.MemberRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,5 +29,14 @@ public class BloodPressureService {
 
         BloodPressure bloodPressure = BloodPressure.createBloodPressure(bloodPressureRequest, member);
         return bloodPressureRepository.save(bloodPressure);
+    }
+
+    public BloodPressureListResponse getBloodPressureListByMemberId(Long memberId) {
+        List<BloodPressure> bloodPressureList = bloodPressureRepository.findAllByMemberId(memberId);
+        List<BloodPressureResponse> bloodPressureResponseList = bloodPressureList.stream()
+                .map(BloodPressureResponse::fromBloodPressure)
+                .toList();
+
+        return new BloodPressureListResponse(bloodPressureResponseList);
     }
 }
