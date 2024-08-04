@@ -2,7 +2,6 @@ package inatools.backend.service;
 
 import inatools.backend.domain.MedicationInfo;
 import inatools.backend.domain.Member;
-import inatools.backend.dto.medication.MedicationDetailRequest;
 import inatools.backend.dto.medication.MedicationInfoListResponse;
 import inatools.backend.dto.medication.MedicationInfoRequest;
 import inatools.backend.dto.medication.MedicationInfoResponse;
@@ -26,16 +25,14 @@ public class MedicationInfoService {
      * 복용약 정보 생성
      */
     @Transactional
-    public MedicationInfoListResponse createMedicationInfo(String loginId, Long memberId,
+    public MedicationInfoListResponse createMedicationInfoList(String loginId, Long memberId,
             MedicationInfoRequest medicationInfoRequest) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
         checkMember(loginId, member);
 
-        List<MedicationInfo> existingMedications = medicationInfoRepository.findAllByMemberId(memberId);
-
         List<MedicationInfo> medicationInfoList = medicationInfoRequest.medications().stream()
-                .map(detailRequest -> createOrUpdateMedication(detailRequest, existingMedications, member))
+                .map(detailRequest -> MedicationInfo.createMedicationInfo(detailRequest, member))
                 .collect(Collectors.toList());
 
         List<MedicationInfo> savedMedications = medicationInfoRepository.saveAll(medicationInfoList);
@@ -46,23 +43,23 @@ public class MedicationInfoService {
         return new MedicationInfoListResponse(medicationInfoResponseList);
     }
 
-    /**
-     * 추가하려는 복용약 정보가 이미 존재하는지 복용약 이름으로 확인하고,
-     * 존재한다면 업데이트하고, 존재하지 않는다면 새로 생성
-     */
-    private MedicationInfo createOrUpdateMedication(MedicationDetailRequest request, List<MedicationInfo> existingMedications, Member member) {
-        MedicationInfo existingMedication = existingMedications.stream()
-                .filter(med -> med.getMedicationName().equals(request.medicationName()))
-                .findFirst()
-                .orElse(null);
-
-        if (existingMedication == null) {
-            return MedicationInfo.createMedicationInfo(request, member);
-        } else {
-            existingMedication.updateMedicationInfo(request);
-            return existingMedication;
-        }
-    }
+//    /**
+//     * 추가하려는 복용약 정보가 이미 존재하는지 복용약 이름으로 확인하고,
+//     * 존재한다면 업데이트하고, 존재하지 않는다면 새로 생성
+//     */
+//    private MedicationInfo createOrUpdateMedication(MedicationDetailRequest request, List<MedicationInfo> existingMedications, Member member) {
+//        MedicationInfo existingMedication = existingMedications.stream()
+//                .filter(med -> med.getMedicationName().equals(request.medicationName()))
+//                .findFirst()
+//                .orElse(null);
+//
+//        if (existingMedication == null) {
+//            return MedicationInfo.createMedicationInfo(request, member);
+//        } else {
+//            existingMedication.updateMedicationInfo(request);
+//            return existingMedication;
+//        }
+//    }
 
     /**
      * 회원 식별자로 복용약 정보 리스트 조회
