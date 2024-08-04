@@ -29,8 +29,8 @@ public class JwtTokenProvider {
                             @Value("${spring.jwt.access-token-expiration-time}") final long accessTokenValidityInMilliseconds,
                             @Value("${spring.jwt.refresh-token-expiration-time}") final long refreshTokenValidityInMilliseconds) {
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-        this.accessTokenValidityInMilliseconds = accessTokenValidityInMilliseconds;
-        this.refreshTokenValidityInMilliseconds = refreshTokenValidityInMilliseconds;
+        this.accessTokenValidityInMilliseconds = accessTokenValidityInMilliseconds * 1000L;
+        this.refreshTokenValidityInMilliseconds = refreshTokenValidityInMilliseconds * 1000L;
     }
 
     public String generateAccessToken(Long memId) {
