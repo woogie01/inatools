@@ -47,4 +47,8 @@ public class ConditionRecord {
         );
     }
 
+    public ConditionRecord updateConditionRecord(ConditionRecordRequest request) {
+        this.conditionType = request.conditionType();
+        return this;
+    }
 }
