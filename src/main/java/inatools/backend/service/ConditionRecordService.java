@@ -1,10 +1,12 @@
 package inatools.backend.service;
 
+import com.sun.jdi.request.DuplicateRequestException;
 import inatools.backend.domain.ConditionRecord;
 import inatools.backend.domain.Member;
 import inatools.backend.dto.condtionrecord.ConditionRecordRequest;
 import inatools.backend.repository.ConditionRecordRepository;
 import inatools.backend.repository.MemberRepository;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,12 @@ public class ConditionRecordService {
         Member member = memberRepository.findById(request.memberId())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         Member.checkMember(loginId, member);
+
+        // 이미 해당 날짜의 컨디션 기록이 존재하는지 확인
+        conditionRecordRepository.findByMemberIdAndRecordDate(request.memberId(), LocalDate.now())
+                .ifPresent(conditionRecord -> {
+                    throw new DuplicateRequestException("이미 해당 날짜의 컨디션 기록이 존재합니다.");
+                });
 
         ConditionRecord conditionRecord = ConditionRecord.createConditionRecord(request, member);
         return conditionRecordRepository.save(conditionRecord);

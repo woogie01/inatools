@@ -1,5 +1,6 @@
 package inatools.backend.service;
 
+import com.sun.jdi.request.DuplicateRequestException;
 import inatools.backend.domain.ConditionDetailsRecord;
 import inatools.backend.domain.ConditionRecord;
 import inatools.backend.domain.Member;
@@ -27,6 +28,12 @@ public class ConditionDetailsRecordService {
         Member member = memberRepository.findById(request.memberId())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         Member.checkMember(loginId, member);
+
+        // 이미 해당 날짜의 몸 상태 기록이 존재하는지 확인
+        conditionDetailsRecordRepository.findByMemberIdAndRecordDate(request.memberId(), LocalDate.now())
+                .ifPresent(conditionDetailsRecord -> {
+                    throw new DuplicateRequestException("이미 해당 날짜의 몸 상태 기록이 존재합니다.");
+                });
 
         ConditionDetailsRecord conditionDetailsRecord
                 = ConditionDetailsRecord.createConditionDetailsRecord(request, member);
