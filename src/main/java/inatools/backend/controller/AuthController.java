@@ -57,9 +57,9 @@ public class AuthController {
     public ResponseEntity<BaseResponse> checkUsername(@RequestParam String username) {
         boolean isUsernameTaken = authService.isUsernameTaken(username);
         if (isUsernameTaken) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(new BaseResponse("해당 아이디는 이미 사용중입니다."));
         }
-        return ResponseEntity.ok(new BaseResponse(isUsernameTaken));
+        return ResponseEntity.ok(new BaseResponse("사용 가능한 아이디입니다."));
     }
 
     /**

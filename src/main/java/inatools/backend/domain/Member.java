@@ -36,7 +36,11 @@ public class Member extends BaseTimeEntity {
     private LocalDate birthDate;
     private String underlyingDisease; // 기저질환
     private boolean familyHistory; // 가족력
+
+    @Enumerated(value = EnumType.STRING)
     private SmokingStatus smokingStatus; // 흡연
+
+    @Enumerated(value = EnumType.STRING)
     private DrinkingStatus drinkingStatus; // 음주
 
     private Role role;

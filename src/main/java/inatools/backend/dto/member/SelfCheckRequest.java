@@ -29,11 +29,11 @@ public record SelfCheckRequest(
         boolean familyHistory, // 가족력
 
         @NotNull(message = "흡연량을 입력해주세요.")
-        @Schema(description = "흡연량", example = "안피워요")
+        @Schema(description = "흡연량", example = "NON_SMOKER")
         SmokingStatus smokingStatus, // 흡연
 
         @NotNull(message = "음주 주기를 입력해주세요.")
-        @Schema(description = "음주 주기", example = "거의 안 만셔요")
+        @Schema(description = "음주 주기", example = "NON_DRINKER")
         DrinkingStatus drinkingStatus // 음주
 ) {
 

@@ -38,8 +38,8 @@ public class BloodPressureController {
     public ResponseEntity<BloodPressureResponse> create(
             @RequestBody @Valid BloodPressureRequest bloodPressureRequest, Principal principal) {
         String loginId = principal.getName();
-        BloodPressure bloodPressure = bloodPressureService.createBloodPressure(loginId,
-                bloodPressureRequest.memberId(), bloodPressureRequest);
+        BloodPressure bloodPressure
+                = bloodPressureService.createBloodPressure(loginId, bloodPressureRequest);
         BloodPressureResponse response = BloodPressureResponse.fromBloodPressure(bloodPressure);
         return ResponseEntity.ok(response);
     }
@@ -51,9 +51,11 @@ public class BloodPressureController {
     @GetMapping("/members/{memberId}")
     public ResponseEntity<BloodPressureListResponse> getBloodPressureList(
             @PathVariable Long memberId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            Principal principal) {
+        String loginId = principal.getName();
         BloodPressureListResponse response =
-                bloodPressureService.getBloodPressureListByMemberIdAndDate(memberId, date);
+                bloodPressureService.getBloodPressureListByMemberIdAndDate(loginId, memberId, date);
         return ResponseEntity.ok(response);
     }
 

@@ -24,9 +24,8 @@ public class BloodPressureService {
     private final BloodPressureRepository bloodPressureRepository;
 
     @Transactional
-    public BloodPressure createBloodPressure(String loginId, Long memberId,
-            BloodPressureRequest bloodPressureRequest) {
-        Member member = memberRepository.findById(memberId)
+    public BloodPressure createBloodPressure(String loginId, BloodPressureRequest bloodPressureRequest) {
+        Member member = memberRepository.findById(bloodPressureRequest.memberId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
         Member.checkMember(loginId, member);
 
@@ -34,7 +33,11 @@ public class BloodPressureService {
         return bloodPressureRepository.save(bloodPressure);
     }
 
-    public BloodPressureListResponse getBloodPressureListByMemberIdAndDate(Long memberId, LocalDate date) {
+    public BloodPressureListResponse getBloodPressureListByMemberIdAndDate(String loginId, Long memberId, LocalDate date) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+        Member.checkMember(loginId, member);
+
         LocalDateTime startOfDay = date.atStartOfDay();
         LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
         List<BloodPressure> bloodPressureList =
@@ -50,9 +53,12 @@ public class BloodPressureService {
     public void deleteBloodPressure(Long bloodPressureId, String loginId) {
         Member member = memberRepository.findByUserId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        Member.checkMember(loginId, member);
+
         BloodPressure bloodPressure = bloodPressureRepository.findById(bloodPressureId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 혈압 측정 기록이 존재하지 않습니다."));
+
+        Member.checkMember(bloodPressure.getMember().getUserId(), member);
+
         bloodPressureRepository.delete(bloodPressure);
     }
 }
