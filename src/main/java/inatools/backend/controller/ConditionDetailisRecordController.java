@@ -50,7 +50,8 @@ public class ConditionDetailisRecordController {
     @PostMapping("/{id}")
     public ResponseEntity<ConditionDetailsRecordResponse> update(
             @PathVariable("id") Long conditionDetailsRecordId,
-            @RequestBody @Valid ConditionDetailsRecordRequest conditionDetailsRecordRequest, Principal principal) {
+            @RequestBody @Valid ConditionDetailsRecordRequest conditionDetailsRecordRequest,
+            Principal principal) {
         String loginId = principal.getName();
         ConditionDetailsRecord conditionDetailsRecord =
                 conditionDetailsRecordService.updateConditionDetailsRecord(conditionDetailsRecordId, loginId,
