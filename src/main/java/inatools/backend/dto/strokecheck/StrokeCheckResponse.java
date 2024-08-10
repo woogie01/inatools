@@ -20,10 +20,7 @@ public record StrokeCheckResponse(
         Double testResultAvg,
 
         @Schema(description = "테스트 종류", example = "얼굴 비대칭 테스트")
-        StrokeCheckTestType testType,
-
-        @Schema(description = "회원 식별자", example = "1")
-        Long memberId
+        StrokeCheckTestType testType
 ) {
 
 
@@ -33,8 +30,7 @@ public record StrokeCheckResponse(
                         strokeCheck.getRecordDate(),
                         strokeCheck.getTestCount(),
                         strokeCheck.getTestResultAvg(),
-                        strokeCheck.getTestType(),
-                        strokeCheck.getMember().getId()
+                        strokeCheck.getTestType()
                 );
         }
 }

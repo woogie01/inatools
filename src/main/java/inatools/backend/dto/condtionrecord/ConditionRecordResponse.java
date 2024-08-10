@@ -14,18 +14,14 @@ public record ConditionRecordResponse(
         LocalDate recordDate,
 
         @Schema(description = "컨디션 상태", example = "좋음")
-        ConditionType conditionType,
-
-        @Schema(description = "회원 식별자", example = "1")
-        Long memberId
+        ConditionType conditionType
 ) {
 
     public static ConditionRecordResponse fromConditionRecord(ConditionRecord conditionRecord) {
         return new ConditionRecordResponse(
                 conditionRecord.getId(),
                 conditionRecord.getRecordDate(),
-                conditionRecord.getConditionType(),
-                conditionRecord.getMember().getId()
+                conditionRecord.getConditionType()
         );
     }
 }

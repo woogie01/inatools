@@ -1,12 +1,17 @@
 package inatools.backend.controller;
 
 import inatools.backend.domain.ConditionDetailsRecord;
+import inatools.backend.dto.condtiondetails.ConditionDetailsRecordRequest;
 import inatools.backend.dto.condtiondetails.ConditionDetailsRecordResponse;
+import inatools.backend.service.ConditionDetailsRecordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ConditionDetailisRecordController {
 
+    private final ConditionDetailsRecordService conditionDetailsRecordService;
+
     /**
      * 몸 상태 기록 API
      */
@@ -24,8 +31,10 @@ public class ConditionDetailisRecordController {
     public ResponseEntity<ConditionDetailsRecordResponse> create(
             @RequestBody @Valid ConditionDetailsRecordRequest conditionDetailsRecordRequest, Principal principal) {
         String loginId = principal.getName();
-        ConditionDetailsRecord conditionDetailsRecord = conditionDetailsRecordService.createConditionDetailsRecord(loginId, conditionDetailsRecordRequest);
-        ConditionDetailsRecordResponse response = ConditionDetailsRecordResponse.fromConditionDetailsRecord(conditionDetailsRecord);
+        ConditionDetailsRecord conditionDetailsRecord =
+                conditionDetailsRecordService.createConditionDetailsRecord(loginId, conditionDetailsRecordRequest);
+        ConditionDetailsRecordResponse response =
+                ConditionDetailsRecordResponse.fromConditionDetailsRecord(conditionDetailsRecord);
         return ResponseEntity.ok(response);
     }
 

@@ -1,5 +1,6 @@
 package inatools.backend.domain;
 
+import inatools.backend.dto.condtiondetails.ConditionDetailsRecordRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,10 +35,10 @@ public class ConditionDetailsRecord {
         this.member = member;
     }
 
-    public static ConditionDetailsRecord createConditionDetailsRecord(String conditionDetails, Member member) {
+    public static ConditionDetailsRecord createConditionDetailsRecord(ConditionDetailsRecordRequest request, Member member) {
         return new ConditionDetailsRecord(
                 LocalDate.now(),
-                conditionDetails,
+                request.conditionDetails(),
                 member
         );
     }

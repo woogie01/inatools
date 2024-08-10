@@ -1,6 +1,6 @@
 package inatools.backend.dto.condtiondetails;
 
-import inatools.backend.domain.Member;
+import inatools.backend.domain.ConditionDetailsRecord;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDate;
 
@@ -13,10 +13,14 @@ public record ConditionDetailsRecordResponse(
         LocalDate recordDate,
 
         @Schema(description = "몸 상태", example = "좋음")
-        String conditionDetails,
+        String conditionDetails
 
-        @Schema(description = "회원 식별자", example = "1")
-        Long memberId
 ) {
-
+        public static ConditionDetailsRecordResponse fromConditionDetailsRecord(ConditionDetailsRecord conditionDetailsRecord) {
+                return new ConditionDetailsRecordResponse(
+                        conditionDetailsRecord.getId(),
+                        conditionDetailsRecord.getRecordDate(),
+                        conditionDetailsRecord.getConditionDetails()
+                );
+        }
 }
