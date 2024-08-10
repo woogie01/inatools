@@ -44,7 +44,7 @@ public class BloodPressure {
 
     public static BloodPressure createBloodPressure(BloodPressureRequest bloodPressureRequest, Member member) {
         return new BloodPressure(
-                LocalDateTime.now(),
+                bloodPressureRequest.recordAt(),
                 bloodPressureRequest.recordNumber(),
                 bloodPressureRequest.systolicPressure(),
                 bloodPressureRequest.diastolicPressure(),

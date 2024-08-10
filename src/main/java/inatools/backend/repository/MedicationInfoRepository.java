@@ -9,5 +9,5 @@ public interface MedicationInfoRepository extends JpaRepository<MedicationInfo, 
     /**
      * active 상태인 복용약 정보 조회
      */
-    List<MedicationInfo> findAllByMemberIdAndIsActive(Long memberId, boolean isActive);
+    List<MedicationInfo> findAllByMemberIdAndActive(Long memberId, boolean active);
 }

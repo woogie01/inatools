@@ -2,6 +2,7 @@ package inatools.backend.dto.dailyrecord;
 
 import inatools.backend.dto.bloodpressure.BloodPressureListResponse;
 import inatools.backend.dto.condtiondetails.ConditionDetailsListResponse;
+import inatools.backend.dto.condtionrecord.ConditionRecordListResponse;
 import inatools.backend.dto.condtionrecord.ConditionRecordResponse;
 import inatools.backend.dto.medication.MedicationInfoListResponse;
 import inatools.backend.dto.medication.MedicationRecordListResponse;
@@ -16,7 +17,7 @@ public record DailyRecordResponse(
         MedicationRecordListResponse medicationRecords,
 
         @Schema(description = "컨디션 상태 기록")
-        ConditionRecordResponse conditionRecord,
+        ConditionRecordListResponse conditionRecords,
 
         @Schema(description = "몸 상세 기록 목록")
         ConditionDetailsListResponse conditionDetailsRecords

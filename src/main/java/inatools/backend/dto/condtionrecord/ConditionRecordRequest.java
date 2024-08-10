@@ -13,6 +13,10 @@ public record ConditionRecordRequest(
         ConditionType conditionType,
 
         @NotNull
+        @Schema(description = "기록 날짜", example = "2024-08-11")
+        LocalDate recordAt,
+
+        @NotNull
         @Schema(description = "회원 식별자", example = "1")
         Long memberId
 

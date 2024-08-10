@@ -25,23 +25,23 @@ public class MedicationRecord {
 
     private boolean isTaken;
 
-    private LocalDate recordDate; // 기록 날짜
+    private LocalDate recordAt; // 기록 날짜
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private MedicationInfo medicationInfo;
 
     protected MedicationRecord() {}
 
-    public MedicationRecord(LocalDate recordDate, MedicationInfo medicationInfo) {
+    public MedicationRecord(LocalDate recordAt, MedicationInfo medicationInfo) {
         this.isTaken = false;
-        this.recordDate = recordDate;
+        this.recordAt = recordAt;
         this.medicationInfo = medicationInfo;
     }
 
     public static MedicationRecord createMedicationRecord(MedicationRecordRequest request,
             MedicationInfo medicationInfo) {
         return new MedicationRecord(
-                request.recordDate(),
+                request.recordAt(),
                 medicationInfo
         );
     }

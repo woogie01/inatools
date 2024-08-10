@@ -9,7 +9,7 @@ public record StrokeCheckRequest(
 
         @NotNull
         @Schema(description = "검사 날짜", example = "2024-08-15")
-        LocalDate recordDate,
+        LocalDate recordAt,
 
         @NotNull
         @Schema(description = "표정 검사 ", example = "60")

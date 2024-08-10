@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MedicationRecordRepository extends JpaRepository<MedicationRecord, Long> {
 
-    List<MedicationRecord> findAllByMedicationInfoIdInAndRecordDate(List<Long> medicationInfoIds, LocalDate recordDate);
+    List<MedicationRecord> findAllByMedicationInfoIdInAndRecordAtBetween(List<Long> medicationInfoIds, LocalDate startDate, LocalDate endDate);
 }

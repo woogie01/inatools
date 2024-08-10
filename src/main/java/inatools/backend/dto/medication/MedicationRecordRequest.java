@@ -11,7 +11,7 @@ public record MedicationRecordRequest(
 
         @NotNull
         @Schema(description = "기록 날짜", example = "2024-08-10")
-        LocalDate recordDate,
+        LocalDate recordAt,
 
         @NotNull
         @Schema(description = "복용약 정보 식별자", example = "1")

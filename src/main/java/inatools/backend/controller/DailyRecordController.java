@@ -32,16 +32,17 @@ public class DailyRecordController {
     @GetMapping
     public ResponseEntity<DailyRecordResponse> getDailyRecords(
             @RequestParam Long memberId,
-            @RequestParam LocalDate date,
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate,
             Principal principal) {
 
         String loginId = principal.getName();
 
         // 각각의 서비스에서 데이터 조회
-        var bloodPressureRecords = bloodPressureService.getBloodPressureListByMemberIdAndDate(loginId, memberId, date);
-        var medicationRecords = medicationRecordService.getMedicationRecordsList(loginId, memberId, date);
-        var conditionRecord = conditionRecordService.getConditionRecord(loginId, memberId, date);
-        var conditionDetailsRecords = conditionDetailsRecordService.getConditionDetailsRecordList(loginId, memberId, date);
+        var bloodPressureRecords = bloodPressureService.getBloodPressureListByMemberIdAndDate(loginId, memberId, startDate, endDate);
+        var medicationRecords = medicationRecordService.getMedicationRecordsList(loginId, memberId, startDate, endDate);
+        var conditionRecord = conditionRecordService.getConditionRecord(loginId, memberId, startDate, endDate);
+        var conditionDetailsRecords = conditionDetailsRecordService.getConditionDetailsRecordList(loginId, memberId, startDate, endDate);
 
         // DailyRecordResponse DTO에 모든 데이터를 담아 반환
         DailyRecordResponse response = new DailyRecordResponse(bloodPressureRecords, medicationRecords, conditionRecord, conditionDetailsRecords);

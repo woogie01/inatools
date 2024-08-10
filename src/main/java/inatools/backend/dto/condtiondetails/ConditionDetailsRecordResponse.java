@@ -14,7 +14,7 @@ public record ConditionDetailsRecordResponse(
         CommonConditionDetails commonConditionDetails,
 
         @Schema(description = "기록 날짜", example = "2024-08-15")
-        LocalDate recordDate,
+        LocalDate recordAt,
 
         @Schema(description = "몸 상태", example = "그냥저냥")
         String conditionDetails
@@ -24,7 +24,7 @@ public record ConditionDetailsRecordResponse(
                 return new ConditionDetailsRecordResponse(
                         conditionDetailsRecord.getId(),
                         conditionDetailsRecord.getCommonConditionDetails(),
-                        conditionDetailsRecord.getRecordDate(),
+                        conditionDetailsRecord.getRecordAt(),
                         conditionDetailsRecord.getConditionDetails()
                 );
         }

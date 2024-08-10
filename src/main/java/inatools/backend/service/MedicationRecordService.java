@@ -45,13 +45,13 @@ public class MedicationRecordService {
      * 특정 날짜 복용약 정보와 복약 기록 조회
      */
     public MedicationRecordListResponse getMedicationRecordsList(String loginId,
-            Long memberId, LocalDate recordDate) {
+            Long memberId, LocalDate startDate, LocalDate endDate) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
         Member.checkMember(loginId, member);
 
         // 활성화된 복약 정보 목록 가져오기
-        List<MedicationInfo> medicationInfos = medicationInfoRepository.findAllByMemberIdAndIsActive(memberId, true);
+        List<MedicationInfo> medicationInfos = medicationInfoRepository.findAllByMemberIdAndActive(memberId, true);
 
         // 활성화된 복약 정보의 ID 리스트를 추출
         List<Long> medicationInfoIds = medicationInfos.stream()
@@ -59,8 +59,8 @@ public class MedicationRecordService {
                 .toList();
 
         // 특정 날짜의 복약 기록 가져오기
-        List<MedicationRecord> medicationRecords = medicationRecordRepository.findAllByMedicationInfoIdInAndRecordDate(
-                medicationInfoIds, recordDate);
+        List<MedicationRecord> medicationRecords = medicationRecordRepository.findAllByMedicationInfoIdInAndRecordAtBetween(
+                medicationInfoIds, startDate, endDate);
 
         // MedicationRecordResponse로 변환
         List<MedicationRecordResponse> medicationRecordResponses = medicationRecords.stream()

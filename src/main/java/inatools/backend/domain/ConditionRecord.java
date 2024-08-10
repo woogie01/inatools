@@ -24,7 +24,7 @@ public class ConditionRecord {
     @Column(name = "condition_record_id")
     private Long id;
 
-    private LocalDate recordDate;
+    private LocalDate recordAt;
 
     @Enumerated(value = EnumType.STRING)
     private ConditionType conditionType;
@@ -34,15 +34,15 @@ public class ConditionRecord {
 
     protected ConditionRecord() {}
 
-    public ConditionRecord(LocalDate recordDate, ConditionType conditionType, Member member) {
-        this.recordDate = recordDate;
+    public ConditionRecord(LocalDate recordAt, ConditionType conditionType, Member member) {
+        this.recordAt = recordAt;
         this.conditionType = conditionType;
         this.member = member;
     }
 
     public static ConditionRecord createConditionRecord(ConditionRecordRequest request, Member member) {
         return new ConditionRecord(
-                LocalDate.now(),
+                request.recordAt(),
                 request.conditionType(),
                 member
         );

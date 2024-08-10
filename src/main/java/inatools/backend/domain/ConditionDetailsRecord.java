@@ -1,7 +1,6 @@
 package inatools.backend.domain;
 
 import inatools.backend.dto.condtiondetails.ConditionDetailsRecordRequest;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -24,7 +23,7 @@ public class ConditionDetailsRecord {
     @Column(name = "condition_details_record_id")
     private Long id;
     
-    private LocalDate recordDate;
+    private LocalDate recordAt;
 
     @Enumerated(value = EnumType.STRING)
     private CommonConditionDetails commonConditionDetails;
@@ -36,8 +35,8 @@ public class ConditionDetailsRecord {
     
     protected ConditionDetailsRecord() {}
     
-    public ConditionDetailsRecord(LocalDate recordDate, CommonConditionDetails commonConditionDetails, String conditionDetails, Member member) {
-        this.recordDate = recordDate;
+    public ConditionDetailsRecord(LocalDate recordAt, CommonConditionDetails commonConditionDetails, String conditionDetails, Member member) {
+        this.recordAt = recordAt;
         this.commonConditionDetails = commonConditionDetails;
         this.conditionDetails = conditionDetails;
         this.member = member;
@@ -45,7 +44,7 @@ public class ConditionDetailsRecord {
 
     public static ConditionDetailsRecord createConditionDetailsRecord(ConditionDetailsRecordRequest request, Member member) {
         return new ConditionDetailsRecord(
-                LocalDate.now(),
+                request.recordAt(),
                 request.commonConditionDetails(),
                 request.conditionDetails(),
                 member

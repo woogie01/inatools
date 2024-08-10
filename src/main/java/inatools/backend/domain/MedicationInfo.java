@@ -1,8 +1,6 @@
 package inatools.backend.domain;
 
 import inatools.backend.dto.medication.MedicationDetailRequest;
-import inatools.backend.dto.medication.MedicationInfoRequest;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,8 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Getter;
 
 @Entity
@@ -28,7 +24,7 @@ public class MedicationInfo {
 
     private String medicationName; // 약 이름
     private Long dosage; // 복용 횟수
-    private boolean isActive; // 현재 복용 중인지 여부
+    private boolean active; // 현재 복용 중인지 여부
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -40,7 +36,7 @@ public class MedicationInfo {
     public MedicationInfo(String medicationName, Long dosage, Member member) {
         this.medicationName = medicationName;
         this.dosage = dosage;
-        this.isActive = true;
+        this.active = true;
         this.member = member;
     }
 
@@ -53,7 +49,7 @@ public class MedicationInfo {
     }
 
     public void delete() {
-        this.isActive = false;
+        this.active = false;
     }
 
 //    public void updateMedicationInfo(MedicationDetailRequest medicationDetailRequest) {
