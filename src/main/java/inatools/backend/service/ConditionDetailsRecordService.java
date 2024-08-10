@@ -6,6 +6,7 @@ import inatools.backend.domain.Member;
 import inatools.backend.dto.condtiondetails.ConditionDetailsRecordRequest;
 import inatools.backend.repository.ConditionDetailsRecordRepository;
 import inatools.backend.repository.MemberRepository;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,10 +39,16 @@ public class ConditionDetailsRecordService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         Member.checkMember(loginId, member);
 
-        ConditionDetailsRecord conditionDetailsRecord =
-                conditionDetailsRecordRepository.findById(conditionDetailsRecordId)
-                        .orElseThrow(() -> new IllegalArgumentException("해당 몸 상태 기록이 존재하지 않습니다."));
+        return conditionDetailsRecordRepository.findById(conditionDetailsRecordId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 몸 상태 기록이 존재하지 않습니다."));
+    }
 
-        return conditionDetailsRecord.updateConditionDetailsRecord(request);
+    public ConditionDetailsRecord getConditionDetailsRecord(String loginId, Long memberId, LocalDate recordDate) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+        Member.checkMember(loginId, member);
+
+        return conditionDetailsRecordRepository.findByMemberIdAndRecordDate(memberId, recordDate)
+                .orElseThrow(() -> new IllegalArgumentException("해당 몸 상태 기록이 존재하지 않습니다."));
     }
 }

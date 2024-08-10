@@ -8,12 +8,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.security.Principal;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "몸 상태 기록 관련 로직", description = "몸 상태 기록 API")
@@ -57,5 +60,21 @@ public class ConditionDetailisRecordController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * 몸 상태 기록 조회 API
+     */
+    @Operation(summary = "몸 상태 기록 조회", description = "몸 상태 기록을 조회하기 위한 API입니다.")
+    @GetMapping("/members/{id}")
+    public ResponseEntity<ConditionDetailsRecordResponse> get(
+            @PathVariable("id") Long memberId,
+            @RequestParam LocalDate recordDate,
+            Principal principal) {
+        String loginId = principal.getName();
+        ConditionDetailsRecord conditionDetailsRecord =
+                conditionDetailsRecordService.getConditionDetailsRecord(loginId, memberId, recordDate);
+        ConditionDetailsRecordResponse response =
+                ConditionDetailsRecordResponse.fromConditionDetailsRecord(conditionDetailsRecord);
+        return ResponseEntity.ok(response);
+    }
 
 }
