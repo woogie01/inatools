@@ -1,8 +1,10 @@
 package inatools.backend.domain;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public enum ConditionType {
     BEST("최고"),
     GOOD("좋음"),
@@ -12,7 +14,4 @@ public enum ConditionType {
 
     private final String description;
 
-    ConditionType(String description) {
-        this.description = description;
-    }
 }

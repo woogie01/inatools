@@ -13,7 +13,7 @@ public record ConditionRecordResponse(
         @Schema(description = "기록 날짜", example = "2024-08-15")
         LocalDate recordDate,
 
-        @Schema(description = "컨디션 상태", example = "좋음")
+        @Schema(description = "컨디션 상태", example = "GOOD")
         ConditionType conditionType
 ) {
 

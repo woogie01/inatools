@@ -12,7 +12,7 @@ public record ConditionDetailsRecordResponse(
         @Schema(description = "기록 날짜", example = "2024-08-15")
         LocalDate recordDate,
 
-        @Schema(description = "몸 상태", example = "좋음")
+        @Schema(description = "몸 상태", example = "그냥저냥")
         String conditionDetails
 
 ) {
