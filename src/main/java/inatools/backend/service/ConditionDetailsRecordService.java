@@ -1,6 +1,7 @@
 package inatools.backend.service;
 
 import inatools.backend.domain.ConditionDetailsRecord;
+import inatools.backend.domain.ConditionRecord;
 import inatools.backend.domain.Member;
 import inatools.backend.dto.condtiondetails.ConditionDetailsRecordRequest;
 import inatools.backend.repository.ConditionDetailsRecordRepository;
@@ -31,4 +32,16 @@ public class ConditionDetailsRecordService {
         return conditionDetailsRecordRepository.save(conditionDetailsRecord);
     }
 
+    public ConditionDetailsRecord updateConditionDetailsRecord(Long conditionDetailsRecordId, String loginId,
+            ConditionDetailsRecordRequest request) {
+        Member member = memberRepository.findById(request.memberId())
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        Member.checkMember(loginId, member);
+
+        ConditionDetailsRecord conditionDetailsRecord =
+                conditionDetailsRecordRepository.findById(conditionDetailsRecordId)
+                        .orElseThrow(() -> new IllegalArgumentException("해당 몸 상태 기록이 존재하지 않습니다."));
+
+        return conditionDetailsRecord.updateConditionDetailsRecord(request);
+    }
 }

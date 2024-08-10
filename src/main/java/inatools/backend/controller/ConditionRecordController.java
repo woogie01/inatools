@@ -43,8 +43,10 @@ public class ConditionRecordController {
      */
     @Operation(summary = "컨디션 상태 기록 수정", description = "컨디션 상태를 수정하기 위한 API입니다.")
     @PutMapping("/{id}")
-    public ResponseEntity<ConditionRecordResponse> update(@PathVariable("id") Long conditionRecordId,
-            @RequestBody @Valid ConditionRecordRequest conditionRecordRequest, Principal principal) {
+    public ResponseEntity<ConditionRecordResponse> update(
+            @PathVariable("id") Long conditionRecordId,
+            @RequestBody @Valid ConditionRecordRequest conditionRecordRequest,
+            Principal principal) {
         String loginId = principal.getName();
         ConditionRecord conditionRecord =
                 conditionRecordService.updateConditionRecord(conditionRecordId, loginId, conditionRecordRequest);
