@@ -7,6 +7,9 @@ import java.time.LocalDate;
 
 public record StrokeCheckResponse(
 
+        @Schema(description = "뇌졸중 검사 식별자", example = "1")
+        Long strokeCheckId,
+
         @Schema(description = "검사 날짜", example = "2024-08-15")
         LocalDate recordDate,
 
@@ -26,6 +29,7 @@ public record StrokeCheckResponse(
 
         public static StrokeCheckResponse fromStrokeCheck(StrokeCheck strokeCheck) {
                 return new StrokeCheckResponse(
+                        strokeCheck.getId(),
                         strokeCheck.getRecordDate(),
                         strokeCheck.getTestCount(),
                         strokeCheck.getTestResultAvg(),

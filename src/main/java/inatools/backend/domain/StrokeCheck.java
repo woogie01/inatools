@@ -35,7 +35,7 @@ public class StrokeCheck {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Member member;
 
-    public StrokeCheck() {}
+    protected StrokeCheck() {}
 
     public StrokeCheck(LocalDate recordDate, Long testCount, Double testResultAvg, StrokeCheckTestType testType,
             Member member) {

@@ -17,7 +17,10 @@ public record MedicationInfoResponse(
         Long dosage, // 복용량
 
         @Schema(description = "현재 복용 여부", example = "true")
-        boolean isActive // 활성화 여부
+        boolean isActive, // 활성화 여부
+
+        @Schema(description = "회원 식별자", example = "1")
+        Long memberId
 ) {
 
     public static MedicationInfoResponse fromMedicationInfo(MedicationInfo medicationInfo) {
@@ -25,7 +28,8 @@ public record MedicationInfoResponse(
                 medicationInfo.getId(),
                 medicationInfo.getMedicationName(),
                 medicationInfo.getDosage(),
-                medicationInfo.isActive()
+                medicationInfo.isActive(),
+                medicationInfo.getMember().getId()
         );
     }
 
