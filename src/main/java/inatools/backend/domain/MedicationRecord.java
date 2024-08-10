@@ -1,5 +1,6 @@
 package inatools.backend.domain;
 
+import inatools.backend.dto.medication.MedicationRecordRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import lombok.Getter;
 
 @Entity
@@ -23,8 +24,30 @@ public class MedicationRecord {
     private Long id;
 
     private boolean isTaken;
-    private LocalDateTime recordDate; // 기록 날짜
+
+    private LocalDate recordDate; // 기록 날짜
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private MedicationInfo medicationInfo;
+
+    protected MedicationRecord() {}
+
+    public MedicationRecord(LocalDate recordDate, MedicationInfo medicationInfo) {
+        this.isTaken = false;
+        this.recordDate = recordDate;
+        this.medicationInfo = medicationInfo;
+    }
+
+    public static MedicationRecord createMedicationRecord(MedicationRecordRequest request,
+            MedicationInfo medicationInfo) {
+        return new MedicationRecord(
+                request.recordDate(),
+                medicationInfo
+        );
+    }
+
+    public MedicationRecord updateMedicationRecord(boolean isTaken) {
+        this.isTaken = isTaken;
+        return this;
+    }
 }
