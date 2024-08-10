@@ -29,12 +29,6 @@ public class ConditionDetailsRecordService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         Member.checkMember(loginId, member);
 
-        // 이미 해당 날짜의 몸 상태 기록이 존재하는지 확인
-        conditionDetailsRecordRepository.findByMemberIdAndRecordDate(request.memberId(), LocalDate.now())
-                .ifPresent(conditionDetailsRecord -> {
-                    throw new DuplicateRequestException("이미 해당 날짜의 몸 상태 기록이 존재합니다.");
-                });
-
         ConditionDetailsRecord conditionDetailsRecord
                 = ConditionDetailsRecord.createConditionDetailsRecord(request, member);
         return conditionDetailsRecordRepository.save(conditionDetailsRecord);
