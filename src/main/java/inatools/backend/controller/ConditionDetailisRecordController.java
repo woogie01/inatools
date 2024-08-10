@@ -11,6 +11,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "몸 상태 기록 관련 로직", description = "몸 상태 기록 API")
 @RestController
-@RequestMapping("/api/condition-detailis-record")
+@RequestMapping("/api/condition-details-record")
 @RequiredArgsConstructor
 public class ConditionDetailisRecordController {
 
@@ -76,6 +77,19 @@ public class ConditionDetailisRecordController {
         ConditionDetailsRecordResponse response =
                 ConditionDetailsRecordResponse.fromConditionDetailsRecord(conditionDetailsRecord);
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 몸 상태 기록 삭제 API
+     */
+    @Operation(summary = "몸 상태 기록 삭제", description = "몸 상태 기록을 삭제하기 위한 API입니다.")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(
+            @PathVariable("id") Long conditionDetailsRecordId,
+            Principal principal) {
+        String loginId = principal.getName();
+        conditionDetailsRecordService.deleteConditionDetailsRecord(conditionDetailsRecordId, loginId);
+        return ResponseEntity.noContent().build();
     }
 
 }

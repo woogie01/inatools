@@ -13,14 +13,18 @@ public record MedicationRecordResponse(
         boolean isTaken,
 
         @Schema(description = "기록 날짜", example = "2024-08-10")
-        LocalDate recordDate
+        LocalDate recordDate,
+
+        @Schema(description = "복용약 정보")
+        MedicationInfoResponse medicationInfo
 ) {
 
     public static MedicationRecordResponse fromMedicationRecord(MedicationRecord medicationRecord) {
         return new MedicationRecordResponse(
                 medicationRecord.getId(),
                 medicationRecord.isTaken(),
-                medicationRecord.getRecordDate()
+                medicationRecord.getRecordDate(),
+                MedicationInfoResponse.fromMedicationInfo(medicationRecord.getMedicationInfo())
         );
     }
 }

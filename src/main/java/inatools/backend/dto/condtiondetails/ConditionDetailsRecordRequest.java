@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 public record ConditionDetailsRecordRequest(
 
         @NotNull
-        @Schema(description = "몸 상태", example = "GOOD")
+        @Schema(description = "몸 상태", example = "WEAKNESS")
         CommonConditionDetails commonConditionDetails,
 
         @NotNull

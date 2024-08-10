@@ -31,7 +31,7 @@ public class ConditionDetailsRecord {
 
     private String conditionDetails;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
     
     protected ConditionDetailsRecord() {}
@@ -57,4 +57,5 @@ public class ConditionDetailsRecord {
         this.commonConditionDetails = request.commonConditionDetails();
         return this;
     }
+
 }

@@ -11,16 +11,7 @@ public record MedicationInfoRequest(
         Long memberId, // 회원 ID
 
         @NotNull
-        @Schema(description = "복용 약 정보 목록",
-        example = "{\n"
-                + "  \"memberId\": 1,\n"
-                + "  \"medications\": [\n"
-                + "    {\n"
-                + "      \"medicationName\": \"심장약\",\n"
-                + "      \"dosage\": 2\n"
-                + "    }\n"
-                + "  ]\n"
-                + "}")
+        @Schema(example = "{\"memberId\": 1, \"medications\": [{\"medicationName\": \"심장약\", \"dosage\": 2}]}")
         List<MedicationDetailRequest> medications // 복용약 정보 리스트
 ) {
 
