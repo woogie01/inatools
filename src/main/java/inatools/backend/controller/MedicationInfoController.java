@@ -33,8 +33,8 @@ public class MedicationInfoController {
     public ResponseEntity<MedicationInfoListResponse> create(
             @RequestBody @Valid MedicationInfoRequest medicationInfoRequest, Principal principal) {
         String loginId = principal.getName();
-        MedicationInfoListResponse response = medicationInfoService.createMedicationInfoList(loginId,
-                medicationInfoRequest.memberId(), medicationInfoRequest);
+        MedicationInfoListResponse response =
+                medicationInfoService.createMedicationInfoList(loginId, medicationInfoRequest);
         return ResponseEntity.ok(response);
     }
 

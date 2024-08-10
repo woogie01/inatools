@@ -25,9 +25,9 @@ public class MedicationInfoService {
      * 복용약 정보 생성
      */
     @Transactional
-    public MedicationInfoListResponse createMedicationInfoList(String loginId, Long memberId,
+    public MedicationInfoListResponse createMedicationInfoList(String loginId,
             MedicationInfoRequest medicationInfoRequest) {
-        Member member = memberRepository.findById(memberId)
+        Member member = memberRepository.findById(medicationInfoRequest.memberId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
         Member.checkMember(loginId, member);
 
@@ -78,9 +78,12 @@ public class MedicationInfoService {
     public void deleteMedicationInfo(Long id, String loginId) {
         Member member = memberRepository.findByUserId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        Member.checkMember(loginId, member);
+
         MedicationInfo medicationInfo = medicationInfoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 복용약 정보가 존재하지 않습니다."));
+
+        Member.checkMember(medicationInfo.getMember().getUserId(), member);
+
         medicationInfo.delete();
     }
 
