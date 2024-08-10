@@ -40,9 +40,8 @@ public class ConditionRecordService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         Member.checkMember(loginId, member);
 
-        ConditionRecord conditionRecord = conditionRecordRepository.findById(conditionRecordId)
+        return conditionRecordRepository.findById(conditionRecordId)
+                .map(conditionRecord -> conditionRecord.updateConditionRecord(request))
                 .orElseThrow(() -> new IllegalArgumentException("해당 컨디션 기록이 존재하지 않습니다."));
-
-        return conditionRecord.updateConditionRecord(request);
     }
 }

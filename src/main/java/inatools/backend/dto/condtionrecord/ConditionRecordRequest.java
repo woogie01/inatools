@@ -15,6 +15,7 @@ public record ConditionRecordRequest(
         @NotNull
         @Schema(description = "회원 식별자", example = "1")
         Long memberId
+
 ) {
 
 }
