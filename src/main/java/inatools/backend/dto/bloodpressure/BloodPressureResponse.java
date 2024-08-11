@@ -3,6 +3,7 @@ package inatools.backend.dto.bloodpressure;
 import inatools.backend.domain.BloodPressure;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record BloodPressureResponse(
@@ -10,8 +11,8 @@ public record BloodPressureResponse(
         @Schema(description = "혈압 측정 기록 식별자", example = "1")
         Long bloodPressureId,
 
-        @Schema(description = "측정 일시", example = "2024-08-11T00:00:00")
-        LocalDateTime recordAt,
+        @Schema(description = "측정 일시", example = "2024-08-11")
+        LocalDate recordAt,
 
         @Schema(description = "측정 회차", example = "1")
         Long measurementNumber,

@@ -12,8 +12,8 @@ public record BloodPressureRequest(
         Long memberId,
 
         @NotNull
-        @Schema(description = "측정 날짜", example = "2024-08-11T00:00:00")
-        LocalDateTime recordAt,
+        @Schema(description = "측정 날짜", example = "2024-08-11")
+        LocalDate recordAt,
 
         @NotNull(message = "측정 회차를 입력해주세요.")
         @Schema(description = "측정 회차", example = "1")
