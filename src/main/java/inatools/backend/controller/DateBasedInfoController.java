@@ -1,10 +1,9 @@
 package inatools.backend.controller;
 
-import inatools.backend.dto.dailyrecord.DailyRecordResponse;
+import inatools.backend.dto.datebasedinfo.DateBasedInfoResponse;
 import inatools.backend.service.BloodPressureService;
 import inatools.backend.service.ConditionDetailsRecordService;
 import inatools.backend.service.ConditionRecordService;
-import inatools.backend.service.MedicationInfoService;
 import inatools.backend.service.MedicationRecordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "날짜 기반 건강 정보 조회", description = "특정 날짜의 모든 기록 조회 API")
 @RestController
-@RequestMapping("/api/daily-record")
+@RequestMapping("/api/date-based-info")
 @RequiredArgsConstructor
-public class DailyRecordController {
+public class DateBasedInfoController {
 
     private final BloodPressureService bloodPressureService;
     private final MedicationRecordService medicationRecordService;
@@ -30,7 +29,7 @@ public class DailyRecordController {
 
     @Operation(summary = "특정 날짜의 모든 기록 조회", description = "특정 날짜의 모든 기록을 조회하는 API입니다.")
     @GetMapping
-    public ResponseEntity<DailyRecordResponse> getDailyRecords(
+    public ResponseEntity<DateBasedInfoResponse> getDailyRecords(
             @RequestParam Long memberId,
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate,
@@ -45,7 +44,7 @@ public class DailyRecordController {
         var conditionDetailsRecords = conditionDetailsRecordService.getConditionDetailsRecordList(loginId, memberId, startDate, endDate);
 
         // DailyRecordResponse DTO에 모든 데이터를 담아 반환
-        DailyRecordResponse response = new DailyRecordResponse(bloodPressureRecords, medicationRecords, conditionRecord, conditionDetailsRecords);
+        DateBasedInfoResponse response = new DateBasedInfoResponse(bloodPressureRecords, medicationRecords, conditionRecord, conditionDetailsRecords);
         return ResponseEntity.ok(response);
     }
 }
