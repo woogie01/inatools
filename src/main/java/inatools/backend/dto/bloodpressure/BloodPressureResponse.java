@@ -20,10 +20,7 @@ public record BloodPressureResponse(
         Long systolicPressure,
 
         @Schema(description = "이완기 혈압", example = "70")
-        Long diastolicPressure,
-
-        @Schema(description = "회원 식별자", example = "1")
-        Long memberId
+        Long diastolicPressure
 ) {
 
     public static BloodPressureResponse fromBloodPressure(BloodPressure bloodPressure) {
@@ -32,8 +29,7 @@ public record BloodPressureResponse(
                 bloodPressure.getRecordAt(),
                 bloodPressure.getRecordNumber(),
                 bloodPressure.getSystolicPressure(),
-                bloodPressure.getDiastolicPressure(),
-                bloodPressure.getMember().getId()
+                bloodPressure.getDiastolicPressure()
         );
     }
 }

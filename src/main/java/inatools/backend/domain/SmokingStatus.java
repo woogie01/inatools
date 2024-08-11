@@ -1,8 +1,10 @@
 package inatools.backend.domain;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public enum SmokingStatus {
 
     NON_SMOKER("안피워요"),
@@ -11,9 +13,5 @@ public enum SmokingStatus {
     DAILY_SMOKER("매일 피워요");
 
     private final String description;
-
-    SmokingStatus(String description) {
-        this.description = description;
-    }
 
 }
