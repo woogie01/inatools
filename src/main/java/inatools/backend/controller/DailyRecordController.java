@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Daily Record", description = "특정 날짜의 모든 기록 조회 API")
+@Tag(name = "날짜 기반 건강 정보 조회", description = "특정 날짜의 모든 기록 조회 API")
 @RestController
 @RequestMapping("/api/daily-record")
 @RequiredArgsConstructor
