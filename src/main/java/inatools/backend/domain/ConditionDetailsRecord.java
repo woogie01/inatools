@@ -1,7 +1,9 @@
 package inatools.backend.domain;
 
+import inatools.backend.converter.CommonConditionConverter;
 import inatools.backend.dto.condtiondetails.ConditionDetailsRecordRequest;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.Getter;
 
 @Entity
@@ -25,8 +28,9 @@ public class ConditionDetailsRecord {
     
     private LocalDate recordAt;
 
-    @Enumerated(value = EnumType.STRING)
-    private CommonConditionDetails commonConditionDetails;
+    @Convert(converter = CommonConditionConverter.class)
+    @Column(name = "common_conditions") // ['어지러움']
+    private List<CommonCondition> commonConditionList;
 
     private String conditionDetails;
 
@@ -35,9 +39,9 @@ public class ConditionDetailsRecord {
     
     protected ConditionDetailsRecord() {}
     
-    public ConditionDetailsRecord(LocalDate recordAt, CommonConditionDetails commonConditionDetails, String conditionDetails, Member member) {
+    public ConditionDetailsRecord(LocalDate recordAt, List<CommonCondition> commonConditionList, String conditionDetails, Member member) {
         this.recordAt = recordAt;
-        this.commonConditionDetails = commonConditionDetails;
+        this.commonConditionList = commonConditionList;
         this.conditionDetails = conditionDetails;
         this.member = member;
     }
@@ -45,7 +49,7 @@ public class ConditionDetailsRecord {
     public static ConditionDetailsRecord createConditionDetailsRecord(ConditionDetailsRecordRequest request, Member member) {
         return new ConditionDetailsRecord(
                 request.recordAt(),
-                request.commonConditionDetails(),
+                request.commonConditionList(),
                 request.conditionDetails(),
                 member
         );
@@ -53,7 +57,7 @@ public class ConditionDetailsRecord {
 
     public ConditionDetailsRecord updateConditionDetailsRecord(ConditionDetailsRecordRequest request) {
         this.conditionDetails = request.conditionDetails();
-        this.commonConditionDetails = request.commonConditionDetails();
+        this.commonConditionList = request.commonConditionList();
         return this;
     }
 

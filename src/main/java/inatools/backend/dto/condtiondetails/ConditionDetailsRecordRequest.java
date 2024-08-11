@@ -1,9 +1,10 @@
 package inatools.backend.dto.condtiondetails;
 
-import inatools.backend.domain.CommonConditionDetails;
+import inatools.backend.domain.CommonCondition;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 public record ConditionDetailsRecordRequest(
 
@@ -12,8 +13,8 @@ public record ConditionDetailsRecordRequest(
         LocalDate recordAt,
 
         @NotNull
-        @Schema(description = "몸 상태", example = "WEAKNESS")
-        CommonConditionDetails commonConditionDetails,
+        @Schema(description = "몸 상태", example = "[\"DIZZINESS\", \"WEAKNESS\"]")
+        List<CommonCondition> commonConditionList,
 
         @NotNull
         @Schema(description = "몸 상태", example = "그냥저냥")

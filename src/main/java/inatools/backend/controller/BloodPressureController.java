@@ -48,9 +48,9 @@ public class BloodPressureController {
      * 혈압 측정 기록 리스트 조회 API
      */
     @Operation(summary = "혈압 측정 기록 리스트 조회", description = "특정 날짜의 혈압 측정 기록들를 조회하기 위한 API입니다.")
-    @GetMapping("/members/{memberId}")
+    @GetMapping("/members/{id}")
     public ResponseEntity<BloodPressureListResponse> getBloodPressureList(
-            @PathVariable Long memberId,
+            @PathVariable("id") Long memberId,
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate,
             Principal principal) {
@@ -65,9 +65,9 @@ public class BloodPressureController {
       * 혈압 측정 기록 삭제 API
       */
      @Operation(summary = "혈압 측정 기록 삭제", description = "혈압 측정 기록을 삭제하기 위한 API입니다.")
-     @DeleteMapping("/{bloodPressureId}")
+     @DeleteMapping("/{id}")
      public ResponseEntity<Void> deleteBloodPressure(
-             @PathVariable("bloodPressureId") Long bloodPressureId, Principal principal) {
+             @PathVariable("id") Long bloodPressureId, Principal principal) {
          String loginId = principal.getName();
          bloodPressureService.deleteBloodPressure(bloodPressureId, loginId);
          return ResponseEntity.noContent().build();
