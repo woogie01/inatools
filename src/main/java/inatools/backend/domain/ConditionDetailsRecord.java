@@ -43,4 +43,8 @@ public class ConditionDetailsRecord {
         );
     }
 
+    public ConditionDetailsRecord updateConditionDetailsRecord(ConditionDetailsRecordRequest request) {
+        this.conditionDetails = request.conditionDetails();
+        return this;
+    }
 }

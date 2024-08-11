@@ -30,4 +30,19 @@ public class ConditionRecordService {
         return conditionRecordRepository.save(conditionRecord);
     }
 
+    /**
+     * 컨디션 기록 수정 로직
+     */
+    @Transactional
+    public ConditionRecord updateConditionRecord(Long conditionRecordId, String loginId,
+            ConditionRecordRequest request) {
+        Member member = memberRepository.findById(request.memberId())
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        Member.checkMember(loginId, member);
+
+        ConditionRecord conditionRecord = conditionRecordRepository.findById(conditionRecordId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 컨디션 기록이 존재하지 않습니다."));
+
+        return conditionRecord.updateConditionRecord(request);
+    }
 }
