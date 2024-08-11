@@ -51,8 +51,8 @@ public class BloodPressureController {
     @GetMapping("/members/{memberId}")
     public ResponseEntity<BloodPressureListResponse> getBloodPressureList(
             @PathVariable Long memberId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate,
             Principal principal) {
         String loginId = principal.getName();
         BloodPressureListResponse response =

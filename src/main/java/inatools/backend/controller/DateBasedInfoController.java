@@ -29,7 +29,7 @@ public class DateBasedInfoController {
 
     @Operation(summary = "특정 날짜의 모든 기록 조회", description = "특정 날짜의 모든 기록을 조회하는 API입니다.")
     @GetMapping
-    public ResponseEntity<DateBasedInfoResponse> getDailyRecords(
+    public ResponseEntity<DateBasedInfoResponse> getDateBasedInfo(
             @RequestParam Long memberId,
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate,

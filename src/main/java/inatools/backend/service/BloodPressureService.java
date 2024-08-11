@@ -38,10 +38,8 @@ public class BloodPressureService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
         Member.checkMember(loginId, member);
 
-        LocalDateTime startOfDay = startDate.atStartOfDay();
-        LocalDateTime endOfDay = endDate.atTime(LocalTime.MAX);
         List<BloodPressure> bloodPressureList =
-                bloodPressureRepository.findAllByMemberIdAndRecordAtBetween(memberId, startOfDay, endOfDay);
+                bloodPressureRepository.findAllByMemberIdAndRecordAtBetween(memberId, startDate, endDate);
         List<BloodPressureResponse> bloodPressureResponseList = bloodPressureList.stream()
                 .map(BloodPressureResponse::fromBloodPressure)
                 .toList();
