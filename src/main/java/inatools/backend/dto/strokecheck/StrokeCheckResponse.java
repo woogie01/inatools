@@ -11,7 +11,7 @@ public record StrokeCheckResponse(
         Long strokeCheckId,
 
         @Schema(description = "검사 날짜", example = "2024-08-15")
-        LocalDate recordDate,
+        LocalDate recordAt,
 
         @Schema(description = "검사 횟수", example = "3")
         Long testCount,
@@ -27,7 +27,7 @@ public record StrokeCheckResponse(
         public static StrokeCheckResponse fromStrokeCheck(StrokeCheck strokeCheck) {
                 return new StrokeCheckResponse(
                         strokeCheck.getId(),
-                        strokeCheck.getRecordDate(),
+                        strokeCheck.getRecordAt(),
                         strokeCheck.getTestCount(),
                         strokeCheck.getTestResultAvg(),
                         strokeCheck.getTestType()

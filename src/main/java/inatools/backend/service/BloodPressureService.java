@@ -33,13 +33,13 @@ public class BloodPressureService {
         return bloodPressureRepository.save(bloodPressure);
     }
 
-    public BloodPressureListResponse getBloodPressureListByMemberIdAndDate(String loginId, Long memberId, LocalDate date) {
+    public BloodPressureListResponse getBloodPressureListByMemberIdAndDate(String loginId, Long memberId, LocalDate startDate, LocalDate endDate) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
         Member.checkMember(loginId, member);
 
-        LocalDateTime startOfDay = date.atStartOfDay();
-        LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
+        LocalDateTime startOfDay = startDate.atStartOfDay();
+        LocalDateTime endOfDay = endDate.atTime(LocalTime.MAX);
         List<BloodPressure> bloodPressureList =
                 bloodPressureRepository.findAllByMemberIdAndRecordAtBetween(memberId, startOfDay, endOfDay);
         List<BloodPressureResponse> bloodPressureResponseList = bloodPressureList.stream()

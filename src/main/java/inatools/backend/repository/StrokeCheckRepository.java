@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StrokeCheckRepository extends JpaRepository<StrokeCheck, Long> {
 
-    StrokeCheck findByMemberAndTestTypeAndRecordDate(Member member, StrokeCheckTestType testType, LocalDate recordDate);
+    StrokeCheck findByMemberAndTestTypeAndRecordAtBetween(Member member, StrokeCheckTestType testType, LocalDate startDate, LocalDate endDate);
 
-    List<StrokeCheck> findAllByRecordDate(LocalDate date);
+    List<StrokeCheck> findAllByRecordAt(LocalDate date);
 }

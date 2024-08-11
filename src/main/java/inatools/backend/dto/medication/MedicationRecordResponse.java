@@ -23,7 +23,7 @@ public record MedicationRecordResponse(
         return new MedicationRecordResponse(
                 medicationRecord.getId(),
                 medicationRecord.isTaken(),
-                medicationRecord.getRecordDate(),
+                medicationRecord.getRecordAt(),
                 MedicationInfoResponse.fromMedicationInfo(medicationRecord.getMedicationInfo())
         );
     }

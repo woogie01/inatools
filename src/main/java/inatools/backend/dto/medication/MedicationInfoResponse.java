@@ -1,9 +1,7 @@
 package inatools.backend.dto.medication;
 
 import inatools.backend.domain.MedicationInfo;
-import inatools.backend.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.List;
 
 public record MedicationInfoResponse(
 
@@ -17,7 +15,7 @@ public record MedicationInfoResponse(
         Long dosage, // 복용량
 
         @Schema(description = "현재 복용 여부", example = "true")
-        boolean isActive // 활성화 여부
+        boolean active // 활성화 여부
 ) {
 
     public static MedicationInfoResponse fromMedicationInfo(MedicationInfo medicationInfo) {

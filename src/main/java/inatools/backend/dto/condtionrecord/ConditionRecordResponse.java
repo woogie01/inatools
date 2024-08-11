@@ -20,7 +20,7 @@ public record ConditionRecordResponse(
     public static ConditionRecordResponse fromConditionRecord(ConditionRecord conditionRecord) {
         return new ConditionRecordResponse(
                 conditionRecord.getId(),
-                conditionRecord.getRecordDate(),
+                conditionRecord.getRecordAt(),
                 conditionRecord.getConditionType()
         );
     }

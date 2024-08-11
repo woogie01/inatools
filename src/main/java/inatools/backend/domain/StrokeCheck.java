@@ -25,7 +25,7 @@ public class StrokeCheck {
     @Column(name = "stroke_check_id")
     private Long id;
 
-    private LocalDate recordDate;
+    private LocalDate recordAt;
     private Long testCount;
     private Double testResultAvg;
 
@@ -37,9 +37,9 @@ public class StrokeCheck {
 
     protected StrokeCheck() {}
 
-    public StrokeCheck(LocalDate recordDate, Long testCount, Double testResultAvg, StrokeCheckTestType testType,
+    public StrokeCheck(LocalDate recordAt, Long testCount, Double testResultAvg, StrokeCheckTestType testType,
             Member member) {
-        this.recordDate = recordDate;
+        this.recordAt = recordAt;
         this.testCount = testCount;
         this.testResultAvg = testResultAvg;
         this.testType = testType;
@@ -48,7 +48,7 @@ public class StrokeCheck {
 
     public static StrokeCheck createStrokeCheck(StrokeCheckRequest request, Member member) {
         return new StrokeCheck(
-                request.recordDate(),
+                request.recordAt(),
                 1L,
                 request.testResultPercent(),
                 request.testType(),

@@ -1,8 +1,6 @@
 package inatools.backend.service;
 
-import com.sun.jdi.request.DuplicateRequestException;
 import inatools.backend.domain.ConditionDetailsRecord;
-import inatools.backend.domain.ConditionRecord;
 import inatools.backend.domain.Member;
 import inatools.backend.dto.condtiondetails.ConditionDetailsListResponse;
 import inatools.backend.dto.condtiondetails.ConditionDetailsRecordRequest;
@@ -45,20 +43,21 @@ public class ConditionDetailsRecordService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
         Member.checkMember(loginId, member);
 
-        return conditionDetailsRecordRepository.findByMemberIdAndRecordDate(memberId, recordDate)
+        return conditionDetailsRecordRepository.findByMemberIdAndRecordAtBetween(memberId, recordDate, recordDate)
                 .orElseThrow(() -> new IllegalArgumentException("해당 몸 상태 기록이 존재하지 않습니다."));
     }
 
     /**
      * 몸 상태 기록 리스트 조회 로직
      */
-    public ConditionDetailsListResponse getConditionDetailsRecordList(String loginId, Long memberId, LocalDate recordDate) {
+    public ConditionDetailsListResponse getConditionDetailsRecordList(String loginId, Long memberId, LocalDate startDate,
+            LocalDate endDate) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
         Member.checkMember(loginId, member);
 
         List<ConditionDetailsRecord> conditionDetailsRecordList =
-                conditionDetailsRecordRepository.findAllByMemberIdAndRecordDate(memberId, recordDate);
+                conditionDetailsRecordRepository.findAllByMemberIdAndRecordAtBetween(memberId, startDate, endDate);
         List<ConditionDetailsRecordResponse> conditionDetailsRecordResponseList = conditionDetailsRecordList.stream()
                 .map(ConditionDetailsRecordResponse::fromConditionDetailsRecord)
                 .toList();

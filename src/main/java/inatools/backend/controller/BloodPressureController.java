@@ -51,11 +51,12 @@ public class BloodPressureController {
     @GetMapping("/members/{memberId}")
     public ResponseEntity<BloodPressureListResponse> getBloodPressureList(
             @PathVariable Long memberId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             Principal principal) {
         String loginId = principal.getName();
         BloodPressureListResponse response =
-                bloodPressureService.getBloodPressureListByMemberIdAndDate(loginId, memberId, date);
+                bloodPressureService.getBloodPressureListByMemberIdAndDate(loginId, memberId, startDate, endDate);
         return ResponseEntity.ok(response);
     }
 

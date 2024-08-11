@@ -1,13 +1,14 @@
 package inatools.backend.service;
 
-import com.sun.jdi.request.DuplicateRequestException;
 import inatools.backend.domain.ConditionRecord;
 import inatools.backend.domain.Member;
+import inatools.backend.dto.condtionrecord.ConditionRecordListResponse;
 import inatools.backend.dto.condtionrecord.ConditionRecordRequest;
 import inatools.backend.dto.condtionrecord.ConditionRecordResponse;
 import inatools.backend.repository.ConditionRecordRepository;
 import inatools.backend.repository.MemberRepository;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,14 +37,18 @@ public class ConditionRecordService {
     /**
      * 컨디션 기록 조회 로직
      */
-    public ConditionRecordResponse getConditionRecord(String loginId, Long memberId, LocalDate recordDate) {
+    public ConditionRecordListResponse getConditionRecord(String loginId, Long memberId, LocalDate startDate, LocalDate endDate) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
         Member.checkMember(loginId, member);
 
-        return conditionRecordRepository.findByMemberIdAndRecordDate(memberId, recordDate)
+        List<ConditionRecord> conditionRecordList =
+                conditionRecordRepository.findAllByMemberIdAndRecordAtBetween(memberId, startDate, endDate);
+        List<ConditionRecordResponse> conditionRecordResponseList = conditionRecordList.stream()
                 .map(ConditionRecordResponse::fromConditionRecord)
-                .orElseThrow(() -> new IllegalArgumentException("해당 컨디션 기록이 존재하지 않습니다."));
+                .toList();
+
+        return new ConditionRecordListResponse(conditionRecordResponseList);
     }
 
     /**

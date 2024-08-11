@@ -10,8 +10,8 @@ public record BloodPressureResponse(
         @Schema(description = "혈압 측정 기록 식별자", example = "1")
         Long bloodPressureId,
 
-        @Schema(description = "측정 일시", example = "2021-10-01T00:00:00")
-        LocalDateTime measureDate,
+        @Schema(description = "측정 일시", example = "2024-08-11T00:00:00")
+        LocalDateTime recordAt,
 
         @Schema(description = "측정 회차", example = "1")
         Long measurementNumber,

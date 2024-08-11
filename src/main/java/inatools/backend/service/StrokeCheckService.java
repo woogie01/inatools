@@ -32,8 +32,8 @@ public class StrokeCheckService {
         Member.checkMember(loginId, member);
 
         // 해당 테스트 타입과 기록 날짜로 기존 데이터 조회
-        StrokeCheck existingStrokeCheck = strokeCheckRepository.findByMemberAndTestTypeAndRecordDate(
-                member, request.testType(), request.recordDate());
+        StrokeCheck existingStrokeCheck = strokeCheckRepository.findByMemberAndTestTypeAndRecordAtBetween(
+                member, request.testType(), request.recordAt(), request.recordAt());
 
         if (existingStrokeCheck != null) {
             // 기존 데이터가 있다면, 평균 값을 갱신
@@ -51,7 +51,7 @@ public class StrokeCheckService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
         Member.checkMember(loginId, member);
 
-        List<StrokeCheck> strokeChecks = strokeCheckRepository.findAllByRecordDate(date);
+        List<StrokeCheck> strokeChecks = strokeCheckRepository.findAllByRecordAt(date);
         List<StrokeCheckResponse> strokeCheckResponseList = strokeChecks.stream()
                 .map(StrokeCheckResponse::fromStrokeCheck)
                 .collect(Collectors.toList());
