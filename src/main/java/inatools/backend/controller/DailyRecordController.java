@@ -5,6 +5,7 @@ import inatools.backend.service.BloodPressureService;
 import inatools.backend.service.ConditionDetailsRecordService;
 import inatools.backend.service.ConditionRecordService;
 import inatools.backend.service.MedicationInfoService;
+import inatools.backend.service.MedicationRecordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.security.Principal;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DailyRecordController {
 
     private final BloodPressureService bloodPressureService;
-    private final MedicationInfoService medicationInfoService;
+    private final MedicationRecordService medicationRecordService;
     private final ConditionRecordService conditionRecordService;
     private final ConditionDetailsRecordService conditionDetailsRecordService;
 
@@ -38,12 +39,12 @@ public class DailyRecordController {
 
         // 각각의 서비스에서 데이터 조회
         var bloodPressureRecords = bloodPressureService.getBloodPressureListByMemberIdAndDate(loginId, memberId, date);
-        var medications = medicationInfoService.getMedicationInfoListByMemberId(memberId);
+        var medicationRecords = medicationRecordService.getMedicationRecordsList(loginId, memberId, date);
         var conditionRecord = conditionRecordService.getConditionRecord(loginId, memberId, date);
         var conditionDetailsRecords = conditionDetailsRecordService.getConditionDetailsRecordList(loginId, memberId, date);
 
         // DailyRecordResponse DTO에 모든 데이터를 담아 반환
-        DailyRecordResponse response = new DailyRecordResponse(bloodPressureRecords, medications, conditionRecord, conditionDetailsRecords);
+        DailyRecordResponse response = new DailyRecordResponse(bloodPressureRecords, medicationRecords, conditionRecord, conditionDetailsRecords);
         return ResponseEntity.ok(response);
     }
 }

@@ -4,6 +4,7 @@ import inatools.backend.dto.bloodpressure.BloodPressureListResponse;
 import inatools.backend.dto.condtiondetails.ConditionDetailsListResponse;
 import inatools.backend.dto.condtionrecord.ConditionRecordResponse;
 import inatools.backend.dto.medication.MedicationInfoListResponse;
+import inatools.backend.dto.medication.MedicationRecordListResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record DailyRecordResponse(
@@ -12,7 +13,7 @@ public record DailyRecordResponse(
         BloodPressureListResponse bloodPressureRecords,
 
         @Schema(description = "복용 약 기록 목록")
-        MedicationInfoListResponse medications,
+        MedicationRecordListResponse medicationRecords,
 
         @Schema(description = "컨디션 상태 기록")
         ConditionRecordResponse conditionRecord,
