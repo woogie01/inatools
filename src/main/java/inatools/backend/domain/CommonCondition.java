@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum CommonConditionDetails {
+public enum CommonCondition {
     DIZZINESS("어지러움"),
     WEAKNESS("힘이 없음"),
     VISION_PROBLEM("시력이 나빠짐"),

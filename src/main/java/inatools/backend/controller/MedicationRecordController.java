@@ -36,9 +36,9 @@ public class MedicationRecordController {
     }
 
     @Operation(summary = "복약 기록 수정", description = "복약 기록을 수정합니다.(첫 체크 이후부터 호출")
-    @PostMapping("/{recordId}")
+    @PostMapping("/{id}")
     public ResponseEntity<MedicationRecordResponse> updateMedicationRecord(
-            @PathVariable Long recordId,
+            @PathVariable("id") Long recordId,
             @RequestBody @Valid MedicationRecordRequest request,
             Principal principal) {
         String loginId = principal.getName();
