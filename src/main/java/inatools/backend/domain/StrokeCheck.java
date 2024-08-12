@@ -32,7 +32,7 @@ public class StrokeCheck {
     @Enumerated(value = EnumType.STRING)
     private StrokeCheckTestType testType; // 테스트 종류
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     protected StrokeCheck() {}

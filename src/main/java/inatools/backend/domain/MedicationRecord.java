@@ -27,7 +27,7 @@ public class MedicationRecord {
 
     private LocalDate recordAt; // 기록 날짜
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private MedicationInfo medicationInfo;
 
     protected MedicationRecord() {}

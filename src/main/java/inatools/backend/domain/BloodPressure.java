@@ -29,7 +29,7 @@ public class BloodPressure {
     private Long systolicPressure; // 수축기 혈압 값
     private Long diastolicPressure; // 이완기 혈압 값
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     protected  BloodPressure() { }

@@ -29,7 +29,7 @@ public class ConditionRecord {
     @Enumerated(value = EnumType.STRING)
     private ConditionType conditionType;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     protected ConditionRecord() {}
