@@ -3,6 +3,7 @@ package inatools.backend.service;
 import inatools.backend.auth.jwt.persistence.TokenPersistenceAdapter;
 import inatools.backend.auth.jwt.util.JwtTokenProvider;
 import inatools.backend.common.exception.BaseException;
+import inatools.backend.common.exception.GlobalErrorCode;
 import inatools.backend.common.exception.error.UserErrorCode;
 import inatools.backend.domain.Member;
 import inatools.backend.domain.Password;
@@ -64,6 +65,18 @@ public class AuthService {
                 accessToken,
                 refreshToken
         );
+    }
+
+    @Transactional
+    public void logout(String refreshToken) {
+
+        // RefreshToken 유효성 검사
+        if (!jwtTokenProvider.validateToken(refreshToken)) {
+            throw BaseException.type(GlobalErrorCode.INVALID_TOKEN);
+        }
+
+        Long memberId = jwtTokenProvider.getId(refreshToken);
+        tokenPersistenceAdapter.deleteRefreshTokenByMemId(memberId);
     }
 
     private void comparePassword(String password, Password memPassword) {
