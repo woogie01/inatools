@@ -1,6 +1,7 @@
 package inatools.backend.controller;
 
 import inatools.backend.domain.ConditionDetailsRecord;
+import inatools.backend.dto.condtiondetails.ConditionDetailsListResponse;
 import inatools.backend.dto.condtiondetails.ConditionDetailsRecordRequest;
 import inatools.backend.dto.condtiondetails.ConditionDetailsRecordResponse;
 import inatools.backend.service.ConditionDetailsRecordService;
@@ -48,7 +49,7 @@ public class ConditionDetailisRecordController {
      * 몸 상태 기록 수정 API
      */
     @Operation(summary = "몸 상태 기록 수정", description = "몸 상태 기록을 수정하기 위한 API입니다.")
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/record")
     public ResponseEntity<ConditionDetailsRecordResponse> update(
             @PathVariable("id") Long conditionDetailsRecordId,
             @RequestBody @Valid ConditionDetailsRecordRequest conditionDetailsRecordRequest,
@@ -63,21 +64,36 @@ public class ConditionDetailisRecordController {
     }
 
     /**
-     * 몸 상태 기록 조회 API
+     * 몸 상태 기록 단일 조회 API
      */
     @Operation(summary = "몸 상태 기록 조회", description = "몸 상태 기록을 조회하기 위한 API입니다.")
-    @GetMapping("/members/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ConditionDetailsRecordResponse> get(
-            @PathVariable("id") Long memberId,
-            @RequestParam LocalDate recordDate,
+            @PathVariable("id") Long recordId,
             Principal principal) {
         String loginId = principal.getName();
         ConditionDetailsRecord conditionDetailsRecord =
-                conditionDetailsRecordService.getConditionDetailsRecord(loginId, memberId, recordDate);
+                conditionDetailsRecordService.getConditionDetailsRecord(loginId, recordId);
         ConditionDetailsRecordResponse response =
                 ConditionDetailsRecordResponse.fromConditionDetailsRecord(conditionDetailsRecord);
         return ResponseEntity.ok(response);
     }
+
+    /**
+     * 특정 날짜에 대한 몸 상태 기록 전체 조회 API
+     */
+    @Operation(summary = "특정 날짜의 몸 상태 기록 전체 조회", description = "몸 상태 기록 리스트를 조회하기 위한 API입니다.")
+    @GetMapping("/members/{id}")
+    public ResponseEntity<ConditionDetailsListResponse> getAllForADate(
+            @PathVariable("id") Long memberId,
+            @RequestParam LocalDate date,
+            Principal principal) {
+        String loginId = principal.getName();
+        ConditionDetailsListResponse response =
+                conditionDetailsRecordService.getConditionDetailsRecordList(loginId, memberId, date, date);
+        return ResponseEntity.ok(response);
+    }
+
 
     /**
      * 몸 상태 기록 삭제 API
