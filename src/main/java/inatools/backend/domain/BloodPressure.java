@@ -32,8 +32,7 @@ public class BloodPressure {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Member member;
 
-    protected  BloodPressure() {
-    }
+    protected  BloodPressure() { }
 
     public BloodPressure(LocalDate recordAt, Long recordNumber, Long systolicPressure, Long diastolicPressure, Member member) {
         this.recordAt = recordAt;
