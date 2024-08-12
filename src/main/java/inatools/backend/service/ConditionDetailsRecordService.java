@@ -38,13 +38,16 @@ public class ConditionDetailsRecordService {
     /**
      * 몸 상태 기록 조회 로직
      */
-    public ConditionDetailsRecord getConditionDetailsRecord(String loginId, Long memberId, LocalDate recordDate) {
-        Member member = memberRepository.findById(memberId)
+    public ConditionDetailsRecord getConditionDetailsRecord(String loginId, Long recordId) {
+        ConditionDetailsRecord conditionDetailsRecord = conditionDetailsRecordRepository.findById(recordId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 몸 상태 기록이 존재하지 않습니다."));
+
+        Member member = memberRepository.findById(conditionDetailsRecord.getMember().getId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+
         Member.checkMember(loginId, member);
 
-        return conditionDetailsRecordRepository.findByMemberIdAndRecordAtBetween(memberId, recordDate, recordDate)
-                .orElseThrow(() -> new IllegalArgumentException("해당 몸 상태 기록이 존재하지 않습니다."));
+        return conditionDetailsRecord;
     }
 
     /**

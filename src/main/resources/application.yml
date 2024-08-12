@@ -1,8 +1,8 @@
 spring:
   jpa:
     hibernate:
-#      ddl-auto: none
-      ddl-auto: create
+      ddl-auto: none
+#      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
