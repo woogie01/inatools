@@ -22,16 +22,28 @@ public class ConditionRecordService {
     private final ConditionRecordRepository conditionRecordRepository;
 
     /**
-     * 컨디션 기록 저장 로직
+     * 컨디션 기록 저장 또는 수정 로직
      */
     @Transactional
-    public ConditionRecord createConditionRecord(String loginId, ConditionRecordRequest request) {
+    public ConditionRecord createOrUpdateConditionRecord(String loginId, ConditionRecordRequest request) {
         Member member = memberRepository.findById(request.memberId())
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
         Member.checkMember(loginId, member);
 
-        ConditionRecord conditionRecord = ConditionRecord.createConditionRecord(request, member);
-        return conditionRecordRepository.save(conditionRecord);
+        // 해당 날짜에 이미 기록이 있는지 확인
+        ConditionRecord existingRecord =
+                conditionRecordRepository
+                        .findByMemberIdAndRecordAt(member.getId(), request.recordAt())
+                        .orElse(null);
+
+        if (existingRecord != null) {
+            // 기존 기록이 있으면 수정
+            return existingRecord.updateConditionRecord(request);
+        } else {
+            // 기존 기록이 없으면 새로 생성
+            ConditionRecord conditionRecord = ConditionRecord.createConditionRecord(request, member);
+            return conditionRecordRepository.save(conditionRecord);
+        }
     }
 
     /**
@@ -51,18 +63,4 @@ public class ConditionRecordService {
         return new ConditionRecordListResponse(conditionRecordResponseList);
     }
 
-    /**
-     * 컨디션 기록 수정 로직
-     */
-    @Transactional
-    public ConditionRecord updateConditionRecord(Long conditionRecordId, String loginId,
-            ConditionRecordRequest request) {
-        Member member = memberRepository.findById(request.memberId())
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        Member.checkMember(loginId, member);
-
-        return conditionRecordRepository.findById(conditionRecordId)
-                .map(conditionRecord -> conditionRecord.updateConditionRecord(request))
-                .orElseThrow(() -> new IllegalArgumentException("해당 컨디션 기록이 존재하지 않습니다."));
-    }
 }
