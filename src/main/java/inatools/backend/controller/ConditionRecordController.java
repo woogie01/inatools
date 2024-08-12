@@ -26,30 +26,14 @@ public class ConditionRecordController {
     private final ConditionRecordService conditionRecordService;
 
     /**
-     * 컨디션 기록 API
+     * 컨디션 기록 생성 또는 수정 API
      */
-    @Operation(summary = "컨디션 상태 기록", description = "컨디션 상태를 기록하기 위한 API입니다.")
+    @Operation(summary = "컨디션 상태 기록 또는 수정", description = "컨디션 상태를 기록하거나, 이미 존재하는 경우 수정합니다.")
     @PostMapping
-    public ResponseEntity<ConditionRecordResponse> create(
+    public ResponseEntity<ConditionRecordResponse> createOrUpdate(
             @RequestBody @Valid ConditionRecordRequest conditionRecordRequest, Principal principal) {
         String loginId = principal.getName();
-        ConditionRecord conditionRecord = conditionRecordService.createConditionRecord(loginId, conditionRecordRequest);
-        ConditionRecordResponse response = ConditionRecordResponse.fromConditionRecord(conditionRecord);
-        return ResponseEntity.ok(response);
-    }
-
-    /**
-     * 컨디션 기록 수정 API
-     */
-    @Operation(summary = "컨디션 상태 기록 수정", description = "컨디션 상태를 수정하기 위한 API입니다.")
-    @PostMapping("/{id}")
-    public ResponseEntity<ConditionRecordResponse> update(
-            @PathVariable("id") Long conditionRecordId,
-            @RequestBody @Valid ConditionRecordRequest conditionRecordRequest,
-            Principal principal) {
-        String loginId = principal.getName();
-        ConditionRecord conditionRecord =
-                conditionRecordService.updateConditionRecord(conditionRecordId, loginId, conditionRecordRequest);
+        ConditionRecord conditionRecord = conditionRecordService.createOrUpdateConditionRecord(loginId, conditionRecordRequest);
         ConditionRecordResponse response = ConditionRecordResponse.fromConditionRecord(conditionRecord);
         return ResponseEntity.ok(response);
     }

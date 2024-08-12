@@ -9,4 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ConditionRecordRepository extends JpaRepository<ConditionRecord, Long> {
 
     List<ConditionRecord> findAllByMemberIdAndRecordAtBetween(Long memberId, LocalDate startDate, LocalDate endDate);
+
+    Optional<ConditionRecord> findByMemberIdAndRecordAt(Long id, LocalDate localDate);
 }
+
