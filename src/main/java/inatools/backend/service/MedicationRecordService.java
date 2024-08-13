@@ -51,7 +51,7 @@ public class MedicationRecordService {
         Member.checkMember(loginId, member);
 
         // 활성화된 복약 정보 목록 가져오기
-        List<MedicationInfo> medicationInfos = medicationInfoRepository.findAllByMemberIdAndActive(memberId, true);
+        List<MedicationInfo> medicationInfos = medicationInfoRepository.findAllByMemberId(memberId);
 
         // 활성화된 복약 정보의 ID 리스트를 추출
         List<Long> medicationInfoIds = medicationInfos.stream()
