@@ -4,6 +4,7 @@ import inatools.backend.dto.datebasedinfo.DateBasedInfoResponse;
 import inatools.backend.service.BloodPressureService;
 import inatools.backend.service.ConditionDetailsRecordService;
 import inatools.backend.service.ConditionRecordService;
+import inatools.backend.service.MedicationInfoService;
 import inatools.backend.service.MedicationRecordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DateBasedInfoController {
 
     private final BloodPressureService bloodPressureService;
+    private final MedicationInfoService medicationInfoService;
     private final MedicationRecordService medicationRecordService;
     private final ConditionRecordService conditionRecordService;
     private final ConditionDetailsRecordService conditionDetailsRecordService;
@@ -39,12 +41,13 @@ public class DateBasedInfoController {
 
         // 각각의 서비스에서 데이터 조회
         var bloodPressureRecords = bloodPressureService.getBloodPressureListByMemberIdAndDate(loginId, memberId, startDate, endDate);
+        var medicationInfos = medicationInfoService.getMedicationInfoListByMemberId(memberId);
         var medicationRecords = medicationRecordService.getMedicationRecordsList(loginId, memberId, startDate, endDate);
         var conditionRecord = conditionRecordService.getConditionRecord(loginId, memberId, startDate, endDate);
         var conditionDetailsRecords = conditionDetailsRecordService.getConditionDetailsRecordList(loginId, memberId, startDate, endDate);
 
         // DailyRecordResponse DTO에 모든 데이터를 담아 반환
-        DateBasedInfoResponse response = new DateBasedInfoResponse(bloodPressureRecords, medicationRecords, conditionRecord, conditionDetailsRecords);
+        DateBasedInfoResponse response = new DateBasedInfoResponse(bloodPressureRecords, medicationInfos, medicationRecords, conditionRecord, conditionDetailsRecords);
         return ResponseEntity.ok(response);
     }
 }
