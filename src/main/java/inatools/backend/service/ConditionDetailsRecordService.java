@@ -88,12 +88,13 @@ public class ConditionDetailsRecordService {
      */
     @Transactional
     public void deleteConditionDetailsRecord(Long conditionDetailsRecordId, String loginId) {
-        Member member = memberRepository.findById(conditionDetailsRecordId)
+        ConditionDetailsRecord conditionDetailsRecord = conditionDetailsRecordRepository.findById(conditionDetailsRecordId)
+                .orElseThrow(() ->  new IllegalArgumentException("해당 몸 상태 기록이 존재하지 않습니다."));
+
+        Member member = memberRepository.findById(conditionDetailsRecord.getMember().getId())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         Member.checkMember(loginId, member);
 
-        ConditionDetailsRecord conditionDetailsRecord = conditionDetailsRecordRepository.findById(conditionDetailsRecordId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 몸 상태 기록이 존재하지 않습니다."));
         conditionDetailsRecordRepository.delete(conditionDetailsRecord);
     }
 

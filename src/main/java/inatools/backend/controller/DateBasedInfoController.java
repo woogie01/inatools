@@ -41,7 +41,7 @@ public class DateBasedInfoController {
 
         // 각각의 서비스에서 데이터 조회
         var bloodPressureRecords = bloodPressureService.getBloodPressureListByMemberIdAndDate(loginId, memberId, startDate, endDate);
-        var medicationInfos = medicationInfoService.getMedicationInfoListByMemberId(memberId);
+        var medicationInfos = medicationInfoService.getMedicationInfoListByMemberId(loginId, memberId);
         var medicationRecords = medicationRecordService.getMedicationRecordsList(loginId, memberId, startDate, endDate);
         var conditionRecord = conditionRecordService.getConditionRecord(loginId, memberId, startDate, endDate);
         var conditionDetailsRecords = conditionDetailsRecordService.getConditionDetailsRecordList(loginId, memberId, startDate, endDate);
