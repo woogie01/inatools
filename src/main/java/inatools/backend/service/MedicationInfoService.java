@@ -64,7 +64,10 @@ public class MedicationInfoService {
     /**
      * 회원 식별자로 복용약 정보 리스트 조회
      */
-    public MedicationInfoListResponse getMedicationInfoListByMemberId(Long memberId) {
+    public MedicationInfoListResponse getMedicationInfoListByMemberId(String loginId, Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+        Member.checkMember(loginId, member);
         List<MedicationInfo> medicationInfoList = medicationInfoRepository.findAllByMemberIdAndActive(memberId, true);
         List<MedicationInfoResponse> medicationInfoResponseList = medicationInfoList.stream()
                 .map(MedicationInfoResponse::fromMedicationInfo)

@@ -44,8 +44,9 @@ public class MedicationInfoController {
     @Operation(summary = "복용약 정보 리스트 조회", description = "활성화된 복용약 정보들을 조회하기 위한 API입니다.")
     @GetMapping("/members/{id}")
     public ResponseEntity<MedicationInfoListResponse> getMedicationInfoList(
-            @PathVariable("id") Long memberId) {
-        MedicationInfoListResponse response = medicationInfoService.getMedicationInfoListByMemberId(memberId);
+            @PathVariable("id") Long memberId, Principal principal) {
+        String loginId = principal.getName();
+        MedicationInfoListResponse response = medicationInfoService.getMedicationInfoListByMemberId(loginId, memberId);
         return ResponseEntity.ok(response);
     }
 
