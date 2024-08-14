@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,7 @@ public class UserConnectionController {
     /**
      * 연결 요청 API
      */
-    @Operation(summary = "유저 간의 연결 추가", description = "기록 관리 권한을 부여하기 위한 API입니다.")
+    @Operation(summary = "유저 간 연결 요청 생성", description = "기록 관리 권한을 부여하기 위한 API입니다.")
     @PostMapping
     public ResponseEntity<UserCareConnectionResponse> requestConnection(
             @RequestBody @Valid UserCareConnectionRequest userCareConnectionRequest, Principal principal) {
@@ -69,6 +70,28 @@ public class UserConnectionController {
     /**
      * 연결 요청 취소 API
      */
+    @Operation(summary = "유저 연결 요청 취소", description = "연결 요청을 취소하기 위한 API입니다.")
+    @DeleteMapping("/{id}/request-cancel")
+    public ResponseEntity<Void> cancelConnectionRequest(
+            @PathVariable("id") Long userCareConnectionId,
+            Principal principal) {
+        String loginId = principal.getName();
+        userConnectionService.cancelRequest(loginId, userCareConnectionId);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 연결 끊기 API
+     */
+    @Operation(summary = "유저 간의 연결 끊기", description = "유저 간의 연결을 끊기 위한 API입니다.")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> disconnectConnection(
+            @PathVariable("id") Long userCareConnectionId,
+            Principal principal) {
+        String loginId = principal.getName();
+        userConnectionService.disconnectConnection(loginId, userCareConnectionId);
+        return ResponseEntity.ok().build();
+    }
 
 
 }
