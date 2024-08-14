@@ -2,6 +2,7 @@ package inatools.backend.dto.userconnection;
 
 import inatools.backend.domain.ConnectionStatus;
 import inatools.backend.domain.UserCareConnection;
+import inatools.backend.dto.member.MemberInfoResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record UserCareConnectionResponse(
@@ -12,10 +13,10 @@ public record UserCareConnectionResponse(
         @Schema(description = "요청 상태", example = "REQUESTING")
         ConnectionStatus connectionStatus,
 
-        @Schema(description = "연결 요청을 받은 회원 식별자", example = "2")
-        Long requestedMemberId,
+        @Schema(description = "연결 요청을 받은 회원", example = "2")
+        MemberInfoResponse requestedMember,
 
-        @Schema(description = "연결을 요청한 회원 식별자", example = "1")
+        @Schema(description = "연결을 요청한 회원", example = "1")
         Long requestingMemberId
 
 ) {
@@ -24,8 +25,8 @@ public record UserCareConnectionResponse(
         return new UserCareConnectionResponse(
                 userCareConnection.getId(),
                 userCareConnection.getConnectionStatus(),
-                userCareConnection.getRequestedMember().getId(),
-                userCareConnection.getRequestingMember().getId()
+                userCareConnection.getRequestedMember(),
+                userCareConnection.getRequestingMember()
         );
     }
 }

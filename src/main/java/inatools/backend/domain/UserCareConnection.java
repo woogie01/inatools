@@ -36,7 +36,8 @@ public class UserCareConnection {
     @JoinColumn(name = "requesting_member_id")
     private Member requestingMember;
 
-    protected UserCareConnection() {}
+    protected UserCareConnection() {
+    }
 
     public UserCareConnection(ConnectionStatus connectionStatus, Member requestedMember, Member requestingMember) {
         this.connectionStatus = connectionStatus;
@@ -50,5 +51,14 @@ public class UserCareConnection {
                 requestedMember,
                 requestingMember
         );
+    }
+
+    public void replyToRequest(ConnectionStatus connectionStatus, Member requestingMember, Member requestedMember) {
+        if (this.requestingMember.getId().equals(requestingMember.getId()) &&
+                this.requestedMember.getId().equals(requestedMember.getId())) {
+            this.connectionStatus = connectionStatus;
+        } else {
+            throw new IllegalArgumentException("연결 요청에 대한 회원 정보가 일치하지 않습니다.");
+        }
     }
 }

@@ -56,12 +56,13 @@ public class UserConnectionController {
      * 연결 요청 응답 API
      */
     @Operation(summary = "유저 간의 연결 응답(수락, 거절)", description = "유저 간의 연결을 수락하거나 거절하기 위한 API입니다.")
-    @PostMapping("/reply")
+    @PostMapping("/{id}/reply")
     public ResponseEntity<UserCareConnectionResponse> responseConnection(
+            @PathVariable("id") Long userCareConnectionId,
             @RequestBody @Valid UserConnectionReplyRequest userConnectionReplyRequest, Principal principal) {
         String loginId = principal.getName();
         UserCareConnectionResponse response =
-                userConnectionService.responseRequest(loginId, userConnectionReplyRequest);
+                userConnectionService.replyToRequest(loginId, userCareConnectionId, userConnectionReplyRequest);
         return ResponseEntity.ok(response);
     }
 

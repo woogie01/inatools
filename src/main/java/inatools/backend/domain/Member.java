@@ -31,7 +31,7 @@ public class Member extends BaseTimeEntity {
 
     /**
      * 자가 점검 데이터
-      */
+     */
     private long gender;
     private LocalDate birthDate;
     private String underlyingDisease; // 기저질환
@@ -43,9 +43,13 @@ public class Member extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private DrinkingStatus drinkingStatus; // 음주
 
+    @Enumerated(value = EnumType.STRING)
+    private DangerStatus dangerStatus; // 뇌졸중 위험군
+
     private Role role;
 
-    protected Member() {}
+    protected Member() {
+    }
 
     // 회원 가입시 받는 필드값
     public Member(String username, String userId, Password password, String email, String phone) {
@@ -58,8 +62,11 @@ public class Member extends BaseTimeEntity {
     }
 
     // 모든 필드를 받는 생성자
-    public Member(String username, String userId, Password password, String email, String phone, Long gender, LocalDate birthDate,
-            String underlyingDisease, boolean familyHistory, SmokingStatus smokingStatus, DrinkingStatus drinkingStatus) {
+    public Member(String username, String userId, Password password, String email, String phone, Long gender,
+            LocalDate birthDate,
+            String underlyingDisease, boolean familyHistory, SmokingStatus smokingStatus, DrinkingStatus drinkingStatus
+            , DangerStatus dangerStatus
+    ) {
         this.username = username;
         this.userId = userId;
         this.password = password;
@@ -71,6 +78,7 @@ public class Member extends BaseTimeEntity {
         this.familyHistory = familyHistory;
         this.smokingStatus = smokingStatus;
         this.drinkingStatus = drinkingStatus;
+        this.dangerStatus = dangerStatus;
     }
 
     // 회원 생성 메서드
@@ -102,6 +110,7 @@ public class Member extends BaseTimeEntity {
         this.familyHistory = request.familyHistory();
         this.smokingStatus = request.smokingStatus();
         this.drinkingStatus = request.drinkingStatus();
+        this.dangerStatus = request.dangerStatus();
     }
 
     /*
