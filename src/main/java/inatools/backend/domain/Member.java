@@ -45,8 +45,7 @@ public class Member extends BaseTimeEntity {
 
     private Role role;
 
-    public Member() {
-    }
+    protected Member() {}
 
     // 회원 가입시 받는 필드값
     public Member(String username, String userId, Password password, String email, String phone) {
