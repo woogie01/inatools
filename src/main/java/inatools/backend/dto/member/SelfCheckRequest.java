@@ -1,5 +1,6 @@
 package inatools.backend.dto.member;
 
+import inatools.backend.domain.DangerStatus;
 import inatools.backend.domain.DrinkingStatus;
 import inatools.backend.domain.SmokingStatus;
 import inatools.backend.dto.medication.MedicationInfoRequest;
@@ -9,7 +10,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.List;
 
 public record SelfCheckRequest(
 
@@ -34,7 +34,11 @@ public record SelfCheckRequest(
 
         @NotNull(message = "음주 주기를 입력해주세요.")
         @Schema(description = "음주 주기", example = "NON_DRINKER")
-        DrinkingStatus drinkingStatus // 음주
+        DrinkingStatus drinkingStatus, // 음주
+
+        @NotNull(message = "뇌졸중 위험군을 입력해주세요.")
+        @Schema(description = "뇌졸중 위험군", example = "SAFE")
+        DangerStatus dangerStatus // 뇌졸중 위험군
 ) {
 
 }
