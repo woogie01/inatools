@@ -2,10 +2,10 @@ package inatools.backend.domain;
 
 
 import inatools.backend.common.BaseTimeEntity;
-import inatools.backend.dto.medication.MedicationInfoRequest;
 import inatools.backend.dto.member.SelfCheckRequest;
 import inatools.backend.dto.member.SignUpRequest;
 import inatools.backend.dto.member.UpdateMemberRequest;
+import inatools.backend.service.UserConnectionService;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.Getter;
@@ -111,15 +111,6 @@ public class Member extends BaseTimeEntity {
         this.smokingStatus = request.smokingStatus();
         this.drinkingStatus = request.drinkingStatus();
         this.dangerStatus = request.dangerStatus();
-    }
-
-    /*
-     * 로그인한 회원인지 체크
-     */
-    public static void checkMember(String loginId, Member member) {
-        if (!loginId.equals(member.getUserId())) {
-            throw new IllegalArgumentException("요청 회원과 일치하지 않습니다.");
-        }
     }
 
 }

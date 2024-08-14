@@ -21,6 +21,9 @@ public class MedicationInfoService {
     private final MemberRepository memberRepository;
     private final MedicationInfoRepository medicationInfoRepository;
 
+    private final MemberService memberService;
+    private final UserConnectionService userConnectionService;
+
     /**
      * 복용약 정보 생성
      */
@@ -29,7 +32,7 @@ public class MedicationInfoService {
             MedicationInfoRequest medicationInfoRequest) {
         Member member = memberRepository.findById(medicationInfoRequest.memberId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         List<MedicationInfo> medicationInfoList = medicationInfoRequest.medications().stream()
                 .map(detailRequest -> MedicationInfo.createMedicationInfo(detailRequest, member))
@@ -67,7 +70,8 @@ public class MedicationInfoService {
     public MedicationInfoListResponse getMedicationInfoListByMemberId(String loginId, Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
+
         List<MedicationInfo> medicationInfoList = medicationInfoRepository.findAllByMemberIdAndActive(memberId, true);
         List<MedicationInfoResponse> medicationInfoResponseList = medicationInfoList.stream()
                 .map(MedicationInfoResponse::fromMedicationInfo)
@@ -85,7 +89,7 @@ public class MedicationInfoService {
         MedicationInfo medicationInfo = medicationInfoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 복용약 정보가 존재하지 않습니다."));
 
-        Member.checkMember(medicationInfo.getMember().getUserId(), member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         medicationInfo.delete();
     }

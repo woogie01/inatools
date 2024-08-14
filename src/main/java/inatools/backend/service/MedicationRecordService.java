@@ -25,6 +25,9 @@ public class MedicationRecordService {
     private final MedicationRecordRepository medicationRecordRepository;
     private final MemberRepository memberRepository;
 
+    private final MemberService memberService;
+    private final UserConnectionService userConnectionService;
+
     /**
      * 복약 기록 생성
      */
@@ -34,7 +37,7 @@ public class MedicationRecordService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 복약 정보가 존재하지 않습니다."));
 
         Member member = medicationInfo.getMember();
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         MedicationRecord record = MedicationRecord.createMedicationRecord(request, medicationInfo);
 
@@ -48,7 +51,7 @@ public class MedicationRecordService {
             Long memberId, LocalDate startDate, LocalDate endDate) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         // 활성화된 복약 정보 목록 가져오기
         List<MedicationInfo> medicationInfos = medicationInfoRepository.findAllByMemberId(memberId);
@@ -80,7 +83,7 @@ public class MedicationRecordService {
         MedicationInfo medicationInfo = medicationInfoRepository.findById(request.medicationInfoId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 복약 정보가 존재하지 않습니다."));
         Member member = medicationInfo.getMember();
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         return MedicationRecordResponse.fromMedicationRecord(
                 medicationRecordRepository.findById(recordId)
