@@ -1,5 +1,6 @@
 package inatools.backend.service;
 
+import inatools.backend.domain.ConnectionStatus;
 import inatools.backend.domain.UserCareConnection;
 import inatools.backend.domain.Member;
 import inatools.backend.dto.userconnection.UserCareConnectionListResponse;
@@ -20,6 +21,12 @@ public class UserConnectionService {
 
     private final MemberRepository memberRepository;
     private final UserConnectionRepository userConnectionRepository;
+
+    public boolean hasPermissionToModify(Member loginMember, Member targetMember) {
+        // 연결된 사용자가 있는지 체크
+        return userConnectionRepository.findByRequestedMemberAndRequestingMemberAndConnectionStatus(loginMember,
+                targetMember, ConnectionStatus.ACCEPTED).isPresent();
+    }
 
     /**
      * 연결 요청

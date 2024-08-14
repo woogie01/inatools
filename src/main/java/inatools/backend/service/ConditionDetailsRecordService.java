@@ -21,6 +21,9 @@ public class ConditionDetailsRecordService {
     private final MemberRepository memberRepository;
     private final ConditionDetailsRecordRepository conditionDetailsRecordRepository;
 
+    private final MemberService memberService;
+    private final UserConnectionService userConnectionService;
+
     /**
      * 몸 상태 기록 저장 로직
      */
@@ -28,7 +31,7 @@ public class ConditionDetailsRecordService {
     public ConditionDetailsRecord createConditionDetailsRecord(String loginId, ConditionDetailsRecordRequest request) {
         Member member = memberRepository.findById(request.memberId())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         ConditionDetailsRecord conditionDetailsRecord
                 = ConditionDetailsRecord.createConditionDetailsRecord(request, member);
@@ -45,7 +48,7 @@ public class ConditionDetailsRecordService {
         Member member = memberRepository.findById(conditionDetailsRecord.getMember().getId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
 
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         return conditionDetailsRecord;
     }
@@ -57,7 +60,7 @@ public class ConditionDetailsRecordService {
             LocalDate endDate) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         List<ConditionDetailsRecord> conditionDetailsRecordList =
                 conditionDetailsRecordRepository.findAllByMemberIdAndRecordAtBetween(memberId, startDate, endDate);
@@ -76,7 +79,7 @@ public class ConditionDetailsRecordService {
             ConditionDetailsRecordRequest request) {
         Member member = memberRepository.findById(request.memberId())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         return conditionDetailsRecordRepository.findById(conditionDetailsRecordId)
                 .map(conditionDetailsRecord -> conditionDetailsRecord.updateConditionDetailsRecord(request))
@@ -93,7 +96,7 @@ public class ConditionDetailsRecordService {
 
         Member member = memberRepository.findById(conditionDetailsRecord.getMember().getId())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         conditionDetailsRecordRepository.delete(conditionDetailsRecord);
     }

@@ -20,7 +20,7 @@ public class UserCareConnection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "care_receiver_id")
+    @Column(name = "user_care_connection_id")
     private Long id;
 
     // 요청 상태

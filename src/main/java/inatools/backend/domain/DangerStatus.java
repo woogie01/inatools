@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum DangerStatus {
     SAFE("안전"),
+    CAUTION("주의"),
     DANGER("위험");
 
     private final String description;

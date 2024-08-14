@@ -21,6 +21,9 @@ public class ConditionRecordService {
     private final MemberRepository memberRepository;
     private final ConditionRecordRepository conditionRecordRepository;
 
+    private final MemberService memberService;
+    private final UserConnectionService userConnectionService;
+
     /**
      * 컨디션 기록 저장 또는 수정 로직
      */
@@ -28,7 +31,7 @@ public class ConditionRecordService {
     public ConditionRecord createOrUpdateConditionRecord(String loginId, ConditionRecordRequest request) {
         Member member = memberRepository.findById(request.memberId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         // 해당 날짜에 이미 기록이 있는지 확인
         ConditionRecord existingRecord =
@@ -52,7 +55,7 @@ public class ConditionRecordService {
     public ConditionRecordListResponse getConditionRecord(String loginId, Long memberId, LocalDate startDate, LocalDate endDate) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         List<ConditionRecord> conditionRecordList =
                 conditionRecordRepository.findAllByMemberIdAndRecordAtBetween(memberId, startDate, endDate);

@@ -23,11 +23,14 @@ public class BloodPressureService {
     private final MemberRepository memberRepository;
     private final BloodPressureRepository bloodPressureRepository;
 
+    private final UserConnectionService userConnectionService;
+    private final MemberService memberService;
+
     @Transactional
     public BloodPressure createBloodPressure(String loginId, BloodPressureRequest bloodPressureRequest) {
         Member member = memberRepository.findById(bloodPressureRequest.memberId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         BloodPressure bloodPressure = BloodPressure.createBloodPressure(bloodPressureRequest, member);
         return bloodPressureRepository.save(bloodPressure);
@@ -36,7 +39,7 @@ public class BloodPressureService {
     public BloodPressureListResponse getBloodPressureListByMemberIdAndDate(String loginId, Long memberId, LocalDate startDate, LocalDate endDate) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         List<BloodPressure> bloodPressureList =
                 bloodPressureRepository.findAllByMemberIdAndRecordAtBetween(memberId, startDate, endDate);
@@ -54,8 +57,7 @@ public class BloodPressureService {
 
         BloodPressure bloodPressure = bloodPressureRepository.findById(bloodPressureId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 혈압 측정 기록이 존재하지 않습니다."));
-
-        Member.checkMember(bloodPressure.getMember().getUserId(), member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         bloodPressureRepository.delete(bloodPressure);
     }

@@ -22,6 +22,9 @@ public class StrokeCheckService {
     private final MemberRepository memberRepository;
     private final StrokeCheckRepository strokeCheckRepository;
 
+    private final MemberService memberService;
+    private final UserConnectionService userConnectionService;
+
     /**
      * 각 테스트 결과 저장 로직
      */
@@ -29,7 +32,7 @@ public class StrokeCheckService {
     public StrokeCheck createOrUpdateCheckResult(String loginId, StrokeCheckRequest request) {
         Member member = memberRepository.findById(request.memberId())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         // 해당 테스트 타입과 기록 날짜로 기존 데이터 조회
         StrokeCheck existingStrokeCheck = strokeCheckRepository.findByMemberAndTestTypeAndRecordAtBetween(
@@ -49,7 +52,7 @@ public class StrokeCheckService {
     public StrokeCheckListResponse getStrokeCheckResultsByDate(String loginId, Long memberId, LocalDate date) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-        Member.checkMember(loginId, member);
+        memberService.checkMember(loginId, member, userConnectionService);
 
         List<StrokeCheck> strokeChecks = strokeCheckRepository.findAllByRecordAt(date);
         List<StrokeCheckResponse> strokeCheckResponseList = strokeChecks.stream()
