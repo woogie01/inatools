@@ -19,7 +19,15 @@ public record UserCareConnectionResponse(
                 + "    \"birthDate\": null,\n"
                 + "    \"dangerStatus\": null\n"
                 + "  }")
-        ConnectionMemberInfoResponse requestedMember
+        ConnectionMemberInfoResponse requestedMember,
+
+        @Schema(description = "연결을 요청한 회원", example = "{\n"
+                + "    \"memberId\": 1,\n"
+                + "    \"userName\": \"pilho\",\n"
+                + "    \"birthDate\": null,\n"
+                + "    \"dangerStatus\": null\n"
+                + "  }")
+        ConnectionMemberInfoResponse requestingMember
 
 ) {
 
@@ -27,7 +35,8 @@ public record UserCareConnectionResponse(
         return new UserCareConnectionResponse(
                 userCareConnection.getId(),
                 userCareConnection.getConnectionStatus(),
-                ConnectionMemberInfoResponse.fromMember(userCareConnection.getRequestedMember())
+                ConnectionMemberInfoResponse.fromMember(userCareConnection.getRequestedMember()),
+                ConnectionMemberInfoResponse.fromMember(userCareConnection.getRequestingMember())
         );
     }
 }
