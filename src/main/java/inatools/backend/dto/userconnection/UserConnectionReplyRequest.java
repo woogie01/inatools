@@ -6,9 +6,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record UserConnectionReplyRequest(
 
-        @Schema(description = "연결 요청 식별자", example = "1")
-        @NotNull Long id,
-
         @Schema(description = "응답 유형", example = "ACCEPTED")
         @NotNull ConnectionStatus replyStatus,
 

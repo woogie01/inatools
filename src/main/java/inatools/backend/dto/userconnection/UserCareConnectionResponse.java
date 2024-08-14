@@ -13,11 +13,13 @@ public record UserCareConnectionResponse(
         @Schema(description = "요청 상태", example = "REQUESTING")
         ConnectionStatus connectionStatus,
 
-        @Schema(description = "연결 요청을 받은 회원", example = "2")
-        ConnectionMemberInfoResponse requestedMember,
-
-        @Schema(description = "연결을 요청한 회원", example = "1")
-        ConnectionMemberInfoResponse requestingMember
+        @Schema(description = "연결 요청을 받은 회원", example = "{\n"
+                + "    \"memberId\": 2,\n"
+                + "    \"userName\": \"pil\",\n"
+                + "    \"birthDate\": null,\n"
+                + "    \"dangerStatus\": null\n"
+                + "  }")
+        ConnectionMemberInfoResponse requestedMember
 
 ) {
 
@@ -25,8 +27,7 @@ public record UserCareConnectionResponse(
         return new UserCareConnectionResponse(
                 userCareConnection.getId(),
                 userCareConnection.getConnectionStatus(),
-                ConnectionMemberInfoResponse.fromMember(userCareConnection.getRequestedMember()),
-                ConnectionMemberInfoResponse.fromMember(userCareConnection.getRequestingMember())
+                ConnectionMemberInfoResponse.fromMember(userCareConnection.getRequestedMember())
         );
     }
 }

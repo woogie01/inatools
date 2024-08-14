@@ -30,11 +30,8 @@ public class UserConnectionService {
         Member requestedMember = memberRepository.findByUserId(userCareConnectionRequest.requestedUserId())
                 .orElseThrow(() -> new IllegalArgumentException("요청한 사용자를 찾을 수 없습니다."));
 
-        Member requestingMember = memberRepository.findById(userCareConnectionRequest.memberId())
-                .orElseThrow(() -> new IllegalArgumentException("요청 회원과 로그인 회원이 일치하지 않습니다."));
-        if (!loginId.equals(requestingMember.getUserId())) {
-            throw new IllegalArgumentException("요청 회원과 로그인 회원이 일치하지 않습니다.");
-        }
+        Member requestingMember = memberRepository.findByUserId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("로그인 사용자를 찾을 수 없습니다."));
 
         userConnectionRepository.findByRequestedMemberAndRequestingMember(requestedMember, requestingMember)
                 .ifPresent(userCareConnection -> {
@@ -109,6 +106,9 @@ public class UserConnectionService {
         userConnectionRepository.delete(userCareConnection);
     }
 
+    /**
+     * 연결 끊기
+     */
     @Transactional
     public void disconnectConnection(String loginId, Long userCareConnectionId) {
         UserCareConnection userCareConnection = userConnectionRepository.findById(userCareConnectionId)
