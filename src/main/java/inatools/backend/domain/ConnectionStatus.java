@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ConnectionStatus {
-    REQUESTED("요청됨"),
+    REQUESTING("요청중"),
     ACCEPTED("수락됨"),
     REJECTED("거절됨");
 

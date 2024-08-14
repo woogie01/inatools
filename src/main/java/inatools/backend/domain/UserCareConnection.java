@@ -1,6 +1,5 @@
 package inatools.backend.domain;
 
-import inatools.backend.dto.carereceiver.UserCareConnectionRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -24,31 +23,32 @@ public class UserCareConnection {
     @Column(name = "care_receiver_id")
     private Long id;
 
-    // 연결된 회원의 식별자
-    private Long connectedMemberId;
-
     // 요청 상태
     @Enumerated(value = EnumType.STRING)
     private ConnectionStatus connectionStatus;
 
+    // 연결 요청을 받은 회원의 식별자
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "requested_member_id")
+    private Member requestedMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "requesting_member_id")
+    private Member requestingMember;
 
     protected UserCareConnection() {}
 
-    public UserCareConnection(Long connectedMemberId, ConnectionStatus connectionStatus, Member member) {
-        this.connectedMemberId = connectedMemberId;
+    public UserCareConnection(ConnectionStatus connectionStatus, Member requestedMember, Member requestingMember) {
         this.connectionStatus = connectionStatus;
-        this.member = member;
+        this.requestedMember = requestedMember;
+        this.requestingMember = requestingMember;
     }
 
-    public static UserCareConnection createUserConnection(UserCareConnectionRequest userCareConnectionRequest, Member member) {
+    public static UserCareConnection createUserConnection(Member requestedMember, Member requestingMember) {
         return new UserCareConnection(
-                userCareConnectionRequest.connectedMemberId(),
-                ConnectionStatus.REQUESTED,
-                member
+                ConnectionStatus.REQUESTING,
+                requestedMember,
+                requestingMember
         );
     }
 }
