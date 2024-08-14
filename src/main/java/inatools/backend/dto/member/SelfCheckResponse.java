@@ -1,5 +1,6 @@
 package inatools.backend.dto.member;
 
+import inatools.backend.domain.DangerStatus;
 import inatools.backend.domain.DrinkingStatus;
 import inatools.backend.domain.MedicationInfo;
 import inatools.backend.domain.Member;
@@ -29,7 +30,10 @@ public record SelfCheckResponse(
         SmokingStatus smokingStatus, // 흡연
 
         @Schema(description = "음주 주기", example = "NON_DRINKER")
-        DrinkingStatus drinkingStatus // 음주
+        DrinkingStatus drinkingStatus, // 음주
+
+        @Schema(description = "뇌졸중 위험군", example = "SAFE")
+        DangerStatus dangerStatus // 뇌졸중 위험군
 ) {
 
     public static SelfCheckResponse fromMember(Member member) {
@@ -39,7 +43,8 @@ public record SelfCheckResponse(
                 member.getUnderlyingDisease(),
                 member.isFamilyHistory(),
                 member.getSmokingStatus(),
-                member.getDrinkingStatus()
+                member.getDrinkingStatus(),
+                member.getDangerStatus()
         );
     }
 }
