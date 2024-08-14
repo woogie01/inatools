@@ -66,10 +66,8 @@ public class UserConnectionController {
         return ResponseEntity.ok(response);
     }
 
-
-
     /**
-     * 연결된 유저 삭제 API
+     * 연결 요청 취소 API
      */
 
 

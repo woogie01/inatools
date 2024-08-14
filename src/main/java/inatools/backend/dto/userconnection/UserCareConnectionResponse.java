@@ -14,10 +14,10 @@ public record UserCareConnectionResponse(
         ConnectionStatus connectionStatus,
 
         @Schema(description = "연결 요청을 받은 회원", example = "2")
-        MemberInfoResponse requestedMember,
+        ConnectionMemberInfoResponse requestedMember,
 
         @Schema(description = "연결을 요청한 회원", example = "1")
-        Long requestingMemberId
+        ConnectionMemberInfoResponse requestingMember
 
 ) {
 
@@ -25,8 +25,8 @@ public record UserCareConnectionResponse(
         return new UserCareConnectionResponse(
                 userCareConnection.getId(),
                 userCareConnection.getConnectionStatus(),
-                userCareConnection.getRequestedMember(),
-                userCareConnection.getRequestingMember()
+                ConnectionMemberInfoResponse.fromMember(userCareConnection.getRequestedMember()),
+                ConnectionMemberInfoResponse.fromMember(userCareConnection.getRequestingMember())
         );
     }
 }
