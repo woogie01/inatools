@@ -22,11 +22,15 @@ public class Member extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
+
     private String username;
+
     private String userId;
-    @Embedded
-    private Password password;
+
+    @Embedded private Password password;
+
     private String email;
+
     private String phone;
 
     /**
@@ -46,7 +50,8 @@ public class Member extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private DangerStatus dangerStatus; // 뇌졸중 위험군
 
-    private Role role;
+    @Enumerated(value = EnumType.STRING)
+    private Role role; // 유저, 관리자
 
     protected Member() {
     }
