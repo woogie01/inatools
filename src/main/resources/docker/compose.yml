@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  inatools-db:
+  nostroke-db:
     image: mysql:latest
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -12,7 +12,7 @@ services:
     ports:
       - "${MYSQL_LOCAL_PORT}:3306"
 
-  inatools-test-db:
+  nostroke-test-db:
     image: mysql:latest
     environment:
       MYSQL_DATABASE: ${MYSQL_TEST_DATABASE}
