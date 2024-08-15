@@ -23,9 +23,10 @@ public class UserConnectionService {
     private final UserConnectionRepository userConnectionRepository;
 
     public boolean hasPermissionToModify(Member loginMember, Member targetMember) {
-        // 연결된 사용자가 있는지 체크
-        return userConnectionRepository.findByRequestedMemberAndRequestingMemberAndConnectionStatus(loginMember,
-                targetMember, ConnectionStatus.ACCEPTED).isPresent();
+        // 연결된 사용자가 있는지 체크 (두 방향 모두 확인)
+        return userConnectionRepository.findByRequestedMemberAndRequestingMemberAndConnectionStatus(loginMember, targetMember, ConnectionStatus.ACCEPTED)
+                .or(() -> userConnectionRepository.findByRequestedMemberAndRequestingMemberAndConnectionStatus(targetMember, loginMember, ConnectionStatus.ACCEPTED))
+                .isPresent();
     }
 
     /**
