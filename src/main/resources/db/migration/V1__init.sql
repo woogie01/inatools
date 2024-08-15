@@ -1,5 +1,3 @@
-CREATE DATABASE nostroke;
-
 USE nostroke;
 
 CREATE TABLE member
