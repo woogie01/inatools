@@ -22,11 +22,15 @@ public class Member extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
+
     private String username;
+
     private String userId;
-    @Embedded
-    private Password password;
+
+    @Embedded private Password password;
+
     private String email;
+
     private String phone;
 
     /**
