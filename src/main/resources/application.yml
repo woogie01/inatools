@@ -10,8 +10,8 @@ spring:
     hibernate:
       ddl-auto: validate
 #      ddl-auto: create
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

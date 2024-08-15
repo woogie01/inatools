@@ -17,7 +17,7 @@ public class Password {
     private static final int REPEATING_LIMIT = 3;
     private static final int CONSECUTIVE_LIMIT = 3;
 
-    @Column(name = "member_password", nullable = false)
+    @Column(name = "password", nullable = false)
     private String value;
 
     private Password(String value) {

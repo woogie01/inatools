@@ -50,7 +50,8 @@ public class Member extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private DangerStatus dangerStatus; // 뇌졸중 위험군
 
-    private Role role;
+    @Enumerated(value = EnumType.STRING)
+    private Role role; // 유저, 관리자
 
     protected Member() {
     }
