@@ -1,3 +1,7 @@
+CREATE DATABASE nostroke;
+
+USE nostroke;
+
 CREATE TABLE member
 (
     member_id          BIGINT AUTO_INCREMENT PRIMARY KEY,
