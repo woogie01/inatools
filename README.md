@@ -26,8 +26,8 @@
 
 > 서울과학기술대학교 컴퓨터공학과 학술 동아리 ***Tools*** & 시각디자인학과 학회 ***Inacoms*** 의 연합 활동의 일환으로 프로젝트를 진행하기 위해 구성된 팀입니다 !
 
-<a href="https://www.instagram.com/seoultech_tools/?igsh=MWpnaDNpbjU2dXM4NA"><img src="https://github.com/user-attachments/assets/5d1d30d9-7653-4b55-8033-0c24840f8062"  width="400" height="400"/>
-<a href="[https://www.instagram.com/seoultech_tools/?igsh=MWpnaDNpbjU2dXM4NA](https://www.instagram.com/inacoms?igsh=dTZoa3BvbXhuczhl)"><img src="https://github.com/user-attachments/assets/405c8e9a-be76-4161-9b55-c44dbb80bbfe"  width="400" height="400"/>
+<a href="https://www.instagram.com/seoultech_tools/?igsh=MWpnaDNpbjU2dXM4NA"><img src="https://github.com/user-attachments/assets/5d1d30d9-7653-4b55-8033-0c24840f8062"  width="200" height="200"/>
+<a href="[https://www.instagram.com/seoultech_tools/?igsh=MWpnaDNpbjU2dXM4NA](https://www.instagram.com/inacoms?igsh=dTZoa3BvbXhuczhl)"><img src="https://github.com/user-attachments/assets/405c8e9a-be76-4161-9b55-c44dbb80bbfe"  width="200" height="200"/>
 
 <br/>
 
