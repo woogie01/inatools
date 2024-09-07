@@ -1,1 +1,1 @@
-# back
+Integer.parseInt(a,3))
