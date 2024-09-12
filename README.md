@@ -56,9 +56,9 @@
     </tr>
     <tr align="center">
         <td><B>Backend(팀장)</B></td>
-        <td><B>Frontend</B></td>
-        <td><B>Frontend</B></td>
         <td><B>Backend</B></td>
+        <td><B>Frontend</B></td>
+        <td><B>Frontend</B></td>
     </tr>
 </table>
 
